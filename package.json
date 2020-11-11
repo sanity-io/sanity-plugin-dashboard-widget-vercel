@@ -23,8 +23,9 @@
     "url": "https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel.git"
   },
   "scripts": {
-    "prepare": "npm run build",
     "build": "npx babel src --out-dir lib --copy-files --delete-dir-on-start --extensions '.ts,.tsx'",
+    "prepare": "npm run build",
+    "release": "standard-version",
     "watch": "npm run build -- --watch"
   },
   "dependencies": {
@@ -42,6 +43,8 @@
     "@babel/plugin-proposal-object-rest-spread": "7.12.1",
     "@babel/preset-react": "7.12.5",
     "@babel/preset-typescript": "7.12.1",
+    "@commitlint/cli": "11.0.0",
+    "@commitlint/config-conventional": "11.0.0",
     "@types/node-fetch": "2.5.7",
     "@types/pluralize": "0.0.29",
     "@types/react": "16.9.56",
@@ -49,12 +52,16 @@
     "@types/theme-ui": "0.3.7",
     "@typescript-eslint/eslint-plugin": "4.7.0",
     "@typescript-eslint/parser": "4.7.0",
+    "commitizen": "4.2.2",
+    "cz-conventional-changelog": "3.3.0",
     "eslint": "7.13.0",
     "eslint-config-prettier": "6.15.0",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-prettier": "3.1.4",
     "eslint-plugin-react": "7.21.5",
+    "husky": "4.3.0",
     "prettier": "2.1.2",
+    "standard-version": "9.0.0",
     "typescript": "4.0.5",
     "typescript-plugin-css-modules": "2.8.0"
   },
@@ -66,5 +73,15 @@
     "@sanity/desk-tool": ">= 2.0.2",
     "react": ">= 16.9",
     "react-dom": ">=16.9"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }

@@ -28,12 +28,13 @@
     "watch": "npm run build -- --watch"
   },
   "dependencies": {
-    "node-fetch": "2.6.1",
+    "@emotion-icons/ionicons-solid": "2.10.0",
     "react": "16.14.0",
     "react-dom": ">=16.14.0",
     "react-time-ago": "6.2.0",
     "swr": "0.3.8",
-    "theme-ui": "0.3.3"
+    "theme-ui": "0.3.3",
+    "unfetch": "4.2.0"
   },
   "devDependencies": {
     "@babel/cli": "7.12.1",

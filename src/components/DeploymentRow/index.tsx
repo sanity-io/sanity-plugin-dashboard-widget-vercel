@@ -1,12 +1,15 @@
-import { Deployment } from '@types'
+import { ReturnDownForward } from '@emotion-icons/ionicons-solid'
+import { Vercel } from '@types'
 import React, { useRef } from 'react'
 import ReactTimeAgo from 'react-time-ago'
-import { Box, Flex, Image } from 'theme-ui'
+import { Styled } from 'theme-ui'
+import { Box, Flex, Image, Link } from 'theme-ui'
 
 import StatusDot from '../StatusDot'
 
 type Props = {
-  deployment: Deployment
+  alias?: Vercel.Alias
+  deployment: Vercel.Deployment
 }
 
 const TD = ({ ...props }) => (
@@ -15,10 +18,8 @@ const TD = ({ ...props }) => (
     {...props}
     sx={{
       ...props.sx,
-      // bg: '#fafafa',
       borderBottom: '1px solid #eee',
       fontSize: 1,
-      // height: '45px',
       lineHeight: 'body',
       px: 3,
       py: 2,
@@ -40,30 +41,55 @@ const SingleLine = ({ ...props }) => (
 )
 
 const DeploymentRow = (props: Props) => {
-  const { deployment } = props
+  const { alias, deployment } = props
 
   const date = useRef(new Date(deployment.created))
 
   const commitMessage = deployment?.meta?.githubCommitMessage
   const commitRef = deployment?.meta?.githubCommitRef
 
+  console.log('alias', alias)
+
   return (
     <tr>
-      {/* Deployment */}
+      {/* Deployment - alias or regular deployment URL */}
       <TD>
-        <SingleLine>
-          {deployment.url ? (
-            <a
-              href={`https://${deployment.url}`}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              {deployment.url}
-            </a>
-          ) : (
-            'Uploading...'
-          )}
-        </SingleLine>
+        <Flex sx={{ alignItems: 'center' }}>
+          <Box sx={{ display: ['block', 'none'], mr: '7px' }}>
+            <StatusDot state={deployment.state} />
+          </Box>
+
+          <SingleLine>
+            {alias ? (
+              <Flex
+                sx={{
+                  alignItems: 'center',
+                }}
+              >
+                <ReturnDownForward size="12px" />
+                <Box ml={1}>
+                  <Link
+                    href={`https://${alias.alias}`}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    {alias.alias}
+                  </Link>
+                </Box>
+              </Flex>
+            ) : deployment.url ? (
+              <Link
+                href={`https://${deployment.url}`}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                {deployment.url}
+              </Link>
+            ) : (
+              'Uploading...'
+            )}
+          </SingleLine>
+        </Flex>
       </TD>
 
       {/* State */}
@@ -91,7 +117,7 @@ const DeploymentRow = (props: Props) => {
       >
         {commitRef}
         <br />
-        <SingleLine color="gray">{commitMessage || <>&nbsp;</>}</SingleLine>
+        <SingleLine color="muted">{commitMessage || <>&nbsp;</>}</SingleLine>
       </TD>
 
       {/* Age */}

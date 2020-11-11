@@ -2,10 +2,13 @@ export default {
   // Scales
   breakpoints: ['560px', '800px'],
   colors: {
-    cyan: '#50e3c2',
-    darkGray: '#333',
-    gray: '#888',
+    // general
+    muted: '#888',
+    text: '#262f3d',
+    // status
     danger: '#ff0000',
+    queued: '#333',
+    success: '#50e3c2',
     warning: '#f5a623',
   },
   fontSizes: [
@@ -20,7 +23,15 @@ export default {
   sizes: [],
   space: ['0px', '4px', '8px', '16px', '32px'],
   // Styles
-  styles: {},
+  styles: {
+    a: {
+      color: '#2276fc',
+      textDecoration: 'none',
+      '&:hover': {
+        textDecoration: 'underline',
+      },
+    },
+  },
   // Variants
   images: {
     avatar: {
@@ -37,10 +48,10 @@ export default {
       bg: 'danger',
     },
     READY: {
-      bg: 'cyan',
+      bg: 'success',
     },
     QUEUED: {
-      bg: 'darkGray',
+      bg: 'queued',
     },
   },
 }

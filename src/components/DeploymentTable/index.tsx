@@ -1,11 +1,12 @@
-import { Deployment } from '@types'
+import { Vercel } from '@types'
 import React from 'react'
 import { Box } from 'theme-ui'
 
 import DeploymentRow from '../DeploymentRow'
 
 type Props = {
-  deployments: Deployment[]
+  aliases: Vercel.Alias[]
+  deployments: Vercel.Deployment[]
 }
 
 const TH = ({ ...props }) => (
@@ -24,7 +25,7 @@ const TH = ({ ...props }) => (
 )
 
 const DeploymentTable = (props: Props) => {
-  const { deployments } = props
+  const { aliases, deployments } = props
 
   return (
     <Box
@@ -75,9 +76,19 @@ const DeploymentTable = (props: Props) => {
         </tr>
       </Box>
       <tbody>
-        {deployments?.map((deployment: Deployment) => (
-          <DeploymentRow deployment={deployment} key={deployment.uid} />
-        ))}
+        {deployments?.map((deployment: Vercel.Deployment) => {
+          const alias = aliases?.find(
+            alias => alias.deploymentId === deployment.uid
+          )
+
+          return (
+            <DeploymentRow
+              alias={alias}
+              deployment={deployment}
+              key={deployment.uid}
+            />
+          )
+        })}
       </tbody>
     </Box>
   )

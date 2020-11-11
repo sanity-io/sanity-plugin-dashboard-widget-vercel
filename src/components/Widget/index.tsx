@@ -1,72 +1,68 @@
-// import AnchorButton from 'part:@sanity/components/buttons/anchor'
-import { Deployment } from '@types'
-import React, { useState, useEffect } from 'react'
-import fetch from 'node-fetch'
-import { ThemeProvider } from 'theme-ui'
+import AnchorButton from 'part:@sanity/components/buttons/anchor'
+import { Vercel } from '@types'
+import React, { useState } from 'react'
+import useSWR from 'swr'
+import { Box, Button, ThemeProvider } from 'theme-ui'
 
 import theme from '../../styled/theme'
+import fetcher from '../../utils/fetcher'
 import styles from './index.css'
 import DeploymentTable from '../DeploymentTable'
 
-type VercelError = {
-  code: string
-  message: string
+// https://vercel.com/docs/platform/limits
+
+const API_ENDPOINT_DEPLOYMENTS = 'https://api.vercel.com/v5/now/deployments'
+const API_ENDPOINT_ALIASES = 'https://api.vercel.com/v3/now/aliases'
+const LIMIT = 5 // Total number of deploys to retrieve
+const SWR_OPTIONS = {
+  loadingTimeout: 3000,
+  refreshInterval: 10000, // ms
+  refreshWhenHidden: false,
+  refreshWhenOffline: false,
+  revalidateOnFocus: true,
+  revalidateOnReconnect: true,
+  shouldRetryOnError: false,
 }
 
-const API_ENDPOINT = 'https://api.vercel.com/v5/now/deployments'
+const params = new URLSearchParams()
+params.set('limit', String(LIMIT))
+if (process.env.SANITY_STUDIO_VERCEL_PROJECT_ID) {
+  params.set('projectId', String(process.env.SANITY_STUDIO_VERCEL_PROJECT_ID))
+}
 
 const Widget = () => {
   // State
-  const [deploying, setDeploying] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [jobId, setJobId] = useState(null)
-  const [deployments, setDeployments] = useState<Deployment[]>()
+  // const [deploying, setDeploying] = useState(false)
+  // const [error, setError] = useState<string | null>(null)
+  // const [jobId, setJobId] = useState(null)
 
-  // https://vercel.com/docs/platform/limits
-
-  const updateList = async () => {
-    console.log('updateList()')
-    console.log(process.env.SANITY_STUDIO_VERCEL_TOKEN)
-    console.log(process.env.SANITY_STUDIO_VERCEL_PROJECT_ID)
-
-    // https://vercel.com/docs/api?query=api#endpoints/deployments/list-deployments
-
-    try {
-      const params = new URLSearchParams()
-      params.set('limit', '7')
-
-      if (process.env.SANITY_STUDIO_VERCEL_PROJECT_ID) {
-        params.set(
-          'projectId',
-          String(process.env.SANITY_STUDIO_VERCEL_PROJECT_ID)
-        )
-      }
-
-      console.log('> params.toString()', params.toString())
-
-      const res = await fetch(`${API_ENDPOINT}?${params.toString()}`, {
-        headers: {
-          Authorization: `Bearer ${process.env.SANITY_STUDIO_VERCEL_TOKEN}`,
-        },
-      })
-      const json = await res.json()
-
-      if (json.error) {
-        console.log('json.error', json.error)
-        setError((json.error as VercelError).message)
-      }
-
-      console.log('json', json)
-
-      setDeployments(json.deployments)
-    } catch (err) {
-      //
+  // Fetch project aliases and deployments
+  const { data: resultAliases, error: errorAliases } = useSWR(
+    `${API_ENDPOINT_ALIASES}?${params.toString()}`,
+    fetcher,
+    {
+      ...SWR_OPTIONS,
     }
-  }
+  )
+  const { data: resultDeployments, error: errorDeployments } = useSWR(
+    `${API_ENDPOINT_DEPLOYMENTS}?${params.toString()}`,
+    fetcher,
+    {
+      ...SWR_OPTIONS,
+      onError: () => {
+        console.log('onError()')
+      },
+      onLoadingSlow: () => {
+        console.log('onLoadingSlow()')
+      },
+      onSuccess: () => {
+        console.log('onSuccess()')
+      },
+    }
+  )
 
-  useEffect(() => {
-    updateList()
-  }, []) // update the list initially
+  const aliases = resultAliases?.aliases as Vercel.Alias[]
+  const deployments = resultDeployments?.deployments as Vercel.Deployment[]
 
   // Callbacks
   /*
@@ -85,32 +81,33 @@ const Widget = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className={styles.container}>
+      <Box className={styles.container} color="text">
         <header className={styles.header}>
           <h2 className={styles.title}>Vercel Status</h2>
         </header>
 
         {/* Error */}
-        {error && <div>An error has occurred: {error}</div>}
+        {/* {error && <div>An error has occurred: {error}</div>} */}
 
         {/* Content */}
-        <DeploymentTable deployments={deployments} />
+        <DeploymentTable aliases={aliases} deployments={deployments} />
 
         {/* Footer */}
-        {/*
-      <div className={styles.footer}>
-        <AnchorButton
-          className={styles.button}
-          color="primary"
-          disabled={deploying}
-          kind="simple"
-          onClick={handleDeploy}
-        >
-          {deploying ? 'Deploying...' : 'Deploy'}
-        </AnchorButton>
-      </div>
-      */}
-      </div>
+        <div className={styles.footer}>
+          {/*
+          <AnchorButton
+            className={styles.button}
+            color="primary"
+            // disabled={deploying}
+            kind="simple"
+            // onClick={handleDeploy}
+          >
+            {deploying ? 'Deploying...' : 'Deploy'}
+          </AnchorButton>
+          */}
+          <Button>Deploy</Button>
+        </div>
+      </Box>
     </ThemeProvider>
   )
 }

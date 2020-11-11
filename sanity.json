@@ -1,0 +1,13 @@
+{
+  "parts": [
+    {
+      "name": "part:@sanity/dashboard/widget/vercel",
+      "implements": "part:@sanity/dashboard/widget",
+      "path": "index.js"
+    }
+  ],
+  "paths": {
+    "source": "./src",
+    "compiled": "./lib"
+  }
+}

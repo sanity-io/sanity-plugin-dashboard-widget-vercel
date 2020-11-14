@@ -1,3 +1,5 @@
+import * as RunTypes from 'runtypes'
+
 export declare namespace Vercel {
   export type Alias = {
     alias: string
@@ -20,8 +22,13 @@ export declare namespace Vercel {
     url: string | null // null if a deployment is still uploading
   }
 
+  // https://vercel.com/docs/api#api-basics/errors
   export type Error = {
     code: string
     message: string
   }
 }
+
+// export const PluginConfig = {}
+
+// Overloaded export

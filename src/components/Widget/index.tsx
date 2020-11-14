@@ -1,13 +1,14 @@
-import AnchorButton from 'part:@sanity/components/buttons/anchor'
+import * as RunTypes from 'runtypes'
 import { Vercel } from '@types'
-import React, { useState } from 'react'
+import React from 'react'
 import useSWR from 'swr'
-import { Box, Button, ThemeProvider } from 'theme-ui'
+import { Box, ThemeProvider } from 'theme-ui'
 
 import theme from '../../styled/theme'
 import fetcher from '../../utils/fetcher'
-import styles from './index.css'
 import DeploymentTable from '../DeploymentTable'
+import DeployButton from '../DeployButton'
+import styles from './index.css'
 
 // https://vercel.com/docs/platform/limits
 
@@ -24,39 +25,72 @@ const SWR_OPTIONS = {
   shouldRetryOnError: false,
 }
 
-const params = new URLSearchParams()
-params.set('limit', String(LIMIT))
-if (process.env.SANITY_STUDIO_VERCEL_PROJECT_ID) {
-  params.set('projectId', String(process.env.SANITY_STUDIO_VERCEL_PROJECT_ID))
+type Props = {
+  config: PluginConfig
 }
 
-const Widget = () => {
+// Create type with `runtypes`
+export const PluginConfigType = RunTypes.Record({
+  deployHook: RunTypes.String,
+  projectId: RunTypes.String,
+  teamId: RunTypes.String.Or(RunTypes.Undefined),
+  token: RunTypes.String,
+})
+
+// TypeScript defintion
+export type PluginConfig = RunTypes.Static<typeof PluginConfigType>
+
+const getParams = (config: PluginConfig): string => {
+  const params = new URLSearchParams()
+  params.set('limit', String(LIMIT))
+  params.set('projectId', config.projectId)
+  if (config.teamId) {
+    params.set('teamId', config.teamId)
+  }
+  return params.toString()
+}
+
+const Widget = (props: Props) => {
+  const { config } = props
+
   // State
-  // const [deploying, setDeploying] = useState(false)
   // const [error, setError] = useState<string | null>(null)
-  // const [jobId, setJobId] = useState(null)
+
+  // Validate plugin config
+  try {
+    PluginConfigType.check(config)
+  } catch (err) {
+    console.error(err.message)
+    return <div>Invalid config: {err.message}</div>
+  }
 
   // Fetch project aliases and deployments
-  const { data: resultAliases, error: errorAliases } = useSWR(
-    `${API_ENDPOINT_ALIASES}?${params.toString()}`,
-    fetcher,
+  const {
+    data: resultAliases,
+    // error: errorAliases
+  } = useSWR(
+    `${API_ENDPOINT_ALIASES}?${getParams(config)}`,
+    fetcher(config.token),
     {
       ...SWR_OPTIONS,
     }
   )
-  const { data: resultDeployments, error: errorDeployments } = useSWR(
-    `${API_ENDPOINT_DEPLOYMENTS}?${params.toString()}`,
-    fetcher,
+  const {
+    data: resultDeployments,
+    // error: errorDeployments
+  } = useSWR(
+    `${API_ENDPOINT_DEPLOYMENTS}?${getParams(config)}`,
+    fetcher(config.token),
     {
       ...SWR_OPTIONS,
       onError: () => {
-        console.log('onError()')
+        // console.log('onError()')
       },
       onLoadingSlow: () => {
-        console.log('onLoadingSlow()')
+        // console.log('onLoadingSlow()')
       },
       onSuccess: () => {
-        console.log('onSuccess()')
+        // console.log('onSuccess()')
       },
     }
   )
@@ -64,20 +98,8 @@ const Widget = () => {
   const aliases = resultAliases?.aliases as Vercel.Alias[]
   const deployments = resultDeployments?.deployments as Vercel.Deployment[]
 
-  // Callbacks
-  /*
-  const handleDeploy = () => {
-    setDeploying(true)
-
-    // https://vercel.com/docs/v2/more/deploy-hooks?query=deploy%20hoo#triggering-a-deploy-hook
-    fetch(process.env.SANITY_STUDIO_VERCEL_DEPLOY_HOOK, {method: 'POST'})
-      .then(res => res.json())
-      .then(json => {
-        setJobId(json.job.id)
-        updateList()
-      })
-  }
-  */
+  // console.log('config', config)
+  // console.log('deployments', deployments)
 
   return (
     <ThemeProvider theme={theme}>
@@ -90,23 +112,16 @@ const Widget = () => {
         {/* {error && <div>An error has occurred: {error}</div>} */}
 
         {/* Content */}
-        <DeploymentTable aliases={aliases} deployments={deployments} />
+        <Box>
+          <DeploymentTable aliases={aliases} deployments={deployments} />
+        </Box>
 
         {/* Footer */}
-        <div className={styles.footer}>
-          {/*
-          <AnchorButton
-            className={styles.button}
-            color="primary"
-            // disabled={deploying}
-            kind="simple"
-            // onClick={handleDeploy}
-          >
-            {deploying ? 'Deploying...' : 'Deploy'}
-          </AnchorButton>
-          */}
-          <Button>Deploy</Button>
-        </div>
+        {config.deployHook && (
+          <div className={styles.footer}>
+            <DeployButton deployHook={config.deployHook} />
+          </div>
+        )}
       </Box>
     </ThemeProvider>
   )

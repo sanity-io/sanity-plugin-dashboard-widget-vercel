@@ -33,6 +33,7 @@ const DeploymentTable = (props: Props) => {
       sx={{
         borderCollapse: 'collapse',
         p: 1,
+        tableLayout: 'fixed',
         width: '100%',
       }}
     >

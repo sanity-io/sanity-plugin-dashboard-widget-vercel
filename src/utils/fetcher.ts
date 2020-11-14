@@ -1,9 +1,9 @@
 import fetch from 'unfetch'
 
-const fetcher = (url: string) =>
+const fetcher = (token: string) => (url: string) =>
   fetch(url, {
     headers: {
-      Authorization: `Bearer ${process.env.SANITY_STUDIO_VERCEL_TOKEN}`,
+      Authorization: `Bearer ${token}`,
     },
   }).then(r => r.json())
 

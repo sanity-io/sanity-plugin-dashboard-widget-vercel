@@ -2,7 +2,6 @@ import { ReturnDownForward } from '@emotion-icons/ionicons-solid'
 import { Vercel } from '@types'
 import React, { useRef } from 'react'
 import ReactTimeAgo from 'react-time-ago'
-import { Styled } from 'theme-ui'
 import { Box, Flex, Image, Link } from 'theme-ui'
 
 import StatusDot from '../StatusDot'
@@ -23,7 +22,6 @@ const TD = ({ ...props }) => (
       lineHeight: 'body',
       px: 3,
       py: 2,
-      // verticalAlign: 'top',
     }}
   />
 )
@@ -47,8 +45,6 @@ const DeploymentRow = (props: Props) => {
 
   const commitMessage = deployment?.meta?.githubCommitMessage
   const commitRef = deployment?.meta?.githubCommitRef
-
-  console.log('alias', alias)
 
   return (
     <tr>
@@ -122,7 +118,10 @@ const DeploymentRow = (props: Props) => {
 
       {/* Age */}
       <TD>
-        <ReactTimeAgo date={date.current} locale="en-US" timeStyle="mini" /> ago
+        <SingleLine>
+          <ReactTimeAgo date={date.current} locale="en-US" timeStyle="mini" />{' '}
+          ago
+        </SingleLine>
       </TD>
 
       {/* Creator */}

@@ -1,10 +1,9 @@
+import { Vercel } from '@types'
 import React from 'react'
 import { Box } from 'theme-ui'
 
-import { DeploymentState } from '../../types'
-
 type Props = {
-  state: DeploymentState
+  state: Vercel.DeploymentState
 }
 
 const StatusDot = ({ state, ...props }: Props) => (

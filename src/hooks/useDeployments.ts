@@ -18,7 +18,7 @@ const useDeployments = (config: PluginConfig) => {
     isSuccess: deploymentsIsSuccess,
     error: deploymentsError,
   } = useQuery('deployments', () => fetchUrl(API_ENDPOINT_DEPLOYMENTS), {
-    refetchInterval: 15000, // ms
+    refetchInterval: 20000, // ms
     refetchOnMount: true,
     refetchOnReconnect: 'always',
     refetchOnWindowFocus: true,

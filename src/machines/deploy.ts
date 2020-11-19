@@ -51,11 +51,6 @@ const deployMachine = (config: PluginConfig) =>
             disabled: (context, event) => false,
             label: (context, event) => 'Deploy',
           }),
-          /*
-          after: {
-            2000: 'success',
-          },
-          */
           invoke: {
             onDone: {
               target: 'success',
@@ -76,7 +71,7 @@ const deployMachine = (config: PluginConfig) =>
             assign({
               feedback: (context, event) => 'Succesfully started!',
             }),
-            sendParent('DEPLOYED'),
+            sendParent('DEPLOYED', { delay: 4000 }),
           ],
           exit: assign({
             feedback: (context, event) => undefined,

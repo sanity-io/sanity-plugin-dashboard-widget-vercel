@@ -2000,11 +2000,6 @@ delayed-stream@~1.0.0:
   resolved "https://registry.yarnpkg.com/delayed-stream/-/delayed-stream-1.0.0.tgz#df3ae199acadfb7d440aaae0b29e2272b24ec619"
   integrity sha1-3zrhmayt+31ECqrgsp4icrJOxhk=
 
-dequal@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/dequal/-/dequal-2.0.2.tgz#85ca22025e3a87e65ef75a7a437b35284a7e319d"
-  integrity sha512-q9K8BlJVxK7hQYqa6XISGmBZbtQQWVXSrRrWreHC94rMt1QL/Impruc+7p2CYSYuVIUr+YCt6hjrs1kkdJRTug==
-
 detect-file@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/detect-file/-/detect-file-1.0.0.tgz#f0d66d03672a825cb1b73bdb3fe62310c8e552b7"
@@ -4388,6 +4383,13 @@ react-is@^16.8.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
+react-query@2.26.2:
+  version "2.26.2"
+  resolved "https://registry.yarnpkg.com/react-query/-/react-query-2.26.2.tgz#d6fb2dd0b54934f5d1f5cdd9f8d97808eb012eb7"
+  integrity sha512-tJ3oHifWtI3cwklOLx5jIIj1ZpmvuWpPBg5iaOoi3uuIe80l0t3QCDTEF+nXpE12pYxKMj29NQ5OkTsOOMdP4Q==
+  dependencies:
+    "@babel/runtime" "^7.5.5"
+
 react-time-ago@6.2.1:
   version "6.2.1"
   resolved "https://registry.yarnpkg.com/react-time-ago/-/react-time-ago-6.2.1.tgz#a4fb752fd7252ee782df073fd21f7c9529245342"
@@ -5181,13 +5183,6 @@ supports-color@^7.1.0:
   integrity sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==
   dependencies:
     has-flag "^4.0.0"
-
-swr@0.3.8:
-  version "0.3.8"
-  resolved "https://registry.yarnpkg.com/swr/-/swr-0.3.8.tgz#b3c3c7fa278913d22dbe1f3f28c07df9da9be944"
-  integrity sha512-EHRlaqoBtHsB2wOB+dQJ74DrZvaRGu4BaIQrhkD+/rj8/UGo2iQXN+rCcYnV7/VAreBJBmm9+lDkwZmUqWEkKA==
-  dependencies:
-    dequal "2.0.2"
 
 table@^5.2.3:
   version "5.4.6"

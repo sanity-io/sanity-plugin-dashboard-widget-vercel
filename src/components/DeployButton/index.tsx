@@ -1,130 +1,21 @@
-import { useMachine } from '@xstate/react'
+import { useActor } from '@xstate/react'
 import AnchorButton from 'part:@sanity/components/buttons/anchor'
 import Snackbar from 'part:@sanity/components/snackbar/default'
 import React from 'react'
-import fetch from 'unfetch'
-import { Machine, assign } from 'xstate'
-import { Vercel } from '../../types'
-
-type DeployContext = {
-  disabled: boolean
-  feedback?: string
-  label?: string
-  error?: string
-}
-
-type DeployEvent = { type: 'DEPLOY' }
-
-type DeploySchema = {
-  states: {
-    idle: {}
-    deploying: {}
-    success: {}
-    failure: {}
-  }
-}
-
-const deployMachine = Machine<DeployContext, DeploySchema, DeployEvent>(
-  // Machine
-  {
-    id: 'toggle',
-    initial: 'idle',
-    context: {
-      disabled: false,
-      feedback: undefined,
-      label: undefined,
-      error: undefined,
-    },
-    states: {
-      idle: {
-        entry: assign({
-          feedback: (context, event) => undefined,
-          label: (context, event) => 'Deploy',
-        }),
-        on: {
-          DEPLOY: 'deploying',
-        },
-      },
-      deploying: {
-        entry: assign({
-          disabled: (context, event) => true,
-          label: (context, event) => 'Deploying',
-        }),
-        exit: assign({
-          disabled: (context, event) => false,
-          label: (context, event) => 'Deploy',
-        }),
-        invoke: {
-          onDone: {
-            target: 'success',
-          },
-          onError: {
-            target: 'failure',
-            actions: assign({
-              error: (context, event) => {
-                return event.data
-              },
-            }),
-          },
-          src: 'deploy',
-        },
-      },
-      success: {
-        entry: assign({
-          feedback: (context, event) => 'Succesfully started!',
-        }),
-        exit: assign({
-          feedback: (context, event) => undefined,
-        }),
-        on: {
-          DEPLOY: 'deploying',
-        },
-      },
-      failure: {
-        on: {
-          DEPLOY: 'deploying',
-        },
-      },
-    },
-  }
-)
+// import StateDebug from '../StateDebug'
 
 type Props = {
-  deployHook: string
+  // TODO: type correctly
+  actor: any
 }
 
 const DeployButton = (props: Props) => {
-  const { deployHook } = props
+  const { actor } = props
 
-  const [state, send] = useMachine(deployMachine, {
-    // Config
-    services: {
-      deploy: () => {
-        return new Promise(async (resolve, reject) => {
-          try {
-            const res = await fetch(deployHook, { method: 'POST' })
-            const data = await res.json()
-
-            if (!res.ok) {
-              const errorMessage =
-                (data?.error as Vercel.Error).message || res.statusText
-              reject(errorMessage)
-            }
-
-            resolve()
-          } catch (err) {
-            console.error('Unable to deploy with error:', err)
-            reject('Please check your console for errors')
-          }
-
-          resolve()
-        })
-      },
-    },
-  })
+  const [state, send] = useActor(actor)
 
   const handleDeploy = () => {
-    send('DEPLOY')
+    send({ type: 'DEPLOY' })
   }
 
   return (
@@ -135,9 +26,13 @@ const DeployButton = (props: Props) => {
         kind="simple"
         onClick={handleDeploy}
       >
+        {/* xstate debug */}
+        {/* <StateDebug machineId={actor.machine.id} state={state} /> */}
+
         {state.context.label}
       </AnchorButton>
 
+      {/* Success */}
       {state.value === 'success' && (
         <Snackbar
           kind="success"
@@ -146,6 +41,7 @@ const DeployButton = (props: Props) => {
         />
       )}
 
+      {/* Error */}
       {state.value === 'failure' && (
         <Snackbar
           kind="error"

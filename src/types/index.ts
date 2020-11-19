@@ -1,4 +1,4 @@
-import * as RunTypes from 'runtypes'
+import * as Runtypes from 'runtypes'
 
 export declare namespace Vercel {
   export type Alias = {
@@ -22,6 +22,10 @@ export declare namespace Vercel {
     url: string | null // null if a deployment is still uploading
   }
 
+  export type DeploymentWithAlias = Vercel.Deployment & {
+    alias?: string
+  }
+
   // https://vercel.com/docs/api#api-basics/errors
   export type Error = {
     code: string
@@ -29,6 +33,13 @@ export declare namespace Vercel {
   }
 }
 
-// export const PluginConfig = {}
+// Create type with `runtypes`
+export const PluginConfigRuntype = Runtypes.Record({
+  deployHook: Runtypes.String,
+  projectId: Runtypes.String,
+  teamId: Runtypes.String.Or(Runtypes.Undefined),
+  token: Runtypes.String,
+})
 
-// Overloaded export
+// Generate TypeScript defintion from `RunTypes` derived type
+export type PluginConfig = Runtypes.Static<typeof PluginConfigRuntype>

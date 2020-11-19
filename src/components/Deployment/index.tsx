@@ -7,8 +7,7 @@ import { Box, Flex, Image, Link } from 'theme-ui'
 import StatusDot from '../StatusDot'
 
 type Props = {
-  alias?: Vercel.Alias
-  deployment: Vercel.Deployment
+  deployment: Vercel.DeploymentWithAlias
 }
 
 const TD = ({ ...props }) => (
@@ -38,8 +37,8 @@ const SingleLine = ({ ...props }) => (
   />
 )
 
-const DeploymentRow = (props: Props) => {
-  const { alias, deployment } = props
+const Deployment = (props: Props) => {
+  const { deployment } = props
 
   const date = useRef(new Date(deployment.created))
 
@@ -56,7 +55,7 @@ const DeploymentRow = (props: Props) => {
           </Box>
 
           <SingleLine>
-            {alias ? (
+            {deployment.alias ? (
               <Flex
                 sx={{
                   alignItems: 'center',
@@ -65,11 +64,11 @@ const DeploymentRow = (props: Props) => {
                 <ReturnDownForward size="12px" />
                 <Box ml={1}>
                   <Link
-                    href={`https://${alias.alias}`}
+                    href={`https://${deployment.alias}`}
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    {alias.alias}
+                    {deployment.alias}
                   </Link>
                 </Box>
               </Flex>
@@ -150,4 +149,4 @@ const DeploymentRow = (props: Props) => {
   )
 }
 
-export default DeploymentRow
+export default Deployment

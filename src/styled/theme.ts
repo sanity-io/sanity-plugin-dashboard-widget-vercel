@@ -33,6 +33,15 @@ export default {
     },
   },
   // Variants
+  alerts: {
+    danger: {
+      borderColor: 'danger',
+      borderStyle: 'solid',
+      borderWidth: '1px',
+      color: 'danger',
+      fontWeight: 400,
+    },
+  },
   images: {
     avatar: {
       borderRadius: 20,
@@ -52,6 +61,11 @@ export default {
     },
     QUEUED: {
       bg: 'queued',
+    },
+  },
+  text: {
+    strong: {
+      fontWeight: 600,
     },
   },
 }

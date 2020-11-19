@@ -6,6 +6,7 @@ import { Box, ThemeProvider } from 'theme-ui'
 
 import mainMachine from '../../machines/main'
 import theme from '../../styled/theme'
+import ConfigurationError from '../ConfigurationError'
 import Deployments from '../Deployments'
 import DeployButton from '../DeployButton'
 import styles from './index.css'
@@ -26,16 +27,18 @@ const Widget = (props: Props) => {
     <ReactQueryCacheProvider queryCache={queryCache}>
       <ThemeProvider theme={theme}>
         <Box className={styles.container} color="text">
+          <header className={styles.header}>
+            <h2 className={styles.title}>Vercel Status</h2>
+          </header>
+
           {/* Error */}
-          {state.matches('error') && <Box>(Configuration error)</Box>}
+          {state.matches('error') && (
+            <ConfigurationError error={state.context.error} />
+          )}
 
           {/* Ready */}
           {state.matches('ready') && (
             <>
-              <header className={styles.header}>
-                <h2 className={styles.title}>Vercel Status</h2>
-              </header>
-
               {/* Content */}
               <Deployments
                 actor={state.context.refRefresh}

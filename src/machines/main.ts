@@ -8,6 +8,7 @@ import refreshMachine from './refresh'
 // TODO: type correctly
 type Context = {
   config?: PluginConfig
+  error?: string
   lastDeployTime?: number
   refDeploy: any
   refRefresh: any
@@ -50,7 +51,12 @@ const mainMachine = (config: PluginConfig) =>
           invoke: {
             src: 'checkConfig',
             onDone: 'ready',
-            onError: 'error',
+            onError: {
+              actions: assign({
+                error: (context, event) => event.data.message,
+              }),
+              target: 'error',
+            },
           },
         },
         error: {

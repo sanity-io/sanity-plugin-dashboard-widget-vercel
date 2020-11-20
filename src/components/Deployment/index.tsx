@@ -11,18 +11,6 @@ type Props = {
   deployment: Vercel.DeploymentWithAlias
 }
 
-const SingleLine = ({ ...props }) => (
-  <Box
-    {...props}
-    sx={{
-      ...props.sx,
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      whiteSpace: 'nowrap',
-    }}
-  />
-)
-
 const Deployment = (props: Props) => {
   const { deployment } = props
 
@@ -36,40 +24,48 @@ const Deployment = (props: Props) => {
       {/* Deployment - alias or regular deployment URL */}
       <TD>
         <Flex sx={{ alignItems: 'center' }}>
-          <Box sx={{ display: ['block', 'none'], mr: '7px' }}>
+          <Box
+            sx={{
+              display: ['block', 'none'],
+              flexShrink: 0,
+              mr: 2,
+            }}
+          >
             <StatusDot state={deployment.state} />
           </Box>
 
-          <SingleLine>
-            {deployment.alias ? (
-              <Flex
-                sx={{
-                  alignItems: 'center',
-                }}
-              >
-                <ReturnDownForward size="12px" />
-                <Box ml={1}>
-                  <Link
-                    href={`https://${deployment.alias}`}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    {deployment.alias}
-                  </Link>
-                </Box>
-              </Flex>
-            ) : deployment.url ? (
-              <Link
-                href={`https://${deployment.url}`}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                {deployment.url}
-              </Link>
-            ) : (
-              'Uploading...'
-            )}
-          </SingleLine>
+          {deployment.alias ? (
+            <Flex
+              sx={{
+                alignItems: 'center',
+              }}
+            >
+              <ReturnDownForward size="12px" style={{ flexShrink: 0 }} />
+              <Box ml={1} variant="singleLine">
+                <Link
+                  href={`https://${deployment.alias}`}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {deployment.alias}
+                </Link>
+              </Box>
+            </Flex>
+          ) : (
+            <Box variant="singleLine">
+              {deployment.url ? (
+                <Link
+                  href={`https://${deployment.url}`}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {deployment.url}
+                </Link>
+              ) : (
+                'Uploading...'
+              )}
+            </Box>
+          )}
         </Flex>
       </TD>
 
@@ -88,17 +84,20 @@ const Deployment = (props: Props) => {
 
       {/* Branch */}
       <TD variant="cells.branch">
-        {commitRef}
-        <br />
-        <SingleLine color="muted">{commitMessage || <>&nbsp;</>}</SingleLine>
+        <Box variant="singleLine">{commitRef}</Box>
+        {commitMessage && (
+          <Box color="muted" variant="singleLine">
+            {commitMessage}
+          </Box>
+        )}
       </TD>
 
       {/* Age */}
       <TD variant="cells.age">
-        <SingleLine>
+        <Box variant="singleLine">
           <ReactTimeAgo date={date.current} locale="en-US" timeStyle="mini" />{' '}
           ago
-        </SingleLine>
+        </Box>
       </TD>
 
       {/* Creator */}

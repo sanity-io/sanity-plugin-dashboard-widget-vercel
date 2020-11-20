@@ -69,6 +69,11 @@ export default {
       width: 20,
     },
   },
+  singleLine: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  },
   statusDots: {
     BUILDING: {
       bg: 'warning',

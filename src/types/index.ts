@@ -6,7 +6,12 @@ export declare namespace Vercel {
     deploymentId: string
   }
 
-  export type DeploymentState = 'BUILDING' | 'ERROR' | 'QUEUED' | 'READY'
+  export type DeploymentState =
+    | 'BUILDING'
+    | 'CANCELED'
+    | 'ERROR'
+    | 'QUEUED'
+    | 'READY'
 
   export type Deployment = {
     created: number

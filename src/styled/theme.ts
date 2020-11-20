@@ -59,8 +59,8 @@ export default {
     },
     state: {
       display: ['none', 'table-cell'],
-      maxWidth: '90px',
-      width: '90px',
+      maxWidth: '110px',
+      width: '110px',
     },
   },
   images: {
@@ -93,6 +93,9 @@ export default {
   statusDots: {
     BUILDING: {
       bg: 'warning',
+    },
+    CANCELED: {
+      bg: 'danger',
     },
     ERROR: {
       bg: 'danger',

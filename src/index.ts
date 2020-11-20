@@ -8,6 +8,6 @@ TimeAgo.addDefaultLocale(en)
 
 export default {
   title: 'Vercel',
-  name: 'vercel-status',
+  name: 'vercel',
   component: Widget,
 }

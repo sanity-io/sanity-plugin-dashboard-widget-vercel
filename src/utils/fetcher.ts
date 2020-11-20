@@ -1,15 +1,15 @@
 import fetch from 'unfetch'
 
-import { PluginConfig } from '../types'
+import { PluginOptions } from '../types'
 
-const fetcher = (config: PluginConfig) => (
+const fetcher = (pluginOptions: PluginOptions) => (
   url: string,
   extraParams?: URLSearchParams
 ) => {
   const params = new URLSearchParams()
-  params.set('projectId', config.projectId)
-  if (config.teamId) {
-    params.set('teamId', config.teamId)
+  params.set('projectId', pluginOptions.projectId)
+  if (pluginOptions.teamId) {
+    params.set('teamId', pluginOptions.teamId)
   }
 
   if (extraParams) {
@@ -20,7 +20,7 @@ const fetcher = (config: PluginConfig) => (
 
   return fetch(`${url}?${params.toString()}`, {
     headers: {
-      Authorization: `Bearer ${config.token}`,
+      Authorization: `Bearer ${pluginOptions.token}`,
     },
   }).then(r => r.json())
 }

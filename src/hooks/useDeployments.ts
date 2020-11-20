@@ -1,4 +1,4 @@
-import { PluginConfig, Vercel } from '@types'
+import { PluginOptions, Vercel } from '@types'
 import { useQuery } from 'react-query'
 
 import fetcher from '../utils/fetcher'
@@ -12,8 +12,8 @@ type Options = {
   enabled?: boolean
 }
 
-const useDeployments = (config: PluginConfig, options?: Options) => {
-  const fetchUrl = fetcher(config)
+const useDeployments = (pluginOptions: PluginOptions, options?: Options) => {
+  const fetchUrl = fetcher(pluginOptions)
 
   // Fetch deployments
   const deployParams = new URLSearchParams()

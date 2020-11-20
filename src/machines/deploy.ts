@@ -1,4 +1,4 @@
-import { PluginConfig, Vercel } from '@types'
+import { PluginOptions, Vercel } from '@types'
 import fetch from 'unfetch'
 import { Machine, assign, sendParent } from 'xstate'
 
@@ -20,7 +20,7 @@ type Schema = {
   }
 }
 
-const deployMachine = (config: PluginConfig) =>
+const deployMachine = (pluginOptions: PluginOptions) =>
   Machine<Context, Schema, Event>(
     // Machine
     {
@@ -93,11 +93,13 @@ const deployMachine = (config: PluginConfig) =>
         deploy: () => {
           return new Promise(async (resolve, reject) => {
             try {
-              if (!config.deployHook) {
+              if (!pluginOptions.deployHook) {
                 return reject('No deployHook URL defined')
               }
 
-              const res = await fetch(config.deployHook, { method: 'POST' })
+              const res = await fetch(pluginOptions.deployHook, {
+                method: 'POST',
+              })
               const data = await res.json()
 
               if (!res.ok) {

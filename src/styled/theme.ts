@@ -4,7 +4,6 @@ export default {
   colors: {
     // general
     muted: '#888',
-    skeleton: '#eee',
     text: '#262f3d',
     // status
     danger: '#ff0000',
@@ -34,15 +33,6 @@ export default {
     },
   },
   // Variants
-  alerts: {
-    danger: {
-      borderColor: 'danger',
-      borderStyle: 'solid',
-      borderWidth: '1px',
-      color: 'danger',
-      fontWeight: 400,
-    },
-  },
   cells: {
     age: {
       maxWidth: '100px',
@@ -70,16 +60,24 @@ export default {
       width: 20,
     },
   },
+  messages: {
+    danger: {
+      bg: 'rgba(255, 0, 0, 0.05)',
+      borderColor: 'danger',
+      color: 'danger',
+      fontWeight: 400,
+    },
+  },
   skeleton: {
     avatar: {
-      bg: 'skeleton',
+      bg: '#eee',
       borderRadius: 20,
       height: 20,
       userSelect: 'none',
       width: 20,
     },
     text: {
-      bg: 'skeleton',
+      bg: '#eee',
       borderRadius: '3px',
       userSelect: 'none',
       width: '100%',

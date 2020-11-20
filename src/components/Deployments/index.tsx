@@ -1,4 +1,4 @@
-import { PluginConfig } from '@types'
+import { PluginOptions } from '@types'
 import { useActor } from '@xstate/react'
 import Snackbar from 'part:@sanity/components/snackbar/default'
 import React, { useEffect } from 'react'
@@ -16,20 +16,23 @@ import TH from '../TH'
 type Props = {
   // TODO: type correctly
   actor: any
-  config: PluginConfig
   lastDeployTime?: number
+  pluginOptions: PluginOptions
 }
 
 const Deployments = (props: Props) => {
-  const { actor, config } = props
+  const { actor, pluginOptions } = props
 
   // Xstate
   const [state, send] = useActor(actor)
 
   // Fetch deployments - disable hook / auto-refetching on error state
-  const { deployments, error, isFetching, isSuccess } = useDeployments(config, {
-    enabled: !state.matches('error'),
-  })
+  const { deployments, error, isFetching, isSuccess } = useDeployments(
+    pluginOptions,
+    {
+      enabled: !state.matches('error'),
+    }
+  )
 
   const cache = useQueryCache()
 
@@ -106,7 +109,9 @@ const Deployments = (props: Props) => {
               ))
             ) : (
               <tr>
-                <TD colSpan={5}>No deployments</TD>
+                <TD color="muted" colSpan={5} sx={{ border: 'none ' }}>
+                  No deployments found
+                </TD>
               </tr>
             )
           ) : (

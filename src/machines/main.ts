@@ -1,15 +1,15 @@
 import { Machine, assign, send, spawn } from 'xstate'
 
 // TODO: understand why using the @types paths alias is not respected here
-import { PluginConfig, PluginConfigRuntype } from '../types'
+import { PluginOptions, PluginOptionsRuntype } from '../types'
 import deployMachine from './deploy'
 import refreshMachine from './refresh'
 
 // TODO: type correctly
 type Context = {
-  config?: PluginConfig
   error?: string
   lastDeployTime?: number
+  pluginOptions?: PluginOptions
   refDeploy: any
   refRefresh: any
 }
@@ -24,12 +24,12 @@ type Schema = {
   }
 }
 
-const mainMachine = (config: PluginConfig) =>
+const mainMachine = (pluginOptions: PluginOptions) =>
   Machine<Context, Schema, Event>(
     {
       context: {
-        config,
         lastDeployTime: undefined,
+        pluginOptions,
         refDeploy: undefined,
         refRefresh: undefined,
       },
@@ -66,7 +66,7 @@ const mainMachine = (config: PluginConfig) =>
           states: {
             deploy: {
               entry: assign({
-                refDeploy: () => spawn(deployMachine(config)),
+                refDeploy: () => spawn(deployMachine(pluginOptions)),
               }),
             },
             refresh: {
@@ -81,13 +81,13 @@ const mainMachine = (config: PluginConfig) =>
     },
     {
       services: {
-        // Validate sanity plugin config
+        // Validate sanity plugin options
         checkConfig: context => {
-          const { config } = context
+          const { pluginOptions } = context
 
           return new Promise((resolve, reject) => {
             try {
-              PluginConfigRuntype.check(config)
+              PluginOptionsRuntype.check(pluginOptions)
               resolve()
             } catch (err) {
               reject(err)

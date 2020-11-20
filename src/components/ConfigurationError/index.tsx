@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, Box, Text } from 'theme-ui'
+import { Box, Message, Text } from 'theme-ui'
 
 type Props = {
   error?: string
@@ -10,12 +10,12 @@ const ConfigurationError = (props: Props) => {
 
   return (
     <Box p={3}>
-      <Alert variant="danger">
+      <Message variant="danger">
         <Text mr={1} variant="strong">
-          Dashboard configuration error:
+          Plugin configuration error:
         </Text>
         {error}
-      </Alert>
+      </Message>
     </Box>
   )
 }

@@ -1,4 +1,4 @@
-import { PluginConfig } from '@types'
+import { PluginOptions } from '@types'
 import { useMachine } from '@xstate/react'
 import React from 'react'
 import { QueryCache, ReactQueryCacheProvider } from 'react-query'
@@ -11,17 +11,11 @@ import Deployments from '../Deployments'
 import DeployButton from '../DeployButton'
 import styles from './index.css'
 
-type Props = {
-  config: PluginConfig
-}
-
 const queryCache = new QueryCache()
 
-const Widget = (props: Props) => {
-  const { config } = props
-
-  // xstate: Initialise main machine, passing plugin config
-  const [state] = useMachine(mainMachine(config))
+const Widget = (pluginOptions: PluginOptions) => {
+  // xstate: Initialise main machine, passing plugin options
+  const [state] = useMachine(mainMachine(pluginOptions))
 
   return (
     <ReactQueryCacheProvider queryCache={queryCache}>
@@ -42,14 +36,14 @@ const Widget = (props: Props) => {
               {/* Content */}
               <Deployments
                 actor={state.context.refRefresh}
-                config={config}
                 lastDeployTime={state.context.lastDeployTime}
+                pluginOptions={pluginOptions}
               />
 
               {/* Footer */}
               <div className={styles.footer}>
                 {/* Deploy button */}
-                {config.deployHook && (
+                {pluginOptions.deployHook && (
                   <DeployButton actor={state.context.refDeploy} />
                 )}
               </div>

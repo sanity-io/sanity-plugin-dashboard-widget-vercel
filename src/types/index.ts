@@ -39,7 +39,7 @@ export declare namespace Vercel {
 }
 
 // Create type with `runtypes`
-export const PluginConfigRuntype = Runtypes.Record({
+export const PluginOptionsRuntype = Runtypes.Record({
   deployHook: Runtypes.String.Or(Runtypes.Undefined),
   projectId: Runtypes.String,
   teamId: Runtypes.String.Or(Runtypes.Undefined),
@@ -47,4 +47,4 @@ export const PluginConfigRuntype = Runtypes.Record({
 })
 
 // Generate TypeScript defintion from `RunTypes` derived type
-export type PluginConfig = Runtypes.Static<typeof PluginConfigRuntype>
+export type PluginOptions = Runtypes.Static<typeof PluginOptionsRuntype>

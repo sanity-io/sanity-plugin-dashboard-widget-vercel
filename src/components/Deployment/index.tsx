@@ -19,6 +19,8 @@ const Deployment = (props: Props) => {
   const commitMessage = deployment?.meta?.githubCommitMessage
   const commitRef = deployment?.meta?.githubCommitRef
 
+  const targetUrl = deployment.alias ?? deployment.url
+
   return (
     <tr>
       {/* Deployment - alias or regular deployment URL */}
@@ -34,37 +36,44 @@ const Deployment = (props: Props) => {
             <StatusDot state={deployment.state} />
           </Box>
 
-          {deployment.alias ? (
+          {targetUrl ? (
             <Flex
               sx={{
                 alignItems: 'center',
               }}
             >
-              <ReturnDownForward size="12px" style={{ flexShrink: 0 }} />
-              <Box ml={1} variant="singleLine">
-                <Link
-                  href={`https://${deployment.alias}`}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  {deployment.alias}
-                </Link>
+              {/* Alias icon */}
+              {deployment.alias && (
+                <ReturnDownForward size="12px" style={{ flexShrink: 0 }} />
+              )}
+
+              <Box ml={deployment.alias ? 1 : 0} variant="singleLine">
+                {deployment.state === 'READY' ? (
+                  <Link
+                    href={`https://${targetUrl}`}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    {targetUrl}
+                  </Link>
+                ) : (
+                  <Box
+                    color="muted"
+                    sx={{
+                      textDecoration:
+                        deployment.state === 'CANCELED' ||
+                        deployment.state === 'ERROR'
+                          ? 'line-through'
+                          : 'normal',
+                    }}
+                  >
+                    {targetUrl}
+                  </Box>
+                )}
               </Box>
             </Flex>
           ) : (
-            <Box variant="singleLine">
-              {deployment.url ? (
-                <Link
-                  href={`https://${deployment.url}`}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  {deployment.url}
-                </Link>
-              ) : (
-                'Uploading...'
-              )}
-            </Box>
+            <Box color="muted">Uploading...</Box>
           )}
         </Flex>
       </TD>

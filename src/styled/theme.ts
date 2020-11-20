@@ -4,6 +4,7 @@ export default {
   colors: {
     // general
     muted: '#888',
+    skeleton: '#eee',
     text: '#262f3d',
     // status
     danger: '#ff0000',
@@ -67,6 +68,21 @@ export default {
       borderRadius: 20,
       height: 20,
       width: 20,
+    },
+  },
+  skeleton: {
+    avatar: {
+      bg: 'skeleton',
+      borderRadius: 20,
+      height: 20,
+      userSelect: 'none',
+      width: 20,
+    },
+    text: {
+      bg: 'skeleton',
+      borderRadius: '3px',
+      userSelect: 'none',
+      width: '100%',
     },
   },
   singleLine: {

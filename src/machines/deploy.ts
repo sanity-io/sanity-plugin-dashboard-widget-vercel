@@ -16,7 +16,7 @@ type Schema = {
     idle: {}
     deploying: {}
     success: {}
-    failure: {}
+    error: {}
   }
 }
 
@@ -56,7 +56,7 @@ const deployMachine = (config: PluginConfig) =>
               target: 'success',
             },
             onError: {
-              target: 'failure',
+              target: 'error',
               actions: assign({
                 error: (context, event) => {
                   return event.data
@@ -80,7 +80,7 @@ const deployMachine = (config: PluginConfig) =>
             DEPLOY: 'deploying',
           },
         },
-        failure: {
+        error: {
           on: {
             DEPLOY: 'deploying',
           },
@@ -93,6 +93,10 @@ const deployMachine = (config: PluginConfig) =>
         deploy: () => {
           return new Promise(async (resolve, reject) => {
             try {
+              if (!config.deployHook) {
+                return reject('No deployHook URL defined')
+              }
+
               const res = await fetch(config.deployHook, { method: 'POST' })
               const data = await res.json()
 

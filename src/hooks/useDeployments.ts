@@ -2,13 +2,13 @@ import { PluginConfig, Vercel } from '@types'
 import { useQuery } from 'react-query'
 
 import fetcher from '../utils/fetcher'
+import { API_ENDPOINT_ALIASES, API_ENDPOINT_DEPLOYMENTS } from '../constants'
 
-// https://vercel.com/docs/platform/limits
+type Options = {
+  enabled?: boolean
+}
 
-const API_ENDPOINT_DEPLOYMENTS = 'https://api.vercel.com/v5/now/deployments'
-const API_ENDPOINT_ALIASES = 'https://api.vercel.com/v3/now/aliases'
-
-const useDeployments = (config: PluginConfig) => {
+const useDeployments = (config: PluginConfig, options?: Options) => {
   const fetchUrl = fetcher(config)
 
   // Fetch deployments
@@ -18,6 +18,7 @@ const useDeployments = (config: PluginConfig) => {
     isSuccess: deploymentsIsSuccess,
     error: deploymentsError,
   } = useQuery('deployments', () => fetchUrl(API_ENDPOINT_DEPLOYMENTS), {
+    enabled: options?.enabled ?? true,
     refetchInterval: 20000, // ms
     refetchOnMount: true,
     refetchOnReconnect: 'always',

@@ -35,7 +35,7 @@ export declare namespace Vercel {
 
 // Create type with `runtypes`
 export const PluginConfigRuntype = Runtypes.Record({
-  deployHook: Runtypes.String,
+  deployHook: Runtypes.String.Or(Runtypes.Undefined),
   projectId: Runtypes.String,
   teamId: Runtypes.String.Or(Runtypes.Undefined),
   token: Runtypes.String,

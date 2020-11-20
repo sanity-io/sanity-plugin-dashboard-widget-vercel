@@ -1,12 +1,16 @@
 import { PluginConfig } from '@types'
 import { useActor } from '@xstate/react'
+import Snackbar from 'part:@sanity/components/snackbar/default'
 import React, { useEffect } from 'react'
 import { useQueryCache } from 'react-query'
 import { Box } from 'theme-ui'
 
+import { WIDGET_NAME } from '../../constants'
 import useDeployments from '../../hooks/useDeployments'
 import Deployment from '../Deployment'
+import DeploymentPlaceholder from '../DeploymentPlaceholder'
 // import StateDebug from '../StateDebug'
+import TD from '../TD'
 import TH from '../TH'
 
 type Props = {
@@ -22,8 +26,10 @@ const Deployments = (props: Props) => {
   // Xstate
   const [state, send] = useActor(actor)
 
-  // Fetch deployments
-  const { deployments, error, isFetching, isSuccess } = useDeployments(config)
+  // Fetch deployments - disable hook / auto-refetching on error state
+  const { deployments, error, isFetching, isSuccess } = useDeployments(config, {
+    enabled: !state.matches('error'),
+  })
 
   const cache = useQueryCache()
 
@@ -93,11 +99,33 @@ const Deployments = (props: Props) => {
             fontSize: 1,
           }}
         >
-          {deployments?.map(deployment => {
-            return <Deployment deployment={deployment} key={deployment.uid} />
-          })}
+          {deployments ? (
+            deployments.length > 0 ? (
+              deployments.map(deployment => (
+                <Deployment deployment={deployment} key={deployment.uid} />
+              ))
+            ) : (
+              <tr>
+                <TD colSpan={5}>No deployments</TD>
+              </tr>
+            )
+          ) : (
+            new Array(5)
+              .fill(undefined)
+              .map((_, index) => <DeploymentPlaceholder key={index} />)
+          )}
         </Box>
       </Box>
+
+      {/* Error */}
+      {state.matches('error') && (
+        <Snackbar
+          kind="error"
+          subtitle="Unable to fetch deployments"
+          title={<strong>{WIDGET_NAME}</strong>}
+          timeout={8000}
+        />
+      )}
     </>
   )
 }

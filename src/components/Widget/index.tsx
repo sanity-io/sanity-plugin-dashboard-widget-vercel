@@ -47,11 +47,12 @@ const Widget = (props: Props) => {
               />
 
               {/* Footer */}
-              {config.deployHook && (
-                <div className={styles.footer}>
+              <div className={styles.footer}>
+                {/* Deploy button */}
+                {config.deployHook && (
                   <DeployButton actor={state.context.refDeploy} />
-                </div>
-              )}
+                )}
+              </div>
             </>
           )}
         </Box>

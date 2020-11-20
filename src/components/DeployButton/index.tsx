@@ -2,6 +2,8 @@ import { useActor } from '@xstate/react'
 import AnchorButton from 'part:@sanity/components/buttons/anchor'
 import Snackbar from 'part:@sanity/components/snackbar/default'
 import React from 'react'
+
+import { WIDGET_NAME } from '../../constants'
 // import StateDebug from '../StateDebug'
 
 type Props = {
@@ -33,20 +35,21 @@ const DeployButton = (props: Props) => {
       </AnchorButton>
 
       {/* Success */}
-      {state.value === 'success' && (
+      {state.matches('success') && (
         <Snackbar
           kind="success"
-          title={<strong>Deploy started</strong>}
+          subtitle="Deploy queued"
+          title={<strong>{WIDGET_NAME}</strong>}
           timeout={8000}
         />
       )}
 
       {/* Error */}
-      {state.value === 'failure' && (
+      {state.matches('error') && (
         <Snackbar
           kind="error"
-          subtitle={state.context.error}
-          title={<strong>Deploy failed</strong>}
+          subtitle={`Unable to queue deploy: ${state.context.error}`}
+          title={<strong>{WIDGET_NAME}</strong>}
           timeout={8000}
         />
       )}

@@ -5,7 +5,7 @@ import React, { useEffect } from 'react'
 import { useQueryCache } from 'react-query'
 import { Box } from 'theme-ui'
 
-import { WIDGET_NAME } from '../../constants'
+import { DEPLOY_LIMIT, WIDGET_NAME } from '../../constants'
 import useDeployments from '../../hooks/useDeployments'
 import Deployment from '../Deployment'
 import DeploymentPlaceholder from '../DeploymentPlaceholder'
@@ -110,7 +110,7 @@ const Deployments = (props: Props) => {
               </tr>
             )
           ) : (
-            new Array(5)
+            new Array(DEPLOY_LIMIT)
               .fill(undefined)
               .map((_, index) => <DeploymentPlaceholder key={index} />)
           )}

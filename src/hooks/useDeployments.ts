@@ -2,7 +2,11 @@ import { PluginConfig, Vercel } from '@types'
 import { useQuery } from 'react-query'
 
 import fetcher from '../utils/fetcher'
-import { API_ENDPOINT_ALIASES, API_ENDPOINT_DEPLOYMENTS } from '../constants'
+import {
+  API_ENDPOINT_ALIASES,
+  API_ENDPOINT_DEPLOYMENTS,
+  DEPLOY_LIMIT,
+} from '../constants'
 
 type Options = {
   enabled?: boolean
@@ -12,26 +16,36 @@ const useDeployments = (config: PluginConfig, options?: Options) => {
   const fetchUrl = fetcher(config)
 
   // Fetch deployments
+  const deployParams = new URLSearchParams()
+  deployParams.set('limit', String(DEPLOY_LIMIT))
+
   const {
     data: deploymentsData,
     isFetching: deploymentsIsFetching,
     isSuccess: deploymentsIsSuccess,
     error: deploymentsError,
-  } = useQuery('deployments', () => fetchUrl(API_ENDPOINT_DEPLOYMENTS), {
-    enabled: options?.enabled ?? true,
-    refetchInterval: 20000, // ms
-    refetchOnMount: true,
-    refetchOnReconnect: 'always',
-    refetchOnWindowFocus: true,
-  })
+  } = useQuery(
+    'deployments',
+    () => fetchUrl(API_ENDPOINT_DEPLOYMENTS, deployParams),
+    {
+      enabled: options?.enabled ?? true,
+      refetchInterval: 20000, // ms
+      refetchOnMount: true,
+      refetchOnReconnect: 'always',
+      refetchOnWindowFocus: true,
+    }
+  )
 
   // Fetch aliases (only if deployments have been retrieved)
+  const aliasParams = new URLSearchParams()
+  aliasParams.set('limit', '20')
+
   const {
     data: aliasesData,
     isFetching: aliasesIsFetching,
     isSuccess: aliasesIsSuccess,
     error: aliasesError,
-  } = useQuery('aliases', () => fetchUrl(API_ENDPOINT_ALIASES), {
+  } = useQuery('aliases', () => fetchUrl(API_ENDPOINT_ALIASES, aliasParams), {
     enabled: deploymentsData,
     refetchOnMount: false,
     refetchOnReconnect: false,

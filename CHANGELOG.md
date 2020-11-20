@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.5](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/compare/v0.0.4...v0.0.5) (2020-11-20)
+
+
+### Features
+
+* make deployHook optional, show error snackbar on refresh error, add deployment skeleton" ([a24071e](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/commit/a24071e7ab9d44f9b1a655cb260ee0680c698617))
+
 ### [0.0.4](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/compare/v0.0.3...v0.0.4) (2020-11-20)
 
 

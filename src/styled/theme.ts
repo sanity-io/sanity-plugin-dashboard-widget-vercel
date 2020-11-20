@@ -42,6 +42,26 @@ export default {
       fontWeight: 400,
     },
   },
+  cells: {
+    age: {
+      maxWidth: '100px',
+      width: '100px',
+    },
+    branch: {
+      display: ['none', null, 'table-cell'],
+      maxWidth: '300px',
+      width: '300px',
+    },
+    creator: {
+      maxWidth: '80px',
+      width: '80px',
+    },
+    state: {
+      display: ['none', 'table-cell'],
+      maxWidth: '90px',
+      width: '90px',
+    },
+  },
   images: {
     avatar: {
       borderRadius: 20,

@@ -7,6 +7,7 @@ import { Box } from 'theme-ui'
 import useDeployments from '../../hooks/useDeployments'
 import Deployment from '../Deployment'
 // import StateDebug from '../StateDebug'
+import TH from '../TH'
 
 type Props = {
   // TODO: type correctly
@@ -14,21 +15,6 @@ type Props = {
   config: PluginConfig
   lastDeployTime?: number
 }
-
-const TH = ({ ...props }) => (
-  <Box
-    as="th"
-    {...props}
-    sx={{
-      ...props.sx,
-      borderBottom: '1px solid #eee',
-      fontWeight: 'normal',
-      px: 3,
-      py: 1,
-      textAlign: 'left',
-    }}
-  />
-)
 
 const Deployments = (props: Props) => {
   const { actor, config } = props
@@ -81,7 +67,6 @@ const Deployments = (props: Props) => {
           as="thead"
           sx={{
             fontSize: 0,
-            px: 2,
             textTransform: 'uppercase',
           }}
         >
@@ -90,37 +75,28 @@ const Deployments = (props: Props) => {
             <TH>Deployment</TH>
 
             {/* State */}
-            <TH
-              sx={{
-                display: ['none', 'table-cell'],
-                width: '90px',
-              }}
-            >
-              State
-            </TH>
+            <TH variant="cells.state">State</TH>
 
             {/* Branch */}
-            <TH
-              sx={{
-                display: ['none', null, 'table-cell'],
-                width: '300px',
-              }}
-            >
-              Branch
-            </TH>
+            <TH variant="cells.branch">Branch</TH>
 
             {/* Age */}
-            <TH sx={{ width: '100px' }}>Age</TH>
+            <TH variant="cells.age">Age</TH>
 
             {/* Creator */}
-            <TH sx={{ width: '80px' }}>Creator</TH>
+            <TH variant="cells.creator">Creator</TH>
           </tr>
         </Box>
-        <tbody>
+        <Box
+          as="tbody"
+          sx={{
+            fontSize: 1,
+          }}
+        >
           {deployments?.map(deployment => {
             return <Deployment deployment={deployment} key={deployment.uid} />
           })}
-        </tbody>
+        </Box>
       </Box>
     </>
   )

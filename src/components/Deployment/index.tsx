@@ -4,26 +4,12 @@ import React, { useRef } from 'react'
 import ReactTimeAgo from 'react-time-ago'
 import { Box, Flex, Image, Link } from 'theme-ui'
 
+import TD from '../TD'
 import StatusDot from '../StatusDot'
 
 type Props = {
   deployment: Vercel.DeploymentWithAlias
 }
-
-const TD = ({ ...props }) => (
-  <Box
-    as="td"
-    {...props}
-    sx={{
-      ...props.sx,
-      borderBottom: '1px solid #eee',
-      fontSize: 1,
-      lineHeight: 'body',
-      px: 3,
-      py: 2,
-    }}
-  />
-)
 
 const SingleLine = ({ ...props }) => (
   <Box
@@ -88,11 +74,7 @@ const Deployment = (props: Props) => {
       </TD>
 
       {/* State */}
-      <TD
-        sx={{
-          display: ['none', 'table-cell'],
-        }}
-      >
+      <TD variant="cells.state">
         <Flex sx={{ alignItems: 'center' }}>
           <StatusDot state={deployment.state} />
           <Box ml="7px">
@@ -105,18 +87,14 @@ const Deployment = (props: Props) => {
       </TD>
 
       {/* Branch */}
-      <TD
-        sx={{
-          display: ['none', null, 'table-cell'],
-        }}
-      >
+      <TD variant="cells.branch">
         {commitRef}
         <br />
         <SingleLine color="muted">{commitMessage || <>&nbsp;</>}</SingleLine>
       </TD>
 
       {/* Age */}
-      <TD>
+      <TD variant="cells.age">
         <SingleLine>
           <ReactTimeAgo date={date.current} locale="en-US" timeStyle="mini" />{' '}
           ago
@@ -124,11 +102,7 @@ const Deployment = (props: Props) => {
       </TD>
 
       {/* Creator */}
-      <TD
-        sx={{
-          position: 'relative',
-        }}
-      >
+      <TD variant="cells.creator">
         <Flex
           sx={{
             alignItems: 'center',

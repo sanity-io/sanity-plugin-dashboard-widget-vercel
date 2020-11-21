@@ -6,10 +6,12 @@ const TH = ({ ...props }) => (
     {...props}
     as="th"
     sx={{
-      borderBottom: '1px solid #eee',
       fontWeight: 'normal',
+      overflow: 'hidden',
       px: 3,
       py: 1,
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
       textAlign: 'left',
       ...props.sx,
     }}

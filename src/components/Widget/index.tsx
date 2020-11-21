@@ -19,7 +19,11 @@ const Widget = (pluginOptions: PluginOptions) => {
 
   return (
     <ReactQueryCacheProvider queryCache={queryCache}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider
+        theme={theme({
+          forceSmallLayout: pluginOptions?.forceSmallLayout,
+        })}
+      >
         <Box className={styles.container} color="text">
           <header className={styles.header}>
             <h2 className={styles.title}>Vercel Status</h2>
@@ -40,13 +44,12 @@ const Widget = (pluginOptions: PluginOptions) => {
                 pluginOptions={pluginOptions}
               />
 
-              {/* Footer */}
-              <div className={styles.footer}>
-                {/* Deploy button */}
-                {pluginOptions.deployHook && (
+              {/* Footer / deploy button */}
+              {pluginOptions.deployHook && (
+                <div className={styles.footer}>
                   <DeployButton actor={state.context.refDeploy} />
-                )}
-              </div>
+                </div>
+              )}
             </>
           )}
         </Box>

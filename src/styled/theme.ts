@@ -1,15 +1,21 @@
-export default {
+type Options = {
+  forceSmallLayout?: boolean
+}
+
+const theme = ({ forceSmallLayout = false }: Options = {}) => ({
   // Scales
   breakpoints: ['560px', '800px'],
   colors: {
-    // general
+    danger: '#ff0000',
     muted: '#888',
     text: '#262f3d',
-    // status
-    danger: '#ff0000',
-    queued: '#333',
-    success: '#50e3c2',
-    warning: '#f5a623',
+    vercelStatusColors: {
+      BUILDING: '#f5a623',
+      CANCELED: '#ff0000',
+      ERROR: '#ff0000',
+      READY: '#50e3c2',
+      QUEUED: '#333',
+    },
   },
   fontSizes: [
     '0.64rem', //
@@ -35,11 +41,11 @@ export default {
   // Variants
   cells: {
     age: {
-      maxWidth: '100px',
-      width: '100px',
+      maxWidth: '60px',
+      width: '60px',
     },
     branch: {
-      display: ['none', null, 'table-cell'],
+      display: forceSmallLayout ? ['none'] : ['none', null, 'table-cell'],
       maxWidth: '300px',
       width: '300px',
     },
@@ -48,7 +54,7 @@ export default {
       width: '80px',
     },
     state: {
-      display: ['none', 'table-cell'],
+      display: forceSmallLayout ? ['none'] : ['none', 'table-cell'],
       maxWidth: '110px',
       width: '110px',
     },
@@ -88,21 +94,15 @@ export default {
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
   },
-  statusDots: {
-    BUILDING: {
-      bg: 'warning',
+  statusDot: {
+    smallOnly: {
+      borderRadius: '20px',
+      display: forceSmallLayout ? ['block'] : ['block', 'none'],
+      size: '10px',
     },
-    CANCELED: {
-      bg: 'danger',
-    },
-    ERROR: {
-      bg: 'danger',
-    },
-    READY: {
-      bg: 'success',
-    },
-    QUEUED: {
-      bg: 'queued',
+    default: {
+      borderRadius: '20px',
+      size: '10px',
     },
   },
   text: {
@@ -110,4 +110,6 @@ export default {
       fontWeight: 600,
     },
   },
-}
+})
+
+export default theme

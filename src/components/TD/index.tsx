@@ -6,7 +6,7 @@ const TD = ({ ...props }) => (
     {...props}
     as="td"
     sx={{
-      borderBottom: '1px solid #eee',
+      borderTop: '1px solid #eee',
       flexGrow: 1,
       lineHeight: 'body',
       position: 'relative',

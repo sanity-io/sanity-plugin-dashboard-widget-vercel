@@ -1,19 +1,21 @@
 import { Vercel } from '@types'
 import React from 'react'
-import { Box } from 'theme-ui'
+import { Box, SxProps } from 'theme-ui'
 
 type Props = {
   state: Vercel.DeploymentState
+  sx?: SxProps
+  variant?: string
 }
 
-const StatusDot = ({ state, ...props }: Props) => (
+const StatusDot = ({ state, variant, ...props }: Props) => (
   <Box
     {...props}
     sx={{
-      borderRadius: '20px',
-      size: '10px',
+      bg: `vercelStatusColors.${state}`,
+      ...props.sx,
     }}
-    variant={`statusDots.${state}`}
+    variant={variant}
   />
 )
 

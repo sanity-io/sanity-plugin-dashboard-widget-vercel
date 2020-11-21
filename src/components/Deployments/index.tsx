@@ -5,7 +5,7 @@ import React, { useEffect } from 'react'
 import { useQueryCache } from 'react-query'
 import { Box } from 'theme-ui'
 
-import { DEPLOY_LIMIT, WIDGET_NAME } from '../../constants'
+import { WIDGET_NAME } from '../../constants'
 import useDeployments from '../../hooks/useDeployments'
 import Deployment from '../Deployment'
 import DeploymentPlaceholder from '../DeploymentPlaceholder'
@@ -66,6 +66,7 @@ const Deployments = (props: Props) => {
       <Box
         as="table"
         sx={{
+          borderBottom: '1px solid #eee',
           borderCollapse: 'collapse',
           p: 1,
           tableLayout: 'fixed',
@@ -115,7 +116,7 @@ const Deployments = (props: Props) => {
               </tr>
             )
           ) : (
-            new Array(DEPLOY_LIMIT)
+            new Array(pluginOptions?.deployLimit)
               .fill(undefined)
               .map((_, index) => <DeploymentPlaceholder key={index} />)
           )}

@@ -2,11 +2,7 @@ import { PluginOptions, Vercel } from '@types'
 import { useQuery } from 'react-query'
 
 import fetcher from '../utils/fetcher'
-import {
-  API_ENDPOINT_ALIASES,
-  API_ENDPOINT_DEPLOYMENTS,
-  DEPLOY_LIMIT,
-} from '../constants'
+import { API_ENDPOINT_ALIASES, API_ENDPOINT_DEPLOYMENTS } from '../constants'
 
 type Options = {
   enabled?: boolean
@@ -17,7 +13,7 @@ const useDeployments = (pluginOptions: PluginOptions, options?: Options) => {
 
   // Fetch deployments
   const deployParams = new URLSearchParams()
-  deployParams.set('limit', String(DEPLOY_LIMIT))
+  deployParams.set('limit', String(pluginOptions?.deployLimit))
 
   const {
     data: deploymentsData,

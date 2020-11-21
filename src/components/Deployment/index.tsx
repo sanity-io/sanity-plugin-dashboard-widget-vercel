@@ -26,15 +26,14 @@ const Deployment = (props: Props) => {
       {/* Deployment - alias or regular deployment URL */}
       <TD>
         <Flex sx={{ alignItems: 'center' }}>
-          <Box
+          <StatusDot
+            state={deployment.state}
             sx={{
-              display: ['block', 'none'],
               flexShrink: 0,
               mr: 2,
             }}
-          >
-            <StatusDot state={deployment.state} />
-          </Box>
+            variant="statusDot.smallOnly"
+          />
 
           {targetUrl ? (
             <Flex
@@ -81,7 +80,7 @@ const Deployment = (props: Props) => {
       {/* State */}
       <TD variant="cells.state">
         <Flex sx={{ alignItems: 'center' }}>
-          <StatusDot state={deployment.state} />
+          <StatusDot state={deployment.state} variant="statusDot.default" />
           <Box ml="7px">
             {deployment.state
               .trim()
@@ -104,8 +103,7 @@ const Deployment = (props: Props) => {
       {/* Age */}
       <TD variant="cells.age">
         <Box variant="singleLine">
-          <ReactTimeAgo date={date.current} locale="en-US" timeStyle="mini" />{' '}
-          ago
+          <ReactTimeAgo date={date.current} locale="en-US" timeStyle="mini" />
         </Box>
       </TD>
 

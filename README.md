@@ -56,49 +56,45 @@ sanity install dashboard-widget-vercel
 
 ## Plugin options
 
-- **token** (required)  
-  _String_
+### token: string (required)
 
-  Your Vercel API token.
+Your Vercel API token.
 
-  These can be created in your Vercel account under **Settings > Tokens**.
+These can be created in Vercel under **Account > Settings > Tokens**.
 
-  Remember that your token has access to your _entire account_, please strongly consider using [environment variables](https://www.sanity.io/docs/studio-environment-variables) rather than hard coding / checking these into source control.
+Remember that your token has access to your _entire account_, please strongly consider using [environment variables](https://www.sanity.io/docs/studio-environment-variables) as opposed to hard coding / checking these into source control.
 
-- **deployLimit** (required)  
-  _Number (min: 1, max: 20)_
+### deployLimit: number (min: 1, max: 15) (required)
 
-  The number of deployments to display and fetch.
+The number of deployments to display and fetch.
 
-- **projectId** (required)  
-  _String_
+### projectId: string (required)
 
-  Your Vercel project ID.
+Your Vercel project ID.
 
-  These can be retrieved via [Vercel's API](https://vercel.com/docs/api#endpoints/projects/get-projects).
+These can be retrieved via [Vercel's API](https://vercel.com/docs/api#endpoints/projects/get-projects).
 
-- **teamId**  
-  _String_
+### teamId: string
 
-  Your Vercel team ID.
+Your Vercel team ID.
 
-  Similar to project IDs, you can retrieve these via Vercel's API.
+Similar to project IDs, you can retrieve these via Vercel's API.
 
-  You'll need to supply this if your project is assigned to a team account – in these cases, just supplying the project ID isn't enough.
+_If your project is assigned to a team account, you must provide both team and project IDs_.
 
-- **deployHook**  
-  _String_
+### deployHook: string
 
-  Vercel deploy hook URLs used to trigger new builds. If one is provided, a 'deploy' button will appear at the footer of the widget.
+Vercel deploy hook URLs used to trigger new builds.
 
-  These can be created in Vercel by going to **Project > Settings > Git > Deploy Hooks**.
+If one is provided, a 'deploy' button will appear at the footer of the widget.
 
-- **forceSmallLayout**  
-  _Boolean_ (default: false)
+These can be created in Vercel by going to **Project > Settings > Git > Deploy Hooks**.
 
-  This plugin uses media queries to render the table at different breakpoints, and works best if you use a `large` plugin width.
+### forceSmallLayout: boolean (default: false)
 
-  In the event you'd like to use a `small` or `medium` width, you can force this plugin to render compact items with `forceSmallLayout: true`.
+This plugin uses media queries to render the table differently at varying breakpoints and works best if you specify `width: large` in the plugin `layout` object.
+
+In the event you'd like to use a `small` or `medium` width, you can force this plugin to render compact items with `forceSmallLayout: true` which will display much more nicely at more constrained widths.
 
 ## Good to know
 

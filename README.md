@@ -63,7 +63,7 @@ sanity install dashboard-widget-vercel
 
   These can be created in your Vercel account under **Settings > Tokens**.
 
-  Remember that your token has access to your _entire account_, please strongly consider using [environment variables](https://www.sanity.io/docs/studio-environment-variables) rather than hard coding these and checking them into source control.
+  Remember that your token has access to your _entire account_, please strongly consider using [environment variables](https://www.sanity.io/docs/studio-environment-variables) rather than hard coding / checking these into source control.
 
 - **deployLimit** (required)  
   _Number (min: 1, max: 20)_
@@ -91,13 +91,14 @@ sanity install dashboard-widget-vercel
 
   Vercel deploy hook URLs used to trigger new builds. If one is provided, a 'deploy' button will appear at the footer of the widget.
 
-  These can be created by going to **Project > Settings > Git > Deploy Hooks**.
+  These can be created in Vercel by going to **Project > Settings > Git > Deploy Hooks**.
 
-#### forceSmallLayout: boolean (default: false)
+- **forceSmallLayout**  
+  _Boolean_ (default: false)
 
-This plugin uses media queries to render the table at different breakpoints, and works best if you use a `large` plugin width.
+  This plugin uses media queries to render the table at different breakpoints, and works best if you use a `large` plugin width.
 
-In the event you'd like to use a `small` or `medium` width, you can force this plugin to render compact items with `forceSmallLayout: true`.
+  In the event you'd like to use a `small` or `medium` width, you can force this plugin to render compact items with `forceSmallLayout: true`.
 
 ## Good to know
 

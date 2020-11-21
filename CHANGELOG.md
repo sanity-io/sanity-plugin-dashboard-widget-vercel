@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.6](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/compare/v0.0.5...v0.0.6) (2020-11-21)
+
+
+### Features
+
+* allow deployLimit to be user configurable, minor cleanup" ([d15f4a8](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/commit/d15f4a8f0ffa1525cb106a2006ff61ef53c29401))
+
+
+### Bug Fixes
+
+* correctly show cancelled dot color ([5045a3d](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/commit/5045a3d4c9e3ba94945a97d3f1dfd5b636cf184a))
+
 ### [0.0.5](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/compare/v0.0.4...v0.0.5) (2020-11-20)
 
 

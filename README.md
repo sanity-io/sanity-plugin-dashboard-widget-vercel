@@ -20,39 +20,39 @@ sanity install dashboard-widget-vercel
 
 ### Configure the plugin
 
-1. If you haven't already configured a dashboard, in your studio's `sanity.json` append the following:
+If you haven't already configured a dashboard, in your studio's `sanity.json` append the following:
 
-   ```json
-   {
-     "implements": "part:@sanity/dashboard/config",
-     "path": "src/dashboardConfig.js"
-   }
-   ```
+```json
+{
+  "implements": "part:@sanity/dashboard/config",
+  "path": "src/dashboardConfig.js"
+}
+```
 
-2. In your `dashboardConfig.js` file, append the following:
+In your `dashboardConfig.js` file, append the following:
 
-   ```javascript
-   export default {
-     widgets: [
-       // Add your other widgets here
-       // ...
-       {
-         name: 'vercel',
-         options: {
-           deployLimit: 5,
-           deployHook: '%YOUR_DEPLOY_HOOK%', // optional
-           projectId: '%YOUR_PROJECT_ID%',
-           token: '%VERCEL_TOKEN%',
-         },
-         layout: {
-           width: 'large',
-         },
-       },
-     ],
-   }
-   ```
+```javascript
+export default {
+  widgets: [
+    // (Add your other widgets here)
+    // ...
+    {
+      name: 'vercel',
+      options: {
+        deployLimit: 5,
+        deployHook: '%YOUR_DEPLOY_HOOK%', // optional
+        projectId: '%YOUR_PROJECT_ID%',
+        token: '%VERCEL_TOKEN%',
+      },
+      layout: {
+        width: 'large',
+      },
+    },
+  ],
+}
+```
 
-   This will display the 5 most recent deploys from your Vercel project and a button to trigger manual builds.
+This will display the 5 most recent deploys from your Vercel project and a button to trigger manual builds.
 
 ## Plugin options
 

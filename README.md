@@ -20,28 +20,42 @@ sanity install dashboard-widget-vercel
 
 ### Configure the plugin
 
-If you haven't already configured a dashboard, in your studio's `sanity.json` append the following:
+If you haven't configured a [dashboard](https://www.sanity.io/docs/dashboard) yet:
 
-```json
-{
-  "implements": "part:@sanity/dashboard/config",
-  "path": "src/dashboardConfig.js"
-}
+```sh
+sanity install @sanity/dashboard
 ```
 
-In your `dashboardConfig.js` file, append the following:
+In your studio's `sanity.json` append the following to `plugins` and `parts`:
+
+```javascript
+"plugins": [
+  // ...
+  "dashboard-widget-vercel"
+],
+"parts": [
+  // ...
+  {
+    "implements": "part:@sanity/dashboard/config",
+    "path": "dashboardConfig.js"
+  }
+]
+```
+
+In `dashboardConfig.js`, ensure that `widgets` includes the following:
 
 ```javascript
 export default {
   widgets: [
-    // (Add your other widgets here)
     // ...
     {
       name: 'vercel',
       options: {
         deployLimit: 5,
         deployHook: '%YOUR_DEPLOY_HOOK%', // optional
+        forceSmallLayout: false, // optional
         projectId: '%YOUR_PROJECT_ID%',
+        teamId: '%YOUR_PROJECT_ID%', // optional
         token: '%VERCEL_TOKEN%',
       },
       layout: {

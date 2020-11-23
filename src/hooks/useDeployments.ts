@@ -50,25 +50,22 @@ const useDeployments = (pluginOptions: PluginOptions, options?: Options) => {
 
   const aliases = aliasesData?.aliases as Vercel.Alias[]
 
-  const deployments: Vercel.DeploymentWithAlias[] = deploymentsData?.deployments.reduce(
-    (acc: Vercel.DeploymentWithAlias[], val: Vercel.Deployment) => {
-      if (!aliases) {
-        return acc
+  let deploymentsWithAlias: Vercel.DeploymentWithAlias[] | undefined = undefined
+
+  if (aliases) {
+    deploymentsWithAlias = deploymentsData?.deployments?.map(
+      (val: Vercel.DeploymentWithAlias) => {
+        const alias = aliases.find(alias => alias.deploymentId === val.uid)
+        return {
+          ...val,
+          alias: alias?.alias,
+        }
       }
-
-      const alias = aliases.find(alias => alias.deploymentId === val.uid)
-      acc.push({
-        ...val,
-        alias: alias?.alias,
-      })
-
-      return acc
-    },
-    []
-  )
+    )
+  }
 
   return {
-    deployments,
+    deployments: deploymentsWithAlias,
     error: aliasesError || deploymentsError,
     isFetching: aliasesIsFetching || deploymentsIsFetching,
     isSuccess: aliasesIsSuccess && deploymentsIsSuccess,

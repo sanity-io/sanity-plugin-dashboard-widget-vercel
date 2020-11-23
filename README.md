@@ -7,7 +7,7 @@ View your recent [Vercel](https://vercel.com/) deployments and manually trigger 
 ## Features
 
 - Displays a list of recent builds along with deployment aliases, branch / commit messages, build age and creator
-- Refreshes periodicallly (every 20 seconds), when the window gains focus and immediately after a manual build is triggered
+- Refreshes periodically (every 20 seconds), when the window gains focus and immediately after a manual build is triggered
 - Can also optionally display a button for manual builds
 
 ## Install

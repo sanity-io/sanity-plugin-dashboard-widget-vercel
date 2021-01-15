@@ -29,14 +29,16 @@
     "watch": "npm run build -- --watch"
   },
   "dependencies": {
-    "@emotion-icons/ionicons-solid": "2.10.0",
+    "@emotion-icons/ionicons-solid": "3.4.0",
+    "@emotion/react": "11.1.4",
+    "@emotion/styled": "11.0.0",
     "@xstate/react": "1.0.2",
     "react": "16.14.0",
     "react-dom": ">=16.14.0",
     "react-query": "2.26.2",
     "react-time-ago": "6.2.1",
     "runtypes": "5.0.1",
-    "theme-ui": "0.3.3",
+    "theme-ui": "0.3.5",
     "unfetch": "4.2.0",
     "xstate": "4.14.0"
   },

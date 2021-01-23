@@ -16,7 +16,10 @@
   ],
   "files": [
     "lib/",
-    "sanity.json"
+    "sanity.json",
+    "CHANGELOG.md",
+    "README.md",
+    "LICENSE"
   ],
   "repository": {
     "type": "git",

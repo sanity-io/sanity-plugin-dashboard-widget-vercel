@@ -112,7 +112,7 @@ In the event you'd like to use a `small` or `medium` width, you can force this p
 
 ## Good to know
 
-Your Vercel token is currently bundled in the Sanity studio application payload and exposed to all _authenticated_ studio users. In future, this token will likely be stored in a namespaced Sanity document to better work with [Sanity's custom access control](https://www.sanity.io/docs/access-control). See [#2](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/issues/2)
+Your Vercel token is currently bundled in the Sanity studio application payload and currently publicly accessible. This will be addressed in a future release - see [#2](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/issues/2)
 
 Please also keep the following in mind when manually deploying:
 

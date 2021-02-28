@@ -112,7 +112,9 @@ In the event you'd like to use a `small` or `medium` width, you can force this p
 
 ## Good to know
 
-Please keep the following in mind when manually deploying:
+Your Vercel token is currently bundled in the Sanity studio application payload and exposed to all _authenticated_ studio users. In future, this token will likely be stored in a namespaced Sanity document to better work with [Sanity's custom access control](https://www.sanity.io/docs/access-control). See [#2](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/issues/2)
+
+Please also keep the following in mind when manually deploying:
 
 > Triggering a Deploy Hook will not rebuild an existing deployment. Instead, it will create a new deployment using the latest source code available on the specified branch.
 >

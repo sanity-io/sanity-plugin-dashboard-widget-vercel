@@ -16,7 +16,7 @@ export const VERCEL_STATUS_COLORS = {
 }
 
 // Name displayed in toasts
-export const WIDGET_NAME = 'Vercel dashboard widget'
+export const WIDGET_NAME = 'Vercel (dashboard)'
 
 // NOTE: Manually set plugin z-index values to be higher than Sanity's header search field
 // (which is currently 500202). Also ensure toasts always sit above dialogs.

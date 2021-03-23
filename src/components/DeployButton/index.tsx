@@ -1,3 +1,4 @@
+import { UploadIcon } from '@sanity/icons'
 import { Box, Button, useToast } from '@sanity/ui'
 import { useMachine } from '@xstate/react'
 import React, { useEffect } from 'react'
@@ -36,7 +37,7 @@ const DeployButton = (props: Props) => {
     if (isError) {
       toast.push({
         closable: true,
-        description: `Unable to queue deploy: ${deployState.context.error}`,
+        description: `Unable to queue deploy for ${targetName}: ${deployState.context.error}`,
         duration: 8000,
         status: 'error',
         title: WIDGET_NAME,
@@ -46,7 +47,7 @@ const DeployButton = (props: Props) => {
     if (isSuccess) {
       toast.push({
         closable: true,
-        description: 'Deploy queued',
+        description: `Deploy queued for ${targetName}`,
         duration: 8000,
         status: 'success',
         title: WIDGET_NAME,
@@ -72,10 +73,12 @@ const DeployButton = (props: Props) => {
       <Button
         disabled={deployState.context.disabled}
         fontSize={1}
+        icon={UploadIcon}
         mode="ghost"
         onClick={handleDeploy}
         padding={3}
         text={`${deployState.context.label} ${targetName}`}
+        tone="default"
       />
     </Box>
   )

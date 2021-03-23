@@ -1,48 +1,39 @@
+import { Flex } from '@sanity/ui'
 import React from 'react'
-import { Box, Flex } from 'theme-ui'
 
-import TD from '../TD'
+import PlaceholderAvatar from '../PlaceholderAvatar'
+import PlaceholderText from '../PlaceholderText'
+import TableCell from '../TableCell'
 
 const DeploymentPlaceholder = () => {
   return (
     <tr>
       {/* Deployment - alias or regular deployment URL */}
-      <TD>
-        <Box variant="skeleton.text">
-          <br />
-        </Box>
-      </TD>
+      <TableCell>
+        <PlaceholderText rows={1} />
+      </TableCell>
 
       {/* State */}
-      <TD variant="cells.state">
-        <Box variant="skeleton.text">
-          <br />
-        </Box>
-      </TD>
+      <TableCell variant="state">
+        <PlaceholderText rows={1} />
+      </TableCell>
 
       {/* Branch */}
-      <TD variant="cells.branch">
-        <Box variant="skeleton.text">
-          <br />
-          <br />
-        </Box>
-      </TD>
+      <TableCell variant="branch">
+        <PlaceholderText rows={2} />
+      </TableCell>
 
       {/* Age */}
-      <TD variant="cells.age">
-        <Box variant="skeleton.text">
-          <br />
-        </Box>
-      </TD>
+      <TableCell variant="age">
+        <PlaceholderText rows={1} />
+      </TableCell>
 
       {/* Creator */}
-      <TD variant="cells.creator">
-        <Flex sx={{ justifyContent: 'center' }}>
-          <Box variant="skeleton.avatar">
-            <br />
-          </Box>
+      <TableCell variant="creator">
+        <Flex justify="center">
+          <PlaceholderAvatar />
         </Flex>
-      </TD>
+      </TableCell>
     </tr>
   )
 }

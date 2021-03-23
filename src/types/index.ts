@@ -1,5 +1,22 @@
-import * as Runtypes from 'runtypes'
+import { SanityDocument } from '@sanity/client'
+export declare namespace Sanity {
+  export type BoxDisplay =
+    | 'none'
+    | 'block'
+    | 'grid'
+    | 'flex'
+    | 'inline-block'
+    | 'table-cell'
 
+  export type DeploymentTarget = SanityDocument & {
+    deployHook: string
+    deployLimit: number
+    name: string
+    projectId: string
+    teamId?: string
+    token: string
+  }
+}
 export declare namespace Vercel {
   export type Alias = {
     alias: string
@@ -14,12 +31,15 @@ export declare namespace Vercel {
     | 'READY'
 
   export type Deployment = {
+    aliasAssigned?: number
+    aliasError?: any // TODO: correctly type
     created: number
     createdAt: number
     creator: {
+      email: string
       uid: string
+      username: string
     }
-    instanceCount: number
     meta?: Record<string, any>
     state: DeploymentState
     target: string
@@ -37,20 +57,3 @@ export declare namespace Vercel {
     message: string
   }
 }
-
-// Or(Runtypes.Undefined).
-
-// Create type with `runtypes`
-export const PluginOptionsRuntype = Runtypes.Record({
-  deployHook: Runtypes.String.Or(Runtypes.Undefined),
-  deployLimit: Runtypes.Number.withConstraint(
-    n => (n >= 1 && n <= 15) || `Number must be between 1 and 15`
-  ),
-  forceSmallLayout: Runtypes.Boolean.Or(Runtypes.Undefined),
-  projectId: Runtypes.String,
-  teamId: Runtypes.String.Or(Runtypes.Undefined),
-  token: Runtypes.String,
-})
-
-// Generate TypeScript defintion from `RunTypes` derived type
-export type PluginOptions = Runtypes.Static<typeof PluginOptionsRuntype>

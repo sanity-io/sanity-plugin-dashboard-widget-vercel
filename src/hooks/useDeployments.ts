@@ -1,4 +1,5 @@
-import { PluginOptions, Vercel } from '@types'
+import { Sanity, Vercel } from '@types'
+import hash from 'object-hash'
 import { useQuery } from 'react-query'
 
 import fetcher from '../utils/fetcher'
@@ -8,27 +9,33 @@ type Options = {
   enabled?: boolean
 }
 
-const useDeployments = (pluginOptions: PluginOptions, options?: Options) => {
-  const fetchUrl = fetcher(pluginOptions)
+const useDeployments = (
+  deploymentTarget: Sanity.DeploymentTarget,
+  options?: Options
+) => {
+  const fetchUrl = fetcher(deploymentTarget)
 
   // Fetch deployments
   const deployParams = new URLSearchParams()
-  deployParams.set('limit', String(pluginOptions?.deployLimit))
+  deployParams.set('limit', String(deploymentTarget?.deployLimit))
 
   const {
     data: deploymentsData,
     isFetching: deploymentsIsFetching,
     isSuccess: deploymentsIsSuccess,
     error: deploymentsError,
-  } = useQuery(
-    'deployments',
+    refetch,
+  } = useQuery<{ deployments: Vercel.Deployment[] }, Error>(
+    hash(deploymentTarget), // key
     () => fetchUrl(API_ENDPOINT_DEPLOYMENTS, deployParams),
     {
       enabled: options?.enabled ?? true,
       refetchInterval: 20000, // ms
+      refetchIntervalInBackground: false,
       refetchOnMount: true,
       refetchOnReconnect: 'always',
-      refetchOnWindowFocus: true,
+      refetchOnWindowFocus: false,
+      retry: false,
     }
   )
 
@@ -41,12 +48,27 @@ const useDeployments = (pluginOptions: PluginOptions, options?: Options) => {
     isFetching: aliasesIsFetching,
     isSuccess: aliasesIsSuccess,
     error: aliasesError,
-  } = useQuery('aliases', () => fetchUrl(API_ENDPOINT_ALIASES, aliasParams), {
-    enabled: deploymentsData,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    refetchOnWindowFocus: false,
-  })
+  } = useQuery<
+    {
+      aliases: Vercel.Alias[]
+      pagination: {
+        count: number
+        next?: number
+        prev?: number
+      }
+    },
+    Error
+  >(
+    `${hash(deploymentTarget)}-aliases`, // key
+    () => fetchUrl(API_ENDPOINT_ALIASES, aliasParams),
+    {
+      enabled: !!deploymentsData,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+      retry: false,
+    }
+  )
 
   const aliases = aliasesData?.aliases as Vercel.Alias[]
 
@@ -69,6 +91,7 @@ const useDeployments = (pluginOptions: PluginOptions, options?: Options) => {
     error: aliasesError || deploymentsError,
     isFetching: aliasesIsFetching || deploymentsIsFetching,
     isSuccess: aliasesIsSuccess && deploymentsIsSuccess,
+    refetch,
   }
 }
 

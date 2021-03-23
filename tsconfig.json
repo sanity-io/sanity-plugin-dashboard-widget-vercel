@@ -17,11 +17,7 @@
     "paths": {
       "@types": ["types"]
     },
-    "plugins": [
-      {
-        "name": "typescript-plugin-css-modules"
-      }
-    ],
+    "plugins": [],
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,

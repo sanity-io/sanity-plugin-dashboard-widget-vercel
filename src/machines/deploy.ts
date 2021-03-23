@@ -1,6 +1,6 @@
-import { PluginOptions, Vercel } from '@types'
+import { Vercel } from '@types'
 import fetch from 'unfetch'
-import { Machine, assign, sendParent } from 'xstate'
+import { Machine, assign } from 'xstate'
 
 type Context = {
   disabled: boolean
@@ -20,7 +20,7 @@ type Schema = {
   }
 }
 
-const deployMachine = (pluginOptions: PluginOptions) =>
+const deployMachine = (deployHook: string) =>
   Machine<Context, Schema, Event>(
     // Machine
     {
@@ -35,8 +35,8 @@ const deployMachine = (pluginOptions: PluginOptions) =>
       states: {
         idle: {
           entry: assign({
-            feedback: (context, event) => undefined,
-            label: (context, event) => 'Deploy',
+            feedback: (_context, _event) => undefined,
+            label: (_context, _event) => 'Deploy',
           }),
           on: {
             DEPLOY: 'deploying',
@@ -44,12 +44,12 @@ const deployMachine = (pluginOptions: PluginOptions) =>
         },
         deploying: {
           entry: assign({
-            disabled: (context, event) => true,
-            label: (context, event) => 'Deploying',
+            disabled: (_context, _event) => true,
+            label: (_context, _event) => 'Deploying',
           }),
           exit: assign({
-            disabled: (context, event) => false,
-            label: (context, event) => 'Deploy',
+            disabled: (_context, _event) => false,
+            label: (_context, _event) => 'Deploy',
           }),
           invoke: {
             onDone: {
@@ -58,7 +58,7 @@ const deployMachine = (pluginOptions: PluginOptions) =>
             onError: {
               target: 'error',
               actions: assign({
-                error: (context, event) => {
+                error: (_context, event) => {
                   return event.data
                 },
               }),
@@ -68,13 +68,10 @@ const deployMachine = (pluginOptions: PluginOptions) =>
         },
         success: {
           entry: [
-            assign({
-              feedback: (context, event) => 'Succesfully started!',
-            }),
-            sendParent('DEPLOYED', { delay: 4000 }),
+            assign({ feedback: (_context, _event) => 'Succesfully started!' }),
           ],
           exit: assign({
-            feedback: (context, event) => undefined,
+            feedback: (_context, _event) => undefined,
           }),
           on: {
             DEPLOY: 'deploying',
@@ -90,16 +87,14 @@ const deployMachine = (pluginOptions: PluginOptions) =>
     // Config
     {
       services: {
-        deploy: () => {
+        deploy: (): Promise<void> => {
           return new Promise(async (resolve, reject) => {
             try {
-              if (!pluginOptions.deployHook) {
+              if (!deployHook) {
                 return reject('No deployHook URL defined')
               }
 
-              const res = await fetch(pluginOptions.deployHook, {
-                method: 'POST',
-              })
+              const res = await fetch(deployHook, { method: 'POST' })
               const data = await res.json()
 
               if (!res.ok) {
@@ -111,7 +106,7 @@ const deployMachine = (pluginOptions: PluginOptions) =>
               resolve()
             } catch (err) {
               console.error('Unable to deploy with error:', err)
-              reject('Please check your console for errors')
+              reject('Please check the developer console for more information')
             }
 
             resolve()

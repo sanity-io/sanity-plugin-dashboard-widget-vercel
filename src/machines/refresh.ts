@@ -18,7 +18,6 @@ type Schema = {
 }
 
 const refreshMachine = Machine<Context, Schema, Event>({
-  id: 'refresh',
   initial: 'idle',
   states: {
     idle: {
@@ -39,7 +38,7 @@ const refreshMachine = Machine<Context, Schema, Event>({
     },
     error: {
       on: {
-        RETRY: 'refreshing',
+        REFRESH: 'refreshing',
       },
     },
   },

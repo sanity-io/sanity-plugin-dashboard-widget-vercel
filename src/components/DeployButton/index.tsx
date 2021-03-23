@@ -1,59 +1,82 @@
-import { useActor } from '@xstate/react'
-import AnchorButton from 'part:@sanity/components/buttons/anchor'
-import Snackbar from 'part:@sanity/components/snackbar/default'
-import React from 'react'
+import { Box, Button, useToast } from '@sanity/ui'
+import { useMachine } from '@xstate/react'
+import React, { useEffect } from 'react'
 
 import { WIDGET_NAME } from '../../constants'
-// import StateDebug from '../StateDebug'
+import deployMachine from '../../machines/deploy'
+import StateDebug from '../StateDebug'
 
 type Props = {
-  // TODO: type correctly
-  actor: any
+  deployHook: string
+  onDeploySuccess?: () => void
 }
 
 const DeployButton = (props: Props) => {
-  const { actor } = props
+  const { deployHook, onDeploySuccess } = props
 
-  const [state, send] = useActor(actor)
+  const [
+    deployState,
+    deployStateTransition,
+    deployStateInterpreter,
+  ] = useMachine(deployMachine(deployHook))
 
+  const toast = useToast()
+
+  const isError = deployState.matches('error')
+  const isSuccess = deployState.matches('success')
+
+  // Callbacks
   const handleDeploy = () => {
-    send({ type: 'DEPLOY' })
+    deployStateTransition({ type: 'DEPLOY' })
   }
 
+  // Effects
+  useEffect(() => {
+    if (isError) {
+      toast.push({
+        closable: true,
+        description: `Unable to queue deploy: ${deployState.context.error}`,
+        duration: 8000,
+        status: 'error',
+        title: WIDGET_NAME,
+      })
+    }
+
+    if (isSuccess) {
+      toast.push({
+        closable: true,
+        description: 'Deploy queued',
+        duration: 8000,
+        status: 'success',
+        title: WIDGET_NAME,
+      })
+    }
+  }, [isError, isSuccess])
+
+  useEffect(() => {
+    deployStateInterpreter.onTransition(state => {
+      if (state.value === 'success') {
+        if (onDeploySuccess) {
+          onDeploySuccess()
+        }
+      }
+    })
+  }, [deployStateInterpreter])
+
   return (
-    <>
-      <AnchorButton
-        color="primary"
-        disabled={state.context.disabled}
-        kind="simple"
+    <Box padding={3} style={{ position: 'relative' }}>
+      {/* xstate debug */}
+      <StateDebug name="Deploy" state={deployState} />
+
+      <Button
+        disabled={deployState.context.disabled}
+        fontSize={1}
+        mode="ghost"
         onClick={handleDeploy}
-      >
-        {/* xstate debug */}
-        {/* <StateDebug machineId={actor.machine.id} state={state} /> */}
-
-        {state.context.label}
-      </AnchorButton>
-
-      {/* Success */}
-      {state.matches('success') && (
-        <Snackbar
-          kind="success"
-          subtitle="Deploy queued"
-          title={<strong>{WIDGET_NAME}</strong>}
-          timeout={8000}
-        />
-      )}
-
-      {/* Error */}
-      {state.matches('error') && (
-        <Snackbar
-          kind="error"
-          subtitle={`Unable to queue deploy: ${state.context.error}`}
-          title={<strong>{WIDGET_NAME}</strong>}
-          timeout={8000}
-        />
-      )}
-    </>
+        padding={3}
+        text={deployState.context.label}
+      />
+    </Box>
   )
 }
 

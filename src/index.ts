@@ -1,4 +1,4 @@
-import Widget from './components/Widget'
+import Widget from './app'
 
 // Initialize `javascript-time-ago` locale (required for react-time-ago)
 // `react-time-ago` installs `javascript-time-ago` automatically as a dependency

@@ -1,15 +1,14 @@
+import { Sanity } from '@types'
 import fetch from 'unfetch'
 
-import { PluginOptions } from '../types'
-
-const fetcher = (pluginOptions: PluginOptions) => (
+const fetcher = (deploymentTarget: Sanity.DeploymentTarget) => async (
   url: string,
   extraParams?: URLSearchParams
 ) => {
   const params = new URLSearchParams()
-  params.set('projectId', pluginOptions.projectId)
-  if (pluginOptions.teamId) {
-    params.set('teamId', pluginOptions.teamId)
+  params.set('projectId', deploymentTarget.projectId)
+  if (deploymentTarget.teamId) {
+    params.set('teamId', deploymentTarget.teamId)
   }
 
   if (extraParams) {
@@ -18,11 +17,23 @@ const fetcher = (pluginOptions: PluginOptions) => (
     }
   }
 
-  return fetch(`${url}?${params.toString()}`, {
+  const response = await fetch(`${url}?${params.toString()}`, {
     headers: {
-      Authorization: `Bearer ${pluginOptions.token}`,
+      Authorization: `Bearer ${deploymentTarget.token}`,
     },
-  }).then(r => r.json())
+  })
+
+  // Manually throw on non-OK responses for react-query
+  // https://react-query.tanstack.com/guides/query-functions#usage-with-fetch-and-others-clients-that-do-not-throw-by-default
+  if (!response.ok) {
+    throw new Error('Response not OK')
+  }
+
+  try {
+    return response.json()
+  } catch (err) {
+    throw new Error(err)
+  }
 }
 
 export default fetcher

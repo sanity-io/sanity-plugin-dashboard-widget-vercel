@@ -1,35 +1,45 @@
+import { Box, Card, Stack, Text } from '@sanity/ui'
 import React from 'react'
-import { Box } from 'theme-ui'
+
+import { DEBUG_MODE } from '../../constants'
 
 type Props = {
-  machineId: string
-  // TODO: type correctly
-  state: any
+  name: string
+  state: any // TODO: type correctly
 }
 
 const StateDebug = (props: Props) => {
-  const { machineId, state } = props
+  const { name, state } = props
+
+  if (!DEBUG_MODE) {
+    return null
+  }
 
   return (
-    <Box
-      sx={{
-        bg: 'rgba(0, 0, 255, 0.8)',
+    <Card
+      scheme="dark"
+      style={{
+        backgroundColor: 'rgba(0, 0, 255, 0.9)',
         borderRadius: '3px',
-        color: 'white',
-        fontSize: 0,
+        fontSize: 1,
         fontWeight: 500,
         lineHeight: 'body',
         right: 0,
-        p: 2,
+        opacity: 0.75,
+        pointerEvents: 'none',
         position: 'absolute',
         textAlign: 'left',
         top: 0,
+        zIndex: 9000,
       }}
     >
-      machine ID: {machineId}
-      <br />
-      state.value: {JSON.stringify(state.value)}
-    </Box>
+      <Box padding={2}>
+        <Stack space={2}>
+          <Text size={0}>Name: {name}</Text>
+          <Text size={0}>state.value: {JSON.stringify(state.value)}</Text>
+        </Stack>
+      </Box>
+    </Card>
   )
 }
 

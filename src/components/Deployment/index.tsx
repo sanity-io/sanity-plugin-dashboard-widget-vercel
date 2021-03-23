@@ -1,11 +1,11 @@
-import { ReturnDownForward } from '@emotion-icons/ionicons-solid'
+import { Box, Flex, Stack, Text } from '@sanity/ui'
 import { Vercel } from '@types'
 import React, { useRef } from 'react'
 import ReactTimeAgo from 'react-time-ago'
-import { Box, Flex, Image, Link } from 'theme-ui'
 
-import TD from '../TD'
+import TableCell from '../TableCell'
 import StatusDot from '../StatusDot'
+import { LinkIcon } from '@sanity/icons'
 
 type Props = {
   deployment: Vercel.DeploymentWithAlias
@@ -24,107 +24,106 @@ const Deployment = (props: Props) => {
   return (
     <tr>
       {/* Deployment - alias or regular deployment URL */}
-      <TD>
-        <Flex sx={{ alignItems: 'center' }}>
-          <StatusDot
-            state={deployment.state}
-            sx={{
-              flexShrink: 0,
-              mr: 2,
-            }}
-            variant="statusDot.smallOnly"
-          />
+      <TableCell>
+        <Flex align="center">
+          <Box
+            display={['block', 'block', 'block', 'block', 'none']}
+            marginRight={3}
+            style={{ flexShrink: 0 }}
+          >
+            <StatusDot state={deployment.state} />
+          </Box>
 
           {targetUrl ? (
-            <Flex
-              sx={{
-                alignItems: 'center',
-              }}
-            >
+            <>
               {/* Alias icon */}
-              {deployment.alias && (
-                <ReturnDownForward size="12px" style={{ flexShrink: 0 }} />
-              )}
+              {deployment.alias && <LinkIcon />}
 
-              <Box ml={deployment.alias ? 1 : 0} variant="singleLine">
-                {deployment.state === 'READY' ? (
-                  <Link
-                    href={`https://${targetUrl}`}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    {targetUrl}
-                  </Link>
-                ) : (
-                  <Box
-                    color="muted"
-                    sx={{
-                      textDecoration:
-                        deployment.state === 'CANCELED' ||
-                        deployment.state === 'ERROR'
-                          ? 'line-through'
-                          : 'normal',
-                    }}
-                  >
-                    {targetUrl}
-                  </Box>
-                )}
+              <Box marginLeft={deployment.alias ? 1 : 0}>
+                <Text
+                  muted={!(deployment.state === 'READY')}
+                  size={1}
+                  style={{
+                    textDecoration:
+                      deployment.state === 'CANCELED' ||
+                      deployment.state === 'ERROR'
+                        ? 'line-through'
+                        : 'normal',
+                  }}
+                  textOverflow="ellipsis"
+                >
+                  {deployment.state === 'READY' ? (
+                    <a
+                      href={`https://${targetUrl}`}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      {targetUrl}
+                    </a>
+                  ) : (
+                    targetUrl
+                  )}
+                </Text>
               </Box>
-            </Flex>
+            </>
           ) : (
-            <Box color="muted">Uploading...</Box>
+            <Text size={1}>Uploading...</Text>
           )}
         </Flex>
-      </TD>
+      </TableCell>
 
       {/* State */}
-      <TD variant="cells.state">
-        <Flex sx={{ alignItems: 'center' }}>
-          <StatusDot state={deployment.state} variant="statusDot.default" />
-          <Box ml="7px">
-            {deployment.state
-              .trim()
-              .toLowerCase()
-              .replace(/^[a-z]/i, t => t.toUpperCase())}
+      <TableCell variant="state">
+        <Flex align="center">
+          <StatusDot state={deployment.state} />
+          <Box marginLeft={2}>
+            <Text size={1}>
+              {deployment.state
+                .trim()
+                .toLowerCase()
+                .replace(/^[a-z]/i, t => t.toUpperCase())}
+            </Text>
           </Box>
         </Flex>
-      </TD>
+      </TableCell>
 
       {/* Branch */}
-      <TD variant="cells.branch">
-        <Box variant="singleLine">{commitRef}</Box>
-        {commitMessage && (
-          <Box color="muted" variant="singleLine">
-            {commitMessage}
-          </Box>
-        )}
-      </TD>
+      <TableCell variant="branch">
+        <Stack space={2}>
+          <Text size={1} textOverflow="ellipsis">
+            {commitRef}
+          </Text>
+          {commitMessage && (
+            <Text muted size={1} textOverflow="ellipsis">
+              {commitMessage}
+            </Text>
+          )}
+        </Stack>
+      </TableCell>
 
       {/* Age */}
-      <TD variant="cells.age">
-        <Box variant="singleLine">
-          <ReactTimeAgo date={date.current} locale="en-US" timeStyle="mini" />
-        </Box>
-      </TD>
+      <TableCell variant="age">
+        <Flex align="center">
+          <Text size={1}>
+            <ReactTimeAgo date={date.current} locale="en-US" timeStyle="mini" />
+          </Text>
+        </Flex>
+      </TableCell>
 
       {/* Creator */}
-      <TD variant="cells.creator">
-        <Flex
-          sx={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            left: 0,
-            position: 'absolute',
-            size: '100%',
-            top: 0,
-          }}
-        >
-          <Image
+      <TableCell variant="creator">
+        <Flex align="center" justify="center">
+          <img
+            draggable={false}
             src={`https://vercel.com/api/www/avatar/${deployment?.creator?.uid}?&s=48`}
-            variant="avatar"
+            style={{
+              borderRadius: '20px',
+              height: '20px',
+              width: '20px',
+            }}
           />
         </Flex>
-      </TD>
+      </TableCell>
     </tr>
   )
 }

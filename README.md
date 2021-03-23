@@ -53,7 +53,6 @@ export default {
       options: {
         deployLimit: 5,
         deployHook: '%YOUR_DEPLOY_HOOK%', // optional
-        forceSmallLayout: false, // optional
         projectId: '%YOUR_PROJECT_ID%',
         teamId: '%YOUR_PROJECT_ID%', // optional
         token: '%VERCEL_TOKEN%',
@@ -103,12 +102,6 @@ Vercel deploy hook URLs used to trigger new builds.
 If one is provided, a 'deploy' button will appear at the footer of the widget.
 
 These can be created in Vercel by going to **Project > Settings > Git > Deploy Hooks**.
-
-### forceSmallLayout: boolean (default: false)
-
-This plugin uses media queries to render the table differently at varying breakpoints and works best if you specify `width: large` in the plugin `layout` object.
-
-In the event you'd like to use a `small` or `medium` width, you can force this plugin to render compact items with `forceSmallLayout: true` which will display much more nicely at more constrained widths.
 
 ## Good to know
 

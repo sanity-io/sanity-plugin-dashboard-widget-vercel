@@ -1,138 +1,187 @@
-import { PluginOptions } from '@types'
-import { useActor } from '@xstate/react'
-import Snackbar from 'part:@sanity/components/snackbar/default'
-import React, { useEffect } from 'react'
-import { useQueryCache } from 'react-query'
-import { Box } from 'theme-ui'
+import { Box, Text, useToast } from '@sanity/ui'
+import { Sanity } from '@types'
+import { useMachine } from '@xstate/react'
+import React, { useEffect, useRef } from 'react'
+import useDeepCompareEffect from 'use-deep-compare-effect'
 
 import { WIDGET_NAME } from '../../constants'
 import useDeployments from '../../hooks/useDeployments'
+import refreshMachine from '../../machines/refresh'
 import Deployment from '../Deployment'
+import DeployButton from '../DeployButton'
 import DeploymentPlaceholder from '../DeploymentPlaceholder'
-// import StateDebug from '../StateDebug'
-import TD from '../TD'
-import TH from '../TH'
+import StateDebug from '../StateDebug'
+import TableCell from '../TableCell'
 
 type Props = {
-  // TODO: type correctly
-  actor: any
-  lastDeployTime?: number
-  pluginOptions: PluginOptions
+  deploymentTarget: Sanity.DeploymentTarget
 }
 
 const Deployments = (props: Props) => {
-  const { actor, pluginOptions } = props
+  const { deploymentTarget } = props
 
-  // Xstate
-  const [state, send] = useActor(actor)
+  // Refs
+  const refTimeout = useRef<ReturnType<typeof setTimeout>>()
+
+  // XState
+  const [refreshState, refreshStateTransition] = useMachine(refreshMachine)
 
   // Fetch deployments - disable hook / auto-refetching on error state
-  const { deployments, error, isFetching, isSuccess } = useDeployments(
-    pluginOptions,
+  const { deployments, error, isFetching, isSuccess, refetch } = useDeployments(
+    deploymentTarget,
     {
-      enabled: !state.matches('error'),
+      enabled: !refreshState.matches('error'),
     }
   )
 
-  const cache = useQueryCache()
+  const toast = useToast()
+  const isError = refreshState.matches('error')
 
-  // Invalidate all react-query queries / force re-fetch on `refreshing` state
-  useEffect(() => {
-    if (state.matches('refreshing')) {
-      cache.invalidateQueries()
+  const handleDeploySuccess = () => {
+    if (refTimeout.current) {
+      clearTimeout(refTimeout.current)
     }
-  }, [state.value])
+    refTimeout.current = setTimeout(() => {
+      refetch({
+        cancelRefetch: true,
+        throwOnError: true,
+      })
+    }, 4000)
+  }
+
+  useEffect(() => {
+    return () => {
+      if (refTimeout.current) {
+        clearTimeout(refTimeout.current)
+      }
+    }
+  }, [])
 
   useEffect(() => {
     if (error) {
-      console.error('error:', error)
-      send({ type: 'ERROR' })
+      refreshStateTransition({ type: 'ERROR' })
     }
 
     if (isFetching) {
-      send({ type: 'REFRESH' })
+      refreshStateTransition({ type: 'REFRESH' })
     }
 
     if (!isFetching && isSuccess) {
-      send({ type: 'REFRESHED' })
+      refreshStateTransition({ type: 'REFRESHED' })
     }
   }, [error, isFetching, isSuccess])
 
+  useDeepCompareEffect(() => {
+    if (!refreshState.matches('refreshing')) {
+      refreshStateTransition({ type: 'REFRESH' })
+    }
+  }, [deploymentTarget])
+
+  useDeepCompareEffect(() => {
+    if (isError) {
+      toast.push({
+        closable: true,
+        description: `Unable to fetch deployments for ${deploymentTarget.name}`,
+        duration: 8000,
+        status: 'error',
+        title: WIDGET_NAME,
+      })
+    }
+  }, [deploymentTarget, isError])
+
+  const hasFetched = typeof deployments !== 'undefined'
+  const hasDeployments = deployments && deployments.length > 0
+
   return (
-    <>
+    <Box marginTop={3} style={{ position: 'relative' }}>
       {/* xstate debug */}
-      {/* <StateDebug machineId={actor.machine.id} state={state} /> */}
+      <StateDebug name="Refresh" state={refreshState} />
 
-      <Box
-        as="table"
-        sx={{
-          borderBottom: '1px solid #eee',
-          borderCollapse: 'collapse',
-          p: 1,
-          tableLayout: 'fixed',
-          width: '100%',
-        }}
-      >
-        <Box
-          as="thead"
-          sx={{
-            fontSize: 0,
-            textTransform: 'uppercase',
-          }}
-        >
-          <tr>
-            {/* Deployment */}
-            <TH>Deployment</TH>
-
-            {/* State */}
-            <TH variant="cells.state">State</TH>
-
-            {/* Branch */}
-            <TH variant="cells.branch">Branch</TH>
-
-            {/* Age */}
-            <TH variant="cells.age">Age</TH>
-
-            {/* Creator */}
-            <TH variant="cells.creator">Creator</TH>
-          </tr>
-        </Box>
-        <Box
-          as="tbody"
-          sx={{
-            fontSize: 1,
-          }}
-        >
-          {deployments ? (
-            deployments.length > 0 ? (
-              deployments.map(deployment => (
-                <Deployment deployment={deployment} key={deployment.uid} />
-              ))
-            ) : (
+      {!refreshState.matches('error') && (
+        <>
+          <Box
+            as="table"
+            style={{
+              borderBottom: '1px solid #eee',
+              borderCollapse: 'collapse',
+              display: 'table',
+              tableLayout: 'fixed',
+              width: '100%',
+            }}
+          >
+            <Box as="thead" style={{ display: 'table-header-group' }}>
               <tr>
-                <TD color="muted" colSpan={5} sx={{ border: 'none ' }}>
-                  No deployments found
-                </TD>
-              </tr>
-            )
-          ) : (
-            new Array(pluginOptions?.deployLimit)
-              .fill(undefined)
-              .map((_, index) => <DeploymentPlaceholder key={index} />)
-          )}
-        </Box>
-      </Box>
+                {/* Deployment */}
+                <TableCell header>Deployment</TableCell>
 
-      {/* Error */}
-      {state.matches('error') && (
-        <Snackbar
-          kind="error"
-          subtitle="Unable to fetch deployments"
-          title={<strong>{WIDGET_NAME}</strong>}
-          timeout={8000}
-        />
+                {/* State */}
+                <TableCell header variant="state">
+                  State
+                </TableCell>
+
+                {/* Branch */}
+                <TableCell header variant="branch">
+                  Branch
+                </TableCell>
+
+                {/* Age */}
+                <TableCell header variant="age">
+                  Age
+                </TableCell>
+
+                {/* Creator */}
+                <TableCell header variant="age">
+                  Creator
+                </TableCell>
+              </tr>
+            </Box>
+
+            <Box as="tbody" style={{ display: 'table-header-group' }}>
+              {/* Placeholders */}
+              {!deployments &&
+                new Array(deploymentTarget?.deployLimit)
+                  .fill(undefined)
+                  .map((_, index) => <DeploymentPlaceholder key={index} />)}
+              {/* Deployments */}
+              {hasDeployments &&
+                deployments?.map(deployment => (
+                  <Deployment deployment={deployment} key={deployment.uid} />
+                ))}
+            </Box>
+          </Box>
+
+          {/* No results */}
+          {hasFetched && !hasDeployments && (
+            <Box padding={3} style={{ width: '100%' }}>
+              <Text muted size={1}>
+                No deployments found. Don't forget to specify a valid team ID if
+                your project belongs to a team.
+              </Text>
+            </Box>
+          )}
+        </>
       )}
-    </>
+
+      {/* Error message */}
+      {refreshState.matches('error') && (
+        <Box padding={3}>
+          <Text muted size={1}>
+            Unable to fetch recent deployments. Please check your network and
+            deployment settings.
+          </Text>
+        </Box>
+      )}
+
+      {/* Deploy button */}
+      {!refreshState.matches('error') && deploymentTarget.deployHook && (
+        <Box>
+          <DeployButton
+            deployHook={deploymentTarget.deployHook}
+            onDeploySuccess={handleDeploySuccess}
+          />
+        </Box>
+      )}
+    </Box>
   )
 }
 

@@ -1,21 +1,21 @@
+import { Box } from '@sanity/ui'
 import { Vercel } from '@types'
 import React from 'react'
-import { Box, SxProps } from 'theme-ui'
+
+import { VERCEL_STATUS_COLORS } from '../../constants'
 
 type Props = {
   state: Vercel.DeploymentState
-  sx?: SxProps
-  variant?: string
 }
 
-const StatusDot = ({ state, variant, ...props }: Props) => (
+const StatusDot = ({ state }: Props) => (
   <Box
-    {...props}
-    sx={{
-      bg: `vercelStatusColors.${state}`,
-      ...props.sx,
+    style={{
+      backgroundColor: `${VERCEL_STATUS_COLORS[state]}`,
+      borderRadius: '20px',
+      height: '9px',
+      width: '9px',
     }}
-    variant={variant}
   />
 )
 

@@ -2,13 +2,16 @@
 
 View your recent [Vercel](https://vercel.com/) deployments and manually trigger builds directly from your [Sanity](https://www.sanity.io/) dashboard.
 
-![image](https://user-images.githubusercontent.com/209129/99883578-55809d80-2c20-11eb-92e9-983b2038d46d.png)
+![image](https://user-images.githubusercontent.com/209129/112195398-d0bf8380-8c01-11eb-8857-60c37ae50326.jpg)
 
 ## Features
 
 - Displays a list of recent builds along with deployment aliases, branch / commit messages, build age and creator
-- Refreshes periodically (every 20 seconds), when the window gains focus and immediately after a manual build is triggered
-- Can also optionally display a button for manual builds
+- Manually trigger deployments straight from your studio (via Vercel deploy hook URLs)
+- Display (and deploy) multiple projects at once
+- Customise the number of visible deployment line items
+- Automatically refreshes deployments periodically, as well as immediately after a manual build is triggered
+- Built with [Sanity UI](https://www.sanity.io/ui)
 
 ## Install
 
@@ -18,7 +21,7 @@ In your Sanity project folder:
 sanity install dashboard-widget-vercel
 ```
 
-### Configure the plugin
+### Configure your dashboard
 
 If you haven't configured a [dashboard](https://www.sanity.io/docs/dashboard) yet:
 
@@ -50,62 +53,65 @@ export default {
     // ...
     {
       name: 'vercel',
-      options: {
-        deployLimit: 5,
-        deployHook: '%YOUR_DEPLOY_HOOK%', // optional
-        projectId: '%YOUR_PROJECT_ID%',
-        teamId: '%YOUR_PROJECT_ID%', // optional
-        token: '%VERCEL_TOKEN%',
-      },
       layout: {
-        width: 'large',
+        width: 'full', // full width is recommended!
       },
     },
   ],
 }
 ```
 
-This will display the 5 most recent deploys from your Vercel project and a button to trigger manual builds.
+### Add a deployment target
 
-## Plugin options
+Simply visit your Sanity dashboard and click the '+' icon in the top right to add a new deploment target.
 
-### token: string (required)
+You'll need to fill in the following:
 
-Your Vercel API token.
+#### Name (required)
 
-These can be created in Vercel under **Account > Settings > Tokens**.
+The name assigned to a deployment target, used purely for presentational purposes in the dashboard.
 
-Remember that your token has access to your _entire account_, please strongly consider using [environment variables](https://www.sanity.io/docs/studio-environment-variables) as opposed to hard coding / checking these into source control.
+Note that all deployment targets are sorted alphabetically.
 
-### deployLimit: number (min: 1, max: 15) (required)
+#### Vercel Account Token (required)
 
-The number of deployments to display and fetch.
+This can be created in Vercel under **Account > Settings > Tokens**.
 
-### projectId: string (required)
+#### Vercel Project ID (required)
 
-Your Vercel project ID.
+This can be retrieved via [Vercel's API](https://vercel.com/docs/api#endpoints/projects/get-projects).
 
-These can be retrieved via [Vercel's API](https://vercel.com/docs/api#endpoints/projects/get-projects).
-
-### teamId: string
-
-Your Vercel team ID.
+#### Vercel Team ID
 
 Similar to project IDs, you can retrieve these via Vercel's API.
 
-_If your project is assigned to a team account, you must provide both team and project IDs_.
+If your project is assigned to a team account, you must provide both team and project IDs.
 
-### deployHook: string
+#### Vercel Deploy Hook
 
-Vercel deploy hook URLs used to trigger new builds.
+The Vercel deploy hook URL used to trigger new builds.
 
-If one is provided, a 'deploy' button will appear at the footer of the widget.
+Enabled a manual deployment button if provided.
 
 These can be created in Vercel by going to **Project > Settings > Git > Deploy Hooks**.
 
+#### Number of deploys to display (min: 1, max: 15) (required)
+
+The number of deployments to display and fetch.
+
 ## Good to know
 
-Your Vercel token is currently bundled in the Sanity studio application payload and currently publicly accessible. This will be addressed in a future release - see [#2](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/issues/2)
+### Token security
+
+When setting up new deployment targets, you're asked to provide your Vercel account token. It's important to know that your Vercel token provides unrestricted API access to your entire Vercel account.
+
+Your Vercel token, as well as all other deployment settings are stored Sanity under the namespaced document type `vercel.deploymentTarget` and by design, namespaced documents [are not publicly accessible](https://www.sanity.io/docs/ids).
+
+However, please note that this token is exposed to all _authenticated users_ in your Sanity studio.
+
+If you can't expose this token to authenticated studio visitors, consider using [custom access control rules](https://www.sanity.io/docs/access-control) to limit access to documents of type `vercel.deployment
+
+### Deployment considerations
 
 Please also keep the following in mind when manually deploying:
 

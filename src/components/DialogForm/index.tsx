@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Box, Card, Button, Dialog, Flex, Stack, Text } from '@sanity/ui'
+import { Box, Button, Dialog, Flex, Stack } from '@sanity/ui'
 import { Sanity } from '@types'
 import { useMachine } from '@xstate/react'
 import client from 'part:@sanity/base/client'

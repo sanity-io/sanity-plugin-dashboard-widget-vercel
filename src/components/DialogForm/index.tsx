@@ -114,11 +114,11 @@ const DialogForm: FC<Props> = (props: Props) => {
     register,
   } = useForm({
     defaultValues: {
-      deployHook: deploymentTarget?.deployHook,
+      deployHook: deploymentTarget?.deployHook || '',
       deployLimit: deploymentTarget?.deployLimit || 5,
       name: deploymentTarget?.name,
       projectId: deploymentTarget?.projectId,
-      teamId: deploymentTarget?.teamId ? deploymentTarget.teamId : undefined,
+      teamId: deploymentTarget?.teamId || '',
       token: deploymentTarget?.token,
     },
     mode: 'onChange',
@@ -184,7 +184,7 @@ const DialogForm: FC<Props> = (props: Props) => {
           {/* Title */}
           <FormFieldInputText
             disabled={formUpdating}
-            description="A custom name displayed in this plugin (e.g. production, staging)"
+            description="Name displayed in this plugin (e.g. production, staging)"
             error={errors?.name}
             label="Name"
             name="name"
@@ -192,7 +192,6 @@ const DialogForm: FC<Props> = (props: Props) => {
           />
 
           <FormFieldInputText
-            description="Create a token in Vercel under Account > Settings > Tokens"
             disabled={formUpdating}
             error={errors?.token}
             label="Vercel Account Token"
@@ -218,7 +217,7 @@ const DialogForm: FC<Props> = (props: Props) => {
           />
 
           <FormFieldInputText
-            description="Enter a valid deploy hook URL to enable manual deploys. Create a deploy hook in Vercel under Project > Settings > Git > Deploy Hooks"
+            description="Enter a valid deploy hook URL to enable manual deploys"
             disabled={formUpdating}
             error={errors?.deployHook}
             label="Vercel Deploy Hook (optional)"

@@ -16,7 +16,10 @@ import client from 'part:@sanity/base/client'
 import React from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
-import { Z_INDEX_TOAST_PROVIDER } from './constants'
+import {
+  DEPLOYMENT_TARGET_DOCUMENT_TYPE,
+  Z_INDEX_TOAST_PROVIDER,
+} from './constants'
 import deploymentTargetListMachine from './machines/deploymentTargetList'
 import DeploymentTargets from './components/DeploymentTargets'
 import DialogForm from './components/DialogForm'
@@ -32,7 +35,9 @@ const Widget = () => {
     services: {
       fetchDataService: (_context, _event) => {
         return client
-          .fetch(groq`*[_type == "vercel.deploymentTarget"] | order(name asc)`)
+          .fetch(
+            groq`*[_type == "${DEPLOYMENT_TARGET_DOCUMENT_TYPE}"] | order(name asc)`
+          )
           .then((result: any) => result)
       },
     },

@@ -9,10 +9,11 @@ import StateDebug from '../StateDebug'
 type Props = {
   deployHook: string
   onDeploySuccess?: () => void
+  targetName: string
 }
 
 const DeployButton = (props: Props) => {
-  const { deployHook, onDeploySuccess } = props
+  const { deployHook, onDeploySuccess, targetName } = props
 
   const [
     deployState,
@@ -74,7 +75,7 @@ const DeployButton = (props: Props) => {
         mode="ghost"
         onClick={handleDeploy}
         padding={3}
-        text={deployState.context.label}
+        text={`${deployState.context.label} ${targetName}`}
       />
     </Box>
   )

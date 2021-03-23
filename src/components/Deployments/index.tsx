@@ -178,6 +178,7 @@ const Deployments = (props: Props) => {
           <DeployButton
             deployHook={deploymentTarget.deployHook}
             onDeploySuccess={handleDeploySuccess}
+            targetName={deploymentTarget.name}
           />
         </Box>
       )}

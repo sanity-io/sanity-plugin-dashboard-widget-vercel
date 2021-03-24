@@ -70,11 +70,15 @@ const deploymentTargetListMachine = () =>
             unknown: {
               always: [
                 { cond: 'hasData', target: 'withData' },
-                { target: 'withoutData' },
+                { cond: 'hasNoData', target: 'withoutData' },
               ],
             },
-            withData: {},
-            withoutData: {},
+            withData: {
+              always: [{ cond: 'hasNoData', target: 'withoutData' }],
+            },
+            withoutData: {
+              always: [{ cond: 'hasData', target: 'withData' }],
+            },
           },
         },
         failed: {
@@ -116,6 +120,9 @@ const deploymentTargetListMachine = () =>
       guards: {
         hasData: context => {
           return context?.results?.length > 0
+        },
+        hasNoData: context => {
+          return context?.results?.length === 0
         },
       },
     }

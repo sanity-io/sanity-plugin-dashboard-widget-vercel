@@ -16,6 +16,7 @@ import client from 'part:@sanity/base/client'
 import React from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
+import StateDebug from './components/StateDebug'
 import {
   DEPLOYMENT_TARGET_DOCUMENT_TYPE,
   Z_INDEX_TOAST_PROVIDER,
@@ -78,6 +79,9 @@ const Widget = () => {
       <ToastProvider zOffset={Z_INDEX_TOAST_PROVIDER}>
         <QueryClientProvider client={queryClient}>
           <Card radius={2} style={{ overflow: 'hidden ' }}>
+            {/* xstate debug */}
+            <StateDebug name="List" state={deploymentTargetListState} />
+
             {/* Header */}
             <Flex
               align="center"

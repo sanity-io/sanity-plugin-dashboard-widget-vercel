@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/compare/v0.1.5...v1.0.0) (2021-03-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* Deployment targets are now configured within sanity - please remove any vercel
+related configuration you may have stored inside your dashboard config file. Support for forcing
+small layout has also been (temporarily) dropped.
+
+### Features
+
+* store tokens in a namespaced sanity document, add support for multiple deploy targets ([a1a3446](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/commit/a1a34464590934f1bf7adf3812f29acbef3ed314))
+
+
+### Bug Fixes
+
+* add eventless transitions to deployment target list machine ([7a6d921](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/commit/7a6d921e05c238adbb335331531999a31f680b14))
+* set correct form defaults, update input descriptions, include target name in deploy button ([bf10600](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/commit/bf106000b1a69c9f127f517da98d901fbbbcd481))
+
 ### [0.1.5](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/compare/v0.1.4...v0.1.5) (2021-01-23)
 
 ### [0.1.4](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/compare/v0.1.3...v0.1.4) (2021-01-15)

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/compare/v1.0.0...v1.1.0) (2021-03-25)
+
+
+### Features
+
+* use API-versioned client if available ([44ca27f](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/commit/44ca27fbd0649be8c050aad8b7eecf67324ee65d))
+
 ## [1.0.0](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/compare/v0.1.5...v1.0.0) (2021-03-24)
 
 

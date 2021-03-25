@@ -2,11 +2,11 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Button, Dialog, Flex, Stack } from '@sanity/ui'
 import { Sanity } from '@types'
 import { useMachine } from '@xstate/react'
-import client from 'part:@sanity/base/client'
 import React, { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
+import { client } from '../../client'
 import {
   DEPLOYMENT_TARGET_DOCUMENT_TYPE,
   Z_INDEX_DIALOG,
@@ -59,7 +59,7 @@ const DialogForm: FC<Props> = (props: Props) => {
             ...event.formData,
           })
           if (onCreate) {
-            onCreate(document)
+            onCreate(document as Sanity.DeploymentTarget)
           }
           return Promise.resolve()
         } catch (e) {
@@ -90,7 +90,7 @@ const DialogForm: FC<Props> = (props: Props) => {
               .set(event.formData)
               .commit()
             if (onUpdate) {
-              onUpdate(document)
+              onUpdate(document as Sanity.DeploymentTarget)
             }
             return Promise.resolve()
           } catch (e) {

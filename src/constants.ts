@@ -3,6 +3,9 @@ export const API_ENDPOINT_DEPLOYMENTS =
   'https://api.vercel.com/v5/now/deployments'
 export const API_ENDPOINT_ALIASES = 'https://api.vercel.com/v3/now/aliases'
 
+// Sanity API version
+export const API_VERSION = '1'
+
 export const DEBUG_MODE = false
 
 export const DEPLOYMENT_TARGET_DOCUMENT_TYPE = 'vercel.deploymentTarget'

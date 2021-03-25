@@ -1,4 +1,4 @@
-import { SanityDocument } from '@sanity/client'
+import type { SanityDocument } from '@sanity/client'
 export declare namespace Sanity {
   export type BoxDisplay =
     | 'none'

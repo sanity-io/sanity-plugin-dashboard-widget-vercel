@@ -12,10 +12,10 @@ import {
 } from '@sanity/ui'
 import { useMachine } from '@xstate/react'
 import groq from 'groq'
-import client from 'part:@sanity/base/client'
 import React from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
+import { client } from './client'
 import StateDebug from './components/StateDebug'
 import {
   DEPLOYMENT_TARGET_DOCUMENT_TYPE,

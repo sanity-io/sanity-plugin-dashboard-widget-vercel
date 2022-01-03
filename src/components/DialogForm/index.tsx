@@ -1,5 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Button, Dialog, Flex, Stack } from '@sanity/ui'
+import { uuid } from '@sanity/uuid'
 import { Sanity } from '@types'
 import { useMachine } from '@xstate/react'
 import React, { FC } from 'react'
@@ -55,6 +56,7 @@ const DialogForm: FC<Props> = (props: Props) => {
         let document
         try {
           document = await client.create({
+            _id: `vercel.${uuid()}`,
             _type: DEPLOYMENT_TARGET_DOCUMENT_TYPE,
             ...event.formData,
           })

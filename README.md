@@ -105,7 +105,7 @@ The number of deployments to display and fetch.
 
 When setting up new deployment targets, you're asked to provide your Vercel account token. It's important to know that your Vercel token provides unrestricted API access to your entire Vercel account.
 
-Your Vercel token as well as all other deployment settings are stored Sanity under the namespaced document type `vercel.deploymentTarget` and by design, namespaced documents [are not publicly accessible](https://www.sanity.io/docs/ids), even with a public dataset.
+Your Vercel token and all other deployment settings are stored in the `vercel` namespace and by design, these [are not publicly accessible](https://www.sanity.io/docs/ids), even with a public dataset.
 
 However, please note that this token is exposed to all _authenticated users_ in your Sanity studio.
 

@@ -1,6 +1,7 @@
 import { Box, Label } from '@sanity/ui'
-import { Sanity } from '@types'
 import React, { ReactNode } from 'react'
+import { Sanity } from '../../types'
+import { useCardColor } from '../../utils/useCardColor'
 
 type Props = {
   children: ReactNode
@@ -30,7 +31,11 @@ const TableCell = (props: Props) => {
       cellWidth = '110px'
       display = ['none', 'none', 'none', 'none', 'table-cell']
       break
+    default:
+      break
   }
+
+  const { border } = useCardColor()
 
   if (header) {
     return (
@@ -51,27 +56,26 @@ const TableCell = (props: Props) => {
         <Label size={0}>{children}</Label>
       </Box>
     )
-  } else {
-    return (
-      <Box
-        as="td"
-        colSpan={colSpan}
-        // @ts-ignore
-        display={display}
-        paddingX={3}
-        paddingY={[2, 2, 3]}
-        style={{
-          borderTop: '1px solid #eee',
-          maxWidth: cellWidth,
-          position: 'relative',
-          textAlign: 'left',
-          width: cellWidth,
-        }}
-      >
-        {children}
-      </Box>
-    )
   }
+  return (
+    <Box
+      as="td"
+      colSpan={colSpan}
+      // @ts-ignore
+      display={display}
+      paddingX={3}
+      paddingY={[2, 2, 3]}
+      style={{
+        borderTop: `1px solid ${border}`,
+        maxWidth: cellWidth,
+        position: 'relative',
+        textAlign: 'left',
+        width: cellWidth,
+      }}
+    >
+      {children}
+    </Box>
+  )
 }
 
 export default TableCell

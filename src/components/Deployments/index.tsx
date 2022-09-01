@@ -1,5 +1,4 @@
 import { Box, Text, useToast } from '@sanity/ui'
-import { Sanity } from '@types'
 import { useMachine } from '@xstate/react'
 import React, { useEffect, useRef } from 'react'
 import useDeepCompareEffect from 'use-deep-compare-effect'
@@ -12,6 +11,8 @@ import DeployButton from '../DeployButton'
 import DeploymentPlaceholder from '../DeploymentPlaceholder'
 import StateDebug from '../StateDebug'
 import TableCell from '../TableCell'
+import { Sanity } from '../../types'
+import { useCardColor } from '../../utils/useCardColor'
 
 type Props = {
   deploymentTarget: Sanity.DeploymentTarget
@@ -69,7 +70,7 @@ const Deployments = (props: Props) => {
     if (!isFetching && isSuccess) {
       refreshStateTransition({ type: 'REFRESHED' })
     }
-  }, [error, isFetching, isSuccess])
+  }, [error, isFetching, isSuccess, refreshStateTransition])
 
   useDeepCompareEffect(() => {
     if (!refreshState.matches('refreshing')) {
@@ -92,6 +93,7 @@ const Deployments = (props: Props) => {
   const hasFetched = typeof deployments !== 'undefined'
   const hasDeployments = deployments && deployments.length > 0
 
+  const { border } = useCardColor()
   return (
     <Box marginTop={3} style={{ position: 'relative' }}>
       {/* xstate debug */}
@@ -102,7 +104,7 @@ const Deployments = (props: Props) => {
           <Box
             as="table"
             style={{
-              borderBottom: '1px solid #eee',
+              borderBottom: `1px solid ${border}`,
               borderCollapse: 'collapse',
               display: 'table',
               tableLayout: 'fixed',

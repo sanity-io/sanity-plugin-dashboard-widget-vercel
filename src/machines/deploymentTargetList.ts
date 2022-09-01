@@ -1,5 +1,5 @@
-import { Sanity } from '@types'
-import { Machine, assign } from 'xstate'
+import { assign, Machine } from 'xstate'
+import { Sanity } from '../types'
 
 type Context = {
   message: string

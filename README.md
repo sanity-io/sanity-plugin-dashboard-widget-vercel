@@ -1,3 +1,9 @@
+> **NOTE**
+>
+> This is the **Sanity Studio v3 version** of sanity-plugin-dashboard-widget-vercel.
+>
+> For the v2 version, please refer to the [v2 version](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/tree/main).
+
 # Vercel Dashboard Widget (for Sanity)
 
 View your recent [Vercel](https://vercel.com/) deployments and manually trigger builds directly from your [Sanity](https://www.sanity.io/) dashboard.
@@ -15,55 +21,56 @@ View your recent [Vercel](https://vercel.com/) deployments and manually trigger 
 
 ## Install
 
-In your Sanity project folder:
-
-```sh
-sanity install dashboard-widget-vercel
+```
+npm install --save sanity-plugin-dashboard-widget-vercel@studio-v3
 ```
 
-### Configure your dashboard
+or
 
-If you haven't configured a [dashboard](https://www.sanity.io/docs/dashboard) yet:
-
-```sh
-sanity install @sanity/dashboard
+```
+yarn add sanity-plugin-dashboard-widget-vercel@studio-v3
 ```
 
-In your studio's `sanity.json` append the following to `plugins` and `parts`:
+Ensure that you have followed install and usage instructions for [@sanity/dashboard](https://github.com/sanity-io/dashboard).
 
-```javascript
-"plugins": [
+
+## Usage
+
+Add it as a widget to @sanity/dashboard plugin in sanity.config.ts (or .js):
+
+```js
+import { dashboardTool } from "@sanity/dashboard";
+import { vercelWidget } from "sanity-plugin-dashboard-widget-vercel";
+
+export default createConfig({
   // ...
-  "dashboard-widget-vercel"
-],
-"parts": [
-  // ...
-  {
-    "implements": "part:@sanity/dashboard/config",
-    "path": "dashboardConfig.js"
-  }
-]
+  plugins: [
+     dashboardTool({
+             widgets: [
+               vercelWidget(),
+             ],
+         }
+     ),
+  ] 
+})
 ```
 
-In `dashboardConfig.js`, ensure that `widgets` includes the following:
+### Configure
 
-```javascript
-export default {
-  widgets: [
-    // ...
-    {
-      name: 'vercel',
-      layout: {
-        width: 'full', // full width is recommended!
-      },
-    },
-  ],
-}
+The widget size can be controlled using layout.width:
+
+```js
+dashboardTool({
+        widgets: [
+          vercelWidget({ layout: { width: "full" /* default and reccomended */ } }),
+        ],
+    }
+)
 ```
 
 ### Add a deployment target
 
-Simply visit your Sanity dashboard and click the '+' icon in the top right to add a new deploment target.
+Simply visit your Sanity dashboard and click the '+' icon in the top right to add a new deployment target.
 
 You'll need to fill in the following:
 
@@ -79,7 +86,8 @@ This can be created in Vercel under **Account > Settings > Tokens**.
 
 #### Vercel Project ID (required)
 
-This can be retrieved via [Vercel's API](https://vercel.com/docs/api#endpoints/projects/get-projects).
+This can be retrieved via [Vercel's API](https://vercel.com/docs/api#endpoints/projects/get-projects),
+or via the web UI on _<project-page> -> Settings -> General -> Scroll down to Project ID_.
 
 #### Vercel Team ID
 

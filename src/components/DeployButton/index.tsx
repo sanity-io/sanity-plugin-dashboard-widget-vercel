@@ -1,7 +1,7 @@
 import { UploadIcon } from '@sanity/icons'
 import { Box, Button, useToast } from '@sanity/ui'
 import { useMachine } from '@xstate/react'
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import { WIDGET_NAME } from '../../constants'
 import deployMachine from '../../machines/deploy'
@@ -16,11 +16,10 @@ type Props = {
 const DeployButton = (props: Props) => {
   const { deployHook, onDeploySuccess, targetName } = props
 
-  const [
-    deployState,
-    deployStateTransition,
-    deployStateInterpreter,
-  ] = useMachine(deployMachine(deployHook))
+  const machine = useMemo(() => deployMachine(deployHook), [deployHook])
+
+  const [deployState, deployStateTransition, deployStateInterpreter] =
+    useMachine(machine)
 
   const toast = useToast()
 
@@ -53,7 +52,7 @@ const DeployButton = (props: Props) => {
         title: WIDGET_NAME,
       })
     }
-  }, [isError, isSuccess])
+  }, [isError, isSuccess, toast, targetName, deployState.context.error])
 
   useEffect(() => {
     deployStateInterpreter.onTransition(state => {
@@ -63,7 +62,7 @@ const DeployButton = (props: Props) => {
         }
       }
     })
-  }, [deployStateInterpreter])
+  }, [deployStateInterpreter, onDeploySuccess])
 
   return (
     <Box padding={3} style={{ position: 'relative' }}>

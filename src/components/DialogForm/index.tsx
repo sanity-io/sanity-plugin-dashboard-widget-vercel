@@ -1,13 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Button, Dialog, Flex, Stack } from '@sanity/ui'
 import { uuid } from '@sanity/uuid'
-import { Sanity } from '@types'
 import { useMachine } from '@xstate/react'
 import React, { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
-import { client } from '../../client'
 import {
   DEPLOYMENT_TARGET_DOCUMENT_TYPE,
   Z_INDEX_DIALOG,
@@ -15,6 +13,8 @@ import {
 import formMachine from '../../machines/form'
 import sanitizeFormData from '../../utils/sanitizeFormData'
 import FormFieldInputText from '../FormFieldInputText'
+import { Sanity } from '../../types'
+import { useSanityClient } from '../../client'
 
 type Props = {
   deploymentTarget?: Sanity.DeploymentTarget
@@ -44,6 +44,7 @@ const formSchema = yup.object().shape({
 
 const DialogForm: FC<Props> = (props: Props) => {
   const { deploymentTarget, onClose, onCreate, onDelete, onUpdate } = props
+  const client = useSanityClient()
 
   // xstate
   const [formState, formStateTransition] = useMachine(formMachine, {
@@ -81,6 +82,7 @@ const DialogForm: FC<Props> = (props: Props) => {
             return Promise.reject(e)
           }
         }
+        return Promise.resolve()
       },
       // TODO: refactor
       updateDocumentService: async (_context, event: any) => {
@@ -99,6 +101,7 @@ const DialogForm: FC<Props> = (props: Props) => {
             return Promise.reject(e)
           }
         }
+        return Promise.resolve()
       },
     },
   })
@@ -131,7 +134,7 @@ const DialogForm: FC<Props> = (props: Props) => {
   // - submit react-hook-form
   const onSubmit = async (formData: FormData) => {
     const sanitizedFormData = sanitizeFormData(formData)
-    formStateTransition(deploymentTarget ? 'UPDATE' : 'CREATE', {
+    await formStateTransition(deploymentTarget ? 'UPDATE' : 'CREATE', {
       formData: sanitizedFormData,
     })
   }

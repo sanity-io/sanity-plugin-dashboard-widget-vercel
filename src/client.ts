@@ -1,8 +1,9 @@
 import type { SanityClient } from '@sanity/client'
-import sanityClient from 'part:@sanity/base/client'
 import { API_VERSION } from './constants'
+import { useClient } from 'sanity'
+import { useMemo } from 'react'
 
-export const client: SanityClient =
-  typeof sanityClient.withConfig === 'function'
-    ? sanityClient.withConfig({ apiVersion: API_VERSION })
-    : sanityClient
+export function useSanityClient(): SanityClient {
+  const client = useClient()
+  return useMemo(() => client.withConfig({ apiVersion: API_VERSION }), [client])
+}

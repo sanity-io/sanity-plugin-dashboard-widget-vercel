@@ -1,17 +1,19 @@
-export default {
+module.exports = {
   env: {
     browser: true,
     node: false,
+    jest: true,
   },
   extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:import/errors',
-    'plugin:import/warnings',
+    'sanity/react', // must come before sanity/typescript
+    'sanity/typescript',
     'plugin:prettier/recommended',
-    'plugin:react/recommended',
-    'prettier/@typescript-eslint',
+    'plugin:react-hooks/recommended',
+  ],
+  overrides: [
+    {
+      files: ['*.{ts,tsx}'],
+    },
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -20,10 +22,15 @@ export default {
     },
     project: './tsconfig.json',
   },
+  plugins: ['prettier'],
   rules: {
     '@typescript-eslint/explicit-function-return-type': 0,
-    'import/no-unresolved': ['error', { ignore: ['^react$', '.*:.*'] }],
+    '@typescript-eslint/no-shadow': 'error',
+    '@typescript-eslint/no-unused-vars': 1,
+    'no-shadow': 'off',
     'react/display-name': 0,
+    'react/jsx-no-bind': 0,
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
   },
   settings: {
     'import/ignore': ['\\.css$', '.*node_modules.*', '.*:.*'],
@@ -34,5 +41,4 @@ export default {
       },
     },
   },
-  plugins: [],
 }

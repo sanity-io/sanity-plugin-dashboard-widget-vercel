@@ -1,4 +1,4 @@
-import { Machine, assign } from 'xstate'
+import { assign, Machine } from 'xstate'
 
 type Context = {
   formData?: Record<string, any>
@@ -97,7 +97,7 @@ const formMachine = Machine<Context, Schema, Event>(
       createDocument: assign((_context, event: any) => ({
         formData: event.formData,
       })),
-      deleteDocument: assign((_context, _event: any) => ({
+      deleteDocument: assign(() => ({
         // id: event.id,
       })),
       updateDocument: assign((_context, event: any) => ({

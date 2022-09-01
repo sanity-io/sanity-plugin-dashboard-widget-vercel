@@ -1,9 +1,9 @@
-import { Sanity, Vercel } from '@types'
 import hash from 'object-hash'
 import { useQuery } from 'react-query'
 
 import fetcher from '../utils/fetcher'
 import { API_ENDPOINT_ALIASES, API_ENDPOINT_DEPLOYMENTS } from '../constants'
+import { Sanity, Vercel } from '../types'
 
 type Options = {
   enabled?: boolean
@@ -72,12 +72,12 @@ const useDeployments = (
 
   const aliases = aliasesData?.aliases as Vercel.Alias[]
 
-  let deploymentsWithAlias: Vercel.DeploymentWithAlias[] | undefined = undefined
+  let deploymentsWithAlias: Vercel.DeploymentWithAlias[] | undefined
 
   if (aliases) {
     deploymentsWithAlias = deploymentsData?.deployments?.map(
       (val: Vercel.DeploymentWithAlias) => {
-        const alias = aliases.find(alias => alias.deploymentId === val.uid)
+        const alias = aliases.find(a => a.deploymentId === val.uid)
         return {
           ...val,
           alias: alias?.alias,

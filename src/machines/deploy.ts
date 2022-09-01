@@ -1,6 +1,6 @@
-import { Vercel } from '@types'
 import fetch from 'unfetch'
-import { Machine, assign } from 'xstate'
+import { assign, Machine } from 'xstate'
+import { Vercel } from '../types'
 
 type Context = {
   disabled: boolean
@@ -35,8 +35,8 @@ const deployMachine = (deployHook: string) =>
       states: {
         idle: {
           entry: assign({
-            feedback: (_context, _event) => undefined,
-            label: (_context, _event) => 'Deploy',
+            feedback: () => undefined,
+            label: () => 'Deploy',
           }),
           on: {
             DEPLOY: 'deploying',
@@ -44,12 +44,12 @@ const deployMachine = (deployHook: string) =>
         },
         deploying: {
           entry: assign({
-            disabled: (_context, _event) => true,
-            label: (_context, _event) => 'Deploying',
+            disabled: () => true,
+            label: () => 'Deploying',
           }),
           exit: assign({
-            disabled: (_context, _event) => false,
-            label: (_context, _event) => 'Deploy',
+            disabled: () => false,
+            label: () => 'Deploy',
           }),
           invoke: {
             onDone: {
@@ -67,11 +67,9 @@ const deployMachine = (deployHook: string) =>
           },
         },
         success: {
-          entry: [
-            assign({ feedback: (_context, _event) => 'Succesfully started!' }),
-          ],
+          entry: [assign({ feedback: () => 'Succesfully started!' })],
           exit: assign({
-            feedback: (_context, _event) => undefined,
+            feedback: () => undefined,
           }),
           on: {
             DEPLOY: 'deploying',
@@ -91,7 +89,7 @@ const deployMachine = (deployHook: string) =>
           return new Promise(async (resolve, reject) => {
             try {
               if (!deployHook) {
-                return reject('No deployHook URL defined')
+                return reject(new Error('No deployHook URL defined'))
               }
 
               const res = await fetch(deployHook, { method: 'POST' })
@@ -100,16 +98,18 @@ const deployMachine = (deployHook: string) =>
               if (!res.ok) {
                 const errorMessage =
                   (data?.error as Vercel.Error).message || res.statusText
-                reject(errorMessage)
+                return reject(errorMessage)
               }
 
-              resolve()
+              return resolve()
             } catch (err) {
               console.error('Unable to deploy with error:', err)
-              reject('Please check the developer console for more information')
+              return reject(
+                new Error(
+                  'Please check the developer console for more information'
+                )
+              )
             }
-
-            resolve()
           })
         },
       },

@@ -1,5 +1,6 @@
 import { Box, Stack, Text } from '@sanity/ui'
 import React from 'react'
+import { useCardColor } from '../../utils/useCardColor'
 
 type Props = {
   rows: number
@@ -7,11 +8,11 @@ type Props = {
 
 const PlaceholderText = (props: Props) => {
   const { rows } = props
-
+  const { border } = useCardColor()
   return (
     <Box
       style={{
-        backgroundColor: '#eee', // TODO: use sanity ui colors
+        backgroundColor: border,
         borderRadius: '3px',
         userSelect: 'none',
         width: '100%',

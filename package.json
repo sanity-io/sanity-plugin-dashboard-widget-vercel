@@ -1,11 +1,42 @@
 {
   "name": "sanity-plugin-dashboard-widget-vercel",
-  "version": "1.1.1",
+  "version": "3.0.0-v3-studio.0",
+  "description": "View your recent Vercel deployments and manually trigger builds directly from your Sanity dashboard.",
+  "author": "Sanity.io <hello@sanity.io>",
   "license": "MIT",
-  "author": {
-    "name": "Robin Pyon",
-    "email": "robin@robinpyon.com",
-    "url": "https://robinpyon.com"
+  "source": "./src/index.ts",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "types": "./lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./lib/cjs/index.js",
+      "default": "./lib/esm/index.js"
+    }
+  },
+  "files": [
+    "lib/",
+    "sanity.json",
+    "CHANGELOG.md",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "clean": "rimraf lib",
+    "prebuild": "npm run clean && plugin-kit verify-package --silent",
+    "build": "parcel build --no-cache",
+    "prepare": "husky install",
+    "watch": "parcel watch",
+    "lint": "eslint .",
+    "link-watch": "plugin-kit link-watch",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:sanity-io/sanity-plugin-dashboard-widget-vercel.git"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   },
   "keywords": [
     "sanity",
@@ -14,77 +45,61 @@
     "widget",
     "vercel"
   ],
-  "files": [
-    "lib/",
-    "sanity.json",
-    "CHANGELOG.md",
-    "README.md",
-    "LICENSE"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel.git"
-  },
-  "scripts": {
-    "build": "npx babel src --out-dir lib --copy-files --delete-dir-on-start --extensions '.ts,.tsx'",
-    "prepare": "npm run build",
-    "release": "standard-version",
-    "watch": "npm run build -- --watch"
-  },
   "dependencies": {
     "@hookform/resolvers": "2.0.0-beta.3",
-    "@sanity/icons": "1.0.5",
-    "@sanity/ui": ">=0.33.6",
-    "@sanity/uuid": "3.0.1",
-    "@xstate/react": "1.3.1",
-    "groq": "2.2.6",
-    "object-hash": "2.1.1",
-    "react": "16.14.0",
-    "react-dom": ">=16.14.0",
-    "react-hook-form": "6.15.5",
-    "react-query": "3.13.0",
-    "react-time-ago": "6.2.2",
-    "styled-components": "^5.2.1",
-    "unfetch": "4.2.0",
-    "use-deep-compare-effect": "1.6.1",
-    "xstate": "4.17.0",
-    "yup": "0.32.9"
+    "@sanity/icons": "^1.3.4",
+    "@sanity/incompatible-plugin": "^1.0.0",
+    "@sanity/ui": "^0.38.0",
+    "@sanity/uuid": "^3.0.1",
+    "@xstate/react": "^3.0.1",
+    "groq": "^2.29.3",
+    "javascript-time-ago": "^2.5.7",
+    "object-hash": "2.2.0",
+    "react-hook-form": "^6.15.8",
+    "react-query": "^3.39.2",
+    "react-time-ago": "^7.2.1",
+    "unfetch": "^4.2.0",
+    "use-deep-compare-effect": "^1.8.1",
+    "xstate": "^4.33.4",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
-    "@babel/cli": "7.13.10",
-    "@babel/core": "7.13.10",
-    "@babel/plugin-proposal-object-rest-spread": "7.13.8",
-    "@babel/plugin-transform-runtime": "7.13.10",
-    "@babel/preset-env": "7.13.10",
-    "@babel/preset-react": "7.12.13",
-    "@babel/preset-typescript": "7.13.0",
-    "@commitlint/cli": "12.0.1",
-    "@commitlint/config-conventional": "12.0.1",
-    "@sanity/client": "2.7.0",
-    "@types/node-fetch": "2.5.8",
-    "@types/object-hash": "1.3.4",
-    "@types/pluralize": "0.0.29",
-    "@types/react": "17.0.3",
-    "@types/react-dom": "17.0.3",
-    "@types/styled-components": "5.1.9",
-    "@typescript-eslint/eslint-plugin": "4.19.0",
-    "@typescript-eslint/parser": "4.19.0",
-    "commitizen": "4.2.3",
-    "cz-conventional-changelog": "3.3.0",
-    "eslint": "7.22.0",
-    "eslint-config-prettier": "8.1.0",
-    "eslint-plugin-import": "2.22.1",
-    "eslint-plugin-prettier": "3.3.1",
-    "eslint-plugin-react": "7.23.0",
-    "husky": "4.3.0",
-    "prettier": "2.2.1",
-    "standard-version": "9.1.1",
-    "typescript": "4.2.3"
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
+    "@parcel/packager-ts": "^2.7.0",
+    "@parcel/transformer-typescript-types": "^2.7.0",
+    "@sanity/client": "^3.3.6",
+    "@sanity/dashboard": "^3.0.0-v3-studio.1",
+    "@sanity/plugin-kit": "^1.0.1",
+    "@sanity/semantic-release-preset": "^2.0.1",
+    "@types/node-fetch": "^2.6.2",
+    "@types/object-hash": "^2.2.1",
+    "@types/pluralize": "^0.0.29",
+    "@types/styled-components": "^5.1.9",
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/parser": "^5.36.1",
+    "eslint": "8.22.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-sanity": "^6.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "parcel": "^2.7.0",
+    "prettier": "^2.7.1",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
+    "rimraf": "^3.0.2",
+    "sanity": "3.0.0-dev-preview.15",
+    "typescript": "4.7.4"
   },
   "peerDependencies": {
-    "@sanity/base": ">= 2.0.2",
-    "react": ">= 16.9",
-    "react-dom": ">=16.9"
+    "@sanity/dashboard": "studio-v3",
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0",
+    "sanity": "dev-preview",
+    "styled-components": "^5.2.0"
   },
   "config": {
     "commitizen": {
@@ -95,5 +110,9 @@
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/issues"
+  },
+  "homepage": "https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel#readme"
 }

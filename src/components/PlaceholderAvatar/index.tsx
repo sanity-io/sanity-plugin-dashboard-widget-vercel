@@ -1,11 +1,13 @@
 import { Box } from '@sanity/ui'
 import React from 'react'
+import { useCardColor } from '../../utils/useCardColor'
 
 const PlaceholderAvatar = () => {
+  const { border } = useCardColor()
   return (
     <Box
       style={{
-        backgroundColor: '#eee', // TODO: use sanity ui colors
+        backgroundColor: border,
         borderRadius: '20px',
         height: '20px',
         userSelect: 'none',

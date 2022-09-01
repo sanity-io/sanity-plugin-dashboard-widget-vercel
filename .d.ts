@@ -1,5 +1,0 @@
-declare module '*.css'
-declare module 'config:*'
-declare module 'javascript-time-ago*'
-declare module 'react-time-ago'
-declare module 'part:@sanity/*'

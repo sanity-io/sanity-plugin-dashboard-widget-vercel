@@ -1,13 +1,8 @@
 {
   "parts": [
     {
-      "name": "part:@sanity/dashboard/widget/vercel",
-      "implements": "part:@sanity/dashboard/widget",
-      "path": "index.js"
+      "implements": "part:@sanity/base/sanity-root",
+      "path": "./v2-incompatible.js"
     }
-  ],
-  "paths": {
-    "source": "./src",
-    "compiled": "./lib"
-  }
+  ]
 }

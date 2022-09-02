@@ -35,7 +35,10 @@ const FormFieldInputLabel: FC<Props> = (props: Props) => {
               content={
                 <Box padding={2}>
                   <Text muted size={1}>
-                    <StyledErrorOutlineIcon style={{ marginRight: '0.1em' }} />
+                    <StyledErrorOutlineIcon
+                      style={{ marginRight: '0.1em' }}
+                      fr
+                    />
                     {error.message}
                   </Text>
                 </Box>
@@ -44,7 +47,7 @@ const FormFieldInputLabel: FC<Props> = (props: Props) => {
               placement="right"
               portal={true}
             >
-              <StyledErrorOutlineIcon />
+              <StyledErrorOutlineIcon fr />
             </Tooltip>
           </Text>
         )}

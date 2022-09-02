@@ -1,5 +1,6 @@
-import { Sanity } from '@types'
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Machine, assign } from 'xstate'
+import { Sanity } from '../types'
 
 type Context = {
   message: string
@@ -17,13 +18,13 @@ type Event =
 
 type Schema = {
   states: {
-    failed: {}
-    pending: {}
+    failed: Record<string, any>
+    pending: Record<string, any>
     ready: {
       states: {
-        unknown: {}
-        withData: {}
-        withoutData: {}
+        unknown: Record<string, any>
+        withData: Record<string, any>
+        withoutData: Record<string, any>
       }
     }
   }

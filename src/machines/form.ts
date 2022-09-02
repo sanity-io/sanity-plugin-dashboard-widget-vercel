@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Machine, assign } from 'xstate'
 
 type Context = {
@@ -15,12 +16,12 @@ type Event =
 
 type Schema = {
   states: {
-    idle: {}
-    creating: {}
-    updating: {}
-    deleting: {}
-    success: {}
-    error: {}
+    idle: Record<string, any>
+    creating: Record<string, any>
+    updating: Record<string, any>
+    deleting: Record<string, any>
+    success: Record<string, any>
+    error: Record<string, any>
   }
 }
 

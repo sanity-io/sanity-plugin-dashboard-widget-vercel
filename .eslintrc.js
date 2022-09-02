@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   env: {
     browser: true,
     node: false,
@@ -9,9 +9,8 @@ export default {
     'plugin:@typescript-eslint/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
-    'plugin:prettier/recommended',
     'plugin:react/recommended',
-    'prettier/@typescript-eslint',
+    'prettier',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -32,6 +31,9 @@ export default {
         paths: ['src'],
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
+    },
+    react: {
+      version: 'detect',
     },
   },
   plugins: [],

@@ -1,8 +1,8 @@
 import { Box } from '@sanity/ui'
-import { Vercel } from '@types'
 import React from 'react'
 
 import { VERCEL_STATUS_COLORS } from '../../constants'
+import { Vercel } from '../../types'
 
 type Props = {
   state: Vercel.DeploymentState

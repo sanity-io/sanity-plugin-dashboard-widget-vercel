@@ -1,6 +1,7 @@
-import { Vercel } from '@types'
+/* eslint-disable */
 import fetch from 'unfetch'
 import { Machine, assign } from 'xstate'
+import { Vercel } from '../types'
 
 type Context = {
   disabled: boolean
@@ -13,10 +14,10 @@ type Event = { type: 'DEPLOY' }
 
 type Schema = {
   states: {
-    idle: {}
-    deploying: {}
-    success: {}
-    error: {}
+    idle: Record<string, any>
+    deploying: Record<any, any>
+    success: Record<string, any>
+    error: Record<string, any>
   }
 }
 
@@ -44,13 +45,13 @@ const deployMachine = (deployHook: string) =>
         },
         deploying: {
           entry: assign({
-            disabled: (_context, _event) => true,
-            label: (_context, _event) => 'Deploying',
-          }),
+            disabled: () => true,
+            label: () => 'Deploying',
+          }) as any,
           exit: assign({
-            disabled: (_context, _event) => false,
-            label: (_context, _event) => 'Deploy',
-          }),
+            disabled: () => false,
+            label: () => 'Deploy',
+          }) as any,
           invoke: {
             onDone: {
               target: 'success',
@@ -67,12 +68,10 @@ const deployMachine = (deployHook: string) =>
           },
         },
         success: {
-          entry: [
-            assign({ feedback: (_context, _event) => 'Succesfully started!' }),
-          ],
+          entry: [assign({ feedback: () => 'Succesfully started!' })] as any,
           exit: assign({
-            feedback: (_context, _event) => undefined,
-          }),
+            feedback: () => undefined,
+          }) as any,
           on: {
             DEPLOY: 'deploying',
           },
@@ -88,6 +87,7 @@ const deployMachine = (deployHook: string) =>
     {
       services: {
         deploy: (): Promise<void> => {
+          // eslint-disable-next-line no-async-promise-executor
           return new Promise(async (resolve, reject) => {
             try {
               if (!deployHook) {

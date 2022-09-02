@@ -29,20 +29,18 @@ import { Sanity } from './types'
 
 const Widget = () => {
   // xstate
-  const [
-    deploymentTargetListState,
-    deploymentTargetListStateTransition,
-  ] = useMachine(deploymentTargetListMachine, {
-    services: {
-      fetchDataService: (_context, _event) => {
-        return client
-          .fetch(
-            groq`*[_type == "${DEPLOYMENT_TARGET_DOCUMENT_TYPE}"] | order(name asc)`
-          )
-          .then((result: any) => result)
+  const [deploymentTargetListState, deploymentTargetListStateTransition] =
+    useMachine(deploymentTargetListMachine, {
+      services: {
+        fetchDataService: () => {
+          return client
+            .fetch(
+              groq`*[_type == "${DEPLOYMENT_TARGET_DOCUMENT_TYPE}"] | order(name asc)`
+            )
+            .then((result: any) => result)
+        },
       },
-    },
-  })
+    })
   const [dialogState, dialogStateTransition] = useMachine(dialogMachine)
 
   const queryClient = new QueryClient({

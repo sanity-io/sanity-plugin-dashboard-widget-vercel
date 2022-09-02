@@ -1,6 +1,6 @@
 import { Box, Label } from '@sanity/ui'
-import { Sanity } from '@types'
 import React, { ReactNode } from 'react'
+import { Sanity } from '../../types'
 
 type Props = {
   children: ReactNode
@@ -13,7 +13,7 @@ const TableCell = (props: Props) => {
   const { children, colSpan, header, variant } = props
 
   let display: Sanity.BoxDisplay | Sanity.BoxDisplay[] = 'table-cell'
-  let cellWidth: string = 'auto'
+  let cellWidth = 'auto'
 
   switch (variant) {
     case 'age':
@@ -37,7 +37,7 @@ const TableCell = (props: Props) => {
       <Box
         as="th"
         colSpan={colSpan}
-        // @ts-ignore
+        // @ts-expect-error types
         display={display}
         paddingX={3}
         paddingY={2}
@@ -56,7 +56,7 @@ const TableCell = (props: Props) => {
       <Box
         as="td"
         colSpan={colSpan}
-        // @ts-ignore
+        // @ts-expect-error types
         display={display}
         paddingX={3}
         paddingY={[2, 2, 3]}

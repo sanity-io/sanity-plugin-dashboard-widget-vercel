@@ -1,6 +1,7 @@
+/* eslint-disable */
 import { Machine } from 'xstate'
 
-type Context = {}
+type Context = Record<string, any>
 
 type Event =
   | { type: 'ERROR' }
@@ -10,10 +11,10 @@ type Event =
 
 type Schema = {
   states: {
-    idle: {}
-    refreshing: {}
-    refreshed: {}
-    error: {}
+    idle: Record<string, any>
+    refreshing: Record<string, any>
+    refreshed: Record<string, any>
+    error: Record<string, any>
   }
 }
 

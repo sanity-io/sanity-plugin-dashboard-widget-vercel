@@ -1,8 +1,7 @@
 import { EditIcon } from '@sanity/icons'
 import { Box, Button, Flex, Text, Tooltip } from '@sanity/ui'
-import { Sanity } from '@types'
 import React, { FC } from 'react'
-
+import { Sanity } from '../../types'
 import Deployments from '../Deployments'
 
 type Props = {

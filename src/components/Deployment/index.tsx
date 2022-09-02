@@ -1,11 +1,11 @@
 import { Box, Flex, Stack, Text } from '@sanity/ui'
-import { Vercel } from '@types'
 import React, { useRef } from 'react'
 import ReactTimeAgo from 'react-time-ago'
 
 import TableCell from '../TableCell'
 import StatusDot from '../StatusDot'
 import { LinkIcon } from '@sanity/icons'
+import { Vercel } from '../../types'
 
 type Props = {
   deployment: Vercel.DeploymentWithAlias
@@ -37,7 +37,7 @@ const Deployment = (props: Props) => {
           {targetUrl ? (
             <>
               {/* Alias icon */}
-              {deployment.alias && <LinkIcon />}
+              {deployment.alias && <LinkIcon fr />}
 
               <Box marginLeft={deployment.alias ? 1 : 0}>
                 <Text

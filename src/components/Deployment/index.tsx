@@ -37,7 +37,7 @@ const Deployment = (props: Props) => {
           {targetUrl ? (
             <>
               {/* Alias icon */}
-              {deployment.alias && <LinkIcon fr />}
+              {deployment.alias && <LinkIcon />}
 
               <Box marginLeft={deployment.alias ? 1 : 0}>
                 <Text

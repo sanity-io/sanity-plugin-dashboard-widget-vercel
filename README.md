@@ -142,3 +142,4 @@ Run ["CI & Release" workflow](https://github.com/sanity-io/sanity-plugin-dashboa
 Make sure to select the main (or v3, depending) branch and check "Release new version".
 
 Semantic release will only release on configured branches, so it is safe to run release on any branch.
+

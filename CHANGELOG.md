@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/compare/v1.1.2...v1.1.3) (2022-09-02)
+
+### Bug Fixes
+
+- removed incorrect icon attribute ([23af224](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/commit/23af224737b7405d6c936b04af8b441b47566317))
+
 ## [1.1.2](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/compare/v1.1.1...v1.1.2) (2022-09-02)
 
 ### Bug Fixes

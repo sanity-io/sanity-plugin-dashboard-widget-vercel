@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Machine, assign } from 'xstate'
 import { Sanity } from '../types'
 
@@ -12,9 +13,9 @@ type Event =
 
 type Schema = {
   states: {
-    idle: {}
-    edit: {}
-    create: {}
+    idle: Record<string, any>
+    edit: Record<string, any>
+    create: Record<string, any>
   }
 }
 
@@ -28,8 +29,8 @@ const dialogMachine = () =>
       states: {
         idle: {
           entry: assign({
-            editDeploymentTarget: (_context, _event) => undefined,
-          }),
+            editDeploymentTarget: () => undefined,
+          }) as any,
           on: {
             CREATE: 'create',
             EDIT: {

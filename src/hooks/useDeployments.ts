@@ -1,7 +1,7 @@
-import { Sanity, Vercel } from '@types'
+import { Sanity, Vercel } from '../types'
 import hash from 'object-hash'
-import { useQuery } from 'react-query'
 
+import { useQuery } from 'react-query'
 import fetcher from '../utils/fetcher'
 import { API_ENDPOINT_ALIASES, API_ENDPOINT_DEPLOYMENTS } from '../constants'
 

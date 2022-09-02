@@ -2,6 +2,7 @@
 // - convert empty strings, undefined values and empty arrays to null (to correctly unset / delete fields)
 // - trim whitespace on string fleids
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type FormData = Record<string, any>
 
 const sanitizeFormData = (formData: FormData): FormData => {

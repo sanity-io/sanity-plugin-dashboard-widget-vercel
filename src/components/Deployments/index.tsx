@@ -1,5 +1,4 @@
 import { Box, Text, useToast } from '@sanity/ui'
-import { Sanity } from '@types'
 import { useMachine } from '@xstate/react'
 import React, { useEffect, useRef } from 'react'
 import useDeepCompareEffect from 'use-deep-compare-effect'
@@ -12,6 +11,7 @@ import DeployButton from '../DeployButton'
 import DeploymentPlaceholder from '../DeploymentPlaceholder'
 import StateDebug from '../StateDebug'
 import TableCell from '../TableCell'
+import { Sanity } from '../../types'
 
 type Props = {
   deploymentTarget: Sanity.DeploymentTarget
@@ -154,8 +154,8 @@ const Deployments = (props: Props) => {
           {hasFetched && !hasDeployments && (
             <Box padding={3} style={{ width: '100%' }}>
               <Text muted size={1}>
-                No deployments found. Don't forget to specify a valid team ID if
-                your project belongs to a team.
+                No deployments found. Don&apos;t forget to specify a valid team
+                ID if your project belongs to a team.
               </Text>
             </Box>
           )}

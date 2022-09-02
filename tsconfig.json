@@ -14,9 +14,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "./lib",
-    "paths": {
-      "@types": ["types"]
-    },
     "plugins": [],
     "resolveJsonModule": true,
     "skipLibCheck": true,

@@ -1,4 +1,5 @@
 import type { SanityDocument } from '@sanity/client'
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export declare namespace Sanity {
   export type BoxDisplay =
     | 'none'
@@ -17,6 +18,7 @@ export declare namespace Sanity {
     token: string
   }
 }
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export declare namespace Vercel {
   export type Alias = {
     alias: string

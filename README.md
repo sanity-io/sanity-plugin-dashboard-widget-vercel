@@ -33,7 +33,6 @@ yarn add sanity-plugin-dashboard-widget-vercel@studio-v3
 
 Ensure that you have followed install and usage instructions for [@sanity/dashboard](https://github.com/sanity-io/dashboard).
 
-
 ## Usage
 
 Add it as a widget to @sanity/dashboard plugin in sanity.config.ts (or .js):

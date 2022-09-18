@@ -59,7 +59,7 @@
     "@babel/preset-typescript": "7.13.0",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
-    "@sanity/client": "2.7.0",
+    "@sanity/client": "3.4.1",
     "@sanity/semantic-release-preset": "^2.0.1",
     "@types/node-fetch": "2.5.8",
     "@types/object-hash": "1.3.4",

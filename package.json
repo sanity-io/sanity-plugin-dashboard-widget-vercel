@@ -42,7 +42,7 @@
     "object-hash": "2.1.1",
     "react-hook-form": "6.15.5",
     "react-query": "3.13.0",
-    "react-time-ago": "6.2.2",
+    "react-time-ago": "7.2.1",
     "styled-components": "^5.2.1",
     "unfetch": "4.2.0",
     "use-deep-compare-effect": "1.6.1",

@@ -41,7 +41,7 @@ Add it as a widget to @sanity/dashboard plugin in sanity.config.ts (or .js):
 import { dashboardTool } from "@sanity/dashboard";
 import { vercelWidget } from "sanity-plugin-dashboard-widget-vercel";
 
-export default createConfig({
+export default defineConfig({
   // ...
   plugins: [
      dashboardTool({

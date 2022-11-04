@@ -5,6 +5,16 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0-v3-studio.6](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/compare/v2.0.0-v3-studio.5...v2.0.0-v3-studio.6) (2022-11-04)
+
+### Bug Fixes
+
+- **deps:** pin dependencies ([#23](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/issues/23)) ([42c4755](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/commit/42c4755658282074d11012b92c5e4bcf76ecbc4a))
+- **deps:** update dependency object-hash to v3 ([#24](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/issues/24)) ([9620d89](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/commit/9620d89c7b2c1a22a0c3ae9c61ce1833742c62c0))
+- **deps:** update sanity-ui-pin ([#28](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/issues/28)) ([838b9e7](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/commit/838b9e7dcdc5890bcc6b93804c03885820bab8b6))
+- **docs:** use defineConfig in example ([284d2be](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/commit/284d2be5207066a90866785d08e7907d111da4c8))
+- update `peerDependencies` ([4fdb76a](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/commit/4fdb76a61be22b9c58897c8f72c36806b9df7a55))
+
 ## [2.0.0-v3-studio.5](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/compare/v2.0.0-v3-studio.4...v2.0.0-v3-studio.5) (2022-11-03)
 
 ### Bug Fixes

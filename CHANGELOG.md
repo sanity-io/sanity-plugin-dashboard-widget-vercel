@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0-v3-studio.7](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/compare/v2.0.0-v3-studio.6...v2.0.0-v3-studio.7) (2022-11-04)
+
+### Bug Fixes
+
+- **deps:** pkg-utils & @sanity/plugin-kit ([c36cb83](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/commit/c36cb836066583f58b108c1c3be43d0a4ddd7494))
+
 ## [2.0.0-v3-studio.6](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/compare/v2.0.0-v3-studio.5...v2.0.0-v3-studio.6) (2022-11-04)
 
 ### Bug Fixes

@@ -56,7 +56,7 @@
     "@xstate/react": "^3.0.1",
     "groq": "^2.29.3",
     "javascript-time-ago": "^2.5.7",
-    "object-hash": "2.2.0",
+    "object-hash": "3.0.0",
     "react-hook-form": "^6.15.8",
     "react-query": "^3.39.2",
     "react-time-ago": "^7.2.1",

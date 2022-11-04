@@ -69,7 +69,7 @@
     "@commitlint/cli": "^17.2.0",
     "@commitlint/config-conventional": "^17.2.0",
     "@sanity/client": "^3.4.1",
-    "@sanity/dashboard": "^3.0.0-v3-studio.6",
+    "@sanity/dashboard": "^3.0.0-v3-studio.7",
     "@sanity/pkg-utils": "^1.16.2",
     "@sanity/plugin-kit": "^2.0.9",
     "@sanity/semantic-release-preset": "^2.0.2",

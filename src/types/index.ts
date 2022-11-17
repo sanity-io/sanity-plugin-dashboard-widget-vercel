@@ -1,13 +1,7 @@
-import type { SanityDocument } from '@sanity/client'
+import type {SanityDocument} from '@sanity/client'
 
 export declare namespace Sanity {
-  export type BoxDisplay =
-    | 'none'
-    | 'block'
-    | 'grid'
-    | 'flex'
-    | 'inline-block'
-    | 'table-cell'
+  export type BoxDisplay = 'none' | 'block' | 'grid' | 'flex' | 'inline-block' | 'table-cell'
 
   export type DeploymentTarget = SanityDocument & {
     deployHook: string
@@ -24,12 +18,7 @@ export declare namespace Vercel {
     deploymentId: string
   }
 
-  export type DeploymentState =
-    | 'BUILDING'
-    | 'CANCELED'
-    | 'ERROR'
-    | 'QUEUED'
-    | 'READY'
+  export type DeploymentState = 'BUILDING' | 'CANCELED' | 'ERROR' | 'QUEUED' | 'READY'
 
   export type Deployment = {
     aliasAssigned?: number

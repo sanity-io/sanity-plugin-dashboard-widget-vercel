@@ -1,18 +1,15 @@
 import hash from 'object-hash'
-import { useQuery } from 'react-query'
+import {useQuery} from 'react-query'
 
 import fetcher from '../utils/fetcher'
-import { API_ENDPOINT_ALIASES, API_ENDPOINT_DEPLOYMENTS } from '../constants'
-import { Sanity, Vercel } from '../types'
+import {API_ENDPOINT_ALIASES, API_ENDPOINT_DEPLOYMENTS} from '../constants'
+import {Sanity, Vercel} from '../types'
 
 type Options = {
   enabled?: boolean
 }
 
-const useDeployments = (
-  deploymentTarget: Sanity.DeploymentTarget,
-  options?: Options
-) => {
+const useDeployments = (deploymentTarget: Sanity.DeploymentTarget, options?: Options) => {
   const fetchUrl = fetcher(deploymentTarget)
 
   // Fetch deployments
@@ -25,7 +22,7 @@ const useDeployments = (
     isSuccess: deploymentsIsSuccess,
     error: deploymentsError,
     refetch,
-  } = useQuery<{ deployments: Vercel.Deployment[] }, Error>(
+  } = useQuery<{deployments: Vercel.Deployment[]}, Error>(
     hash(deploymentTarget), // key
     () => fetchUrl(API_ENDPOINT_DEPLOYMENTS, deployParams),
     {
@@ -75,15 +72,13 @@ const useDeployments = (
   let deploymentsWithAlias: Vercel.DeploymentWithAlias[] | undefined
 
   if (aliases) {
-    deploymentsWithAlias = deploymentsData?.deployments?.map(
-      (val: Vercel.DeploymentWithAlias) => {
-        const alias = aliases.find(a => a.deploymentId === val.uid)
-        return {
-          ...val,
-          alias: alias?.alias,
-        }
+    deploymentsWithAlias = deploymentsData?.deployments?.map((val: Vercel.DeploymentWithAlias) => {
+      const alias = aliases.find((a) => a.deploymentId === val.uid)
+      return {
+        ...val,
+        alias: alias?.alias,
       }
-    )
+    })
   }
 
   return {

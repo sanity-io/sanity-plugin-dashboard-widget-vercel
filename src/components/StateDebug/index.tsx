@@ -1,7 +1,7 @@
-import { Box, Card, Stack, Text } from '@sanity/ui'
+import {Box, Card, Stack, Text} from '@sanity/ui'
 import React from 'react'
 
-import { DEBUG_MODE } from '../../constants'
+import {DEBUG_MODE} from '../../constants'
 
 type Props = {
   name: string
@@ -9,7 +9,7 @@ type Props = {
 }
 
 const StateDebug = (props: Props) => {
-  const { name, state } = props
+  const {name, state} = props
 
   if (!DEBUG_MODE) {
     return null

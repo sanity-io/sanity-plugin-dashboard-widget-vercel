@@ -1,14 +1,14 @@
-import { assign, Machine } from 'xstate'
-import { Sanity } from '../types'
+import {assign, Machine} from 'xstate'
+import {Sanity} from '../types'
 
 type Context = {
   editDeploymentTarget?: Sanity.DeploymentTarget
 }
 
 type Event =
-  | { type: 'CREATE' }
-  | { type: 'CLOSE' }
-  | { type: 'EDIT'; deploymentTarget: Sanity.DeploymentTarget }
+  | {type: 'CREATE'}
+  | {type: 'CLOSE'}
+  | {type: 'EDIT'; deploymentTarget: Sanity.DeploymentTarget}
 
 type Schema = {
   states: {

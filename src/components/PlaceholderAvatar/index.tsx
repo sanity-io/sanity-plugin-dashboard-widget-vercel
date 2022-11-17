@@ -1,9 +1,9 @@
-import { Box } from '@sanity/ui'
+import {Box} from '@sanity/ui'
 import React from 'react'
-import { useCardColor } from '../../utils/useCardColor'
+import {useCardColor} from '../../utils/useCardColor'
 
 const PlaceholderAvatar = () => {
-  const { border } = useCardColor()
+  const {border} = useCardColor()
   return (
     <Box
       style={{

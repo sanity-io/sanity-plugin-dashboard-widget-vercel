@@ -1,18 +1,18 @@
-import { Box, Flex, Stack, Text } from '@sanity/ui'
-import React, { useRef } from 'react'
+import {Box, Flex, Stack, Text} from '@sanity/ui'
+import React, {useRef} from 'react'
 import ReactTimeAgo from 'react-time-ago'
 
 import TableCell from '../TableCell'
 import StatusDot from '../StatusDot'
-import { LinkIcon } from '@sanity/icons'
-import { Vercel } from '../../types'
+import {LinkIcon} from '@sanity/icons'
+import {Vercel} from '../../types'
 
 type Props = {
   deployment: Vercel.DeploymentWithAlias
 }
 
 const Deployment = (props: Props) => {
-  const { deployment } = props
+  const {deployment} = props
 
   const date = useRef(new Date(deployment.created))
 
@@ -29,7 +29,7 @@ const Deployment = (props: Props) => {
           <Box
             display={['block', 'block', 'block', 'block', 'none']}
             marginRight={3}
-            style={{ flexShrink: 0 }}
+            style={{flexShrink: 0}}
           >
             <StatusDot state={deployment.state} />
           </Box>
@@ -45,19 +45,14 @@ const Deployment = (props: Props) => {
                   size={1}
                   style={{
                     textDecoration:
-                      deployment.state === 'CANCELED' ||
-                      deployment.state === 'ERROR'
+                      deployment.state === 'CANCELED' || deployment.state === 'ERROR'
                         ? 'line-through'
                         : 'normal',
                   }}
                   textOverflow="ellipsis"
                 >
                   {deployment.state === 'READY' ? (
-                    <a
-                      href={`https://${targetUrl}`}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
+                    <a href={`https://${targetUrl}`} rel="noopener noreferrer" target="_blank">
                       {targetUrl}
                     </a>
                   ) : (
@@ -81,7 +76,7 @@ const Deployment = (props: Props) => {
               {deployment.state
                 .trim()
                 .toLowerCase()
-                .replace(/^[a-z]/i, t => t.toUpperCase())}
+                .replace(/^[a-z]/i, (t) => t.toUpperCase())}
             </Text>
           </Box>
         </Flex>

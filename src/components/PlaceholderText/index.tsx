@@ -1,14 +1,14 @@
-import { Box, Stack, Text } from '@sanity/ui'
+import {Box, Stack, Text} from '@sanity/ui'
 import React from 'react'
-import { useCardColor } from '../../utils/useCardColor'
+import {useCardColor} from '../../utils/useCardColor'
 
 type Props = {
   rows: number
 }
 
 const PlaceholderText = (props: Props) => {
-  const { rows } = props
-  const { border } = useCardColor()
+  const {rows} = props
+  const {border} = useCardColor()
   return (
     <Box
       style={{

@@ -1,20 +1,17 @@
-import { yupResolver } from '@hookform/resolvers/yup'
-import { Box, Button, Dialog, Flex, Stack } from '@sanity/ui'
-import { uuid } from '@sanity/uuid'
-import { useMachine } from '@xstate/react'
-import React, { FC } from 'react'
-import { useForm } from 'react-hook-form'
+import {yupResolver} from '@hookform/resolvers/yup'
+import {Box, Button, Dialog, Flex, Stack} from '@sanity/ui'
+import {uuid} from '@sanity/uuid'
+import {useMachine} from '@xstate/react'
+import React, {FC} from 'react'
+import {useForm} from 'react-hook-form'
 import * as yup from 'yup'
 
-import {
-  DEPLOYMENT_TARGET_DOCUMENT_TYPE,
-  Z_INDEX_DIALOG,
-} from '../../constants'
+import {DEPLOYMENT_TARGET_DOCUMENT_TYPE, Z_INDEX_DIALOG} from '../../constants'
 import formMachine from '../../machines/form'
 import sanitizeFormData from '../../utils/sanitizeFormData'
 import FormFieldInputText from '../FormFieldInputText'
-import { Sanity } from '../../types'
-import { useSanityClient } from '../../client'
+import {Sanity} from '../../types'
+import {useSanityClient} from '../../client'
 
 type Props = {
   deploymentTarget?: Sanity.DeploymentTarget
@@ -43,7 +40,7 @@ const formSchema = yup.object().shape({
 })
 
 const DialogForm: FC<Props> = (props: Props) => {
-  const { deploymentTarget, onClose, onCreate, onDelete, onUpdate } = props
+  const {deploymentTarget, onClose, onCreate, onDelete, onUpdate} = props
   const client = useSanityClient()
 
   // xstate
@@ -89,10 +86,7 @@ const DialogForm: FC<Props> = (props: Props) => {
         let document
         if (deploymentTarget) {
           try {
-            document = await client
-              .patch(deploymentTarget._id)
-              .set(event.formData)
-              .commit()
+            document = await client.patch(deploymentTarget._id).set(event.formData).commit()
             if (onUpdate) {
               onUpdate(document as Sanity.DeploymentTarget)
             }
@@ -107,14 +101,12 @@ const DialogForm: FC<Props> = (props: Props) => {
   })
 
   const formUpdating =
-    formState.matches('creating') ||
-    formState.matches('deleting') ||
-    formState.matches('updating')
+    formState.matches('creating') || formState.matches('deleting') || formState.matches('updating')
 
   // react-hook-form
   const {
     // Read the formState before render to subscribe the form state through Proxy
-    formState: { errors, isDirty, isValid },
+    formState: {errors, isDirty, isValid},
     handleSubmit,
     register,
   } = useForm({
@@ -140,7 +132,7 @@ const DialogForm: FC<Props> = (props: Props) => {
   }
 
   const handleDelete = () => {
-    formStateTransition('DELETE', { id: deploymentTarget?._id })
+    formStateTransition('DELETE', {id: deploymentTarget?._id})
   }
 
   const Footer = () => (
@@ -182,7 +174,7 @@ const DialogForm: FC<Props> = (props: Props) => {
       {/* We reverse direction to ensure that inline links dont autofocus before other form elements */}
       <Box as="form" padding={4} onSubmit={handleSubmit(onSubmit)}>
         {/* Hidden button to enable enter key submissions */}
-        <button style={{ display: 'none' }} tabIndex={-1} type="submit" />
+        <button style={{display: 'none'}} tabIndex={-1} type="submit" />
 
         {/* Form fields */}
         <Stack space={5}>
@@ -235,7 +227,7 @@ const DialogForm: FC<Props> = (props: Props) => {
             error={errors?.deployLimit}
             label="Number of deploys to display"
             name="deployLimit"
-            ref={register({ valueAsNumber: true })}
+            ref={register({valueAsNumber: true})}
           />
         </Stack>
       </Box>

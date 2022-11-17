@@ -1,9 +1,9 @@
-import { UploadIcon } from '@sanity/icons'
-import { Box, Button, useToast } from '@sanity/ui'
-import { useMachine } from '@xstate/react'
-import React, { useEffect, useMemo } from 'react'
+import {UploadIcon} from '@sanity/icons'
+import {Box, Button, useToast} from '@sanity/ui'
+import {useMachine} from '@xstate/react'
+import React, {useEffect, useMemo} from 'react'
 
-import { WIDGET_NAME } from '../../constants'
+import {WIDGET_NAME} from '../../constants'
 import deployMachine from '../../machines/deploy'
 import StateDebug from '../StateDebug'
 
@@ -14,12 +14,11 @@ type Props = {
 }
 
 const DeployButton = (props: Props) => {
-  const { deployHook, onDeploySuccess, targetName } = props
+  const {deployHook, onDeploySuccess, targetName} = props
 
   const machine = useMemo(() => deployMachine(deployHook), [deployHook])
 
-  const [deployState, deployStateTransition, deployStateInterpreter] =
-    useMachine(machine)
+  const [deployState, deployStateTransition, deployStateInterpreter] = useMachine(machine)
 
   const toast = useToast()
 
@@ -28,7 +27,7 @@ const DeployButton = (props: Props) => {
 
   // Callbacks
   const handleDeploy = () => {
-    deployStateTransition({ type: 'DEPLOY' })
+    deployStateTransition({type: 'DEPLOY'})
   }
 
   // Effects
@@ -55,7 +54,7 @@ const DeployButton = (props: Props) => {
   }, [isError, isSuccess, toast, targetName, deployState.context.error])
 
   useEffect(() => {
-    deployStateInterpreter.onTransition(state => {
+    deployStateInterpreter.onTransition((state) => {
       if (state.value === 'success') {
         if (onDeploySuccess) {
           onDeploySuccess()
@@ -65,7 +64,7 @@ const DeployButton = (props: Props) => {
   }, [deployStateInterpreter, onDeploySuccess])
 
   return (
-    <Box padding={3} style={{ position: 'relative' }}>
+    <Box padding={3} style={{position: 'relative'}}>
       {/* xstate debug */}
       <StateDebug name="Deploy" state={deployState} />
 

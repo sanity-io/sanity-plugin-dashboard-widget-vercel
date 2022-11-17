@@ -1,9 +1,9 @@
-import { Box, Text, useToast } from '@sanity/ui'
-import { useMachine } from '@xstate/react'
-import React, { useEffect, useRef } from 'react'
+import {Box, Text, useToast} from '@sanity/ui'
+import {useMachine} from '@xstate/react'
+import React, {useEffect, useRef} from 'react'
 import useDeepCompareEffect from 'use-deep-compare-effect'
 
-import { WIDGET_NAME } from '../../constants'
+import {WIDGET_NAME} from '../../constants'
 import useDeployments from '../../hooks/useDeployments'
 import refreshMachine from '../../machines/refresh'
 import Deployment from '../Deployment'
@@ -11,15 +11,15 @@ import DeployButton from '../DeployButton'
 import DeploymentPlaceholder from '../DeploymentPlaceholder'
 import StateDebug from '../StateDebug'
 import TableCell from '../TableCell'
-import { Sanity } from '../../types'
-import { useCardColor } from '../../utils/useCardColor'
+import {Sanity} from '../../types'
+import {useCardColor} from '../../utils/useCardColor'
 
 type Props = {
   deploymentTarget: Sanity.DeploymentTarget
 }
 
 const Deployments = (props: Props) => {
-  const { deploymentTarget } = props
+  const {deploymentTarget} = props
 
   // Refs
   const refTimeout = useRef<ReturnType<typeof setTimeout>>()
@@ -28,12 +28,9 @@ const Deployments = (props: Props) => {
   const [refreshState, refreshStateTransition] = useMachine(refreshMachine)
 
   // Fetch deployments - disable hook / auto-refetching on error state
-  const { deployments, error, isFetching, isSuccess, refetch } = useDeployments(
-    deploymentTarget,
-    {
-      enabled: !refreshState.matches('error'),
-    }
-  )
+  const {deployments, error, isFetching, isSuccess, refetch} = useDeployments(deploymentTarget, {
+    enabled: !refreshState.matches('error'),
+  })
 
   const toast = useToast()
   const isError = refreshState.matches('error')
@@ -60,21 +57,21 @@ const Deployments = (props: Props) => {
 
   useEffect(() => {
     if (error) {
-      refreshStateTransition({ type: 'ERROR' })
+      refreshStateTransition({type: 'ERROR'})
     }
 
     if (isFetching) {
-      refreshStateTransition({ type: 'REFRESH' })
+      refreshStateTransition({type: 'REFRESH'})
     }
 
     if (!isFetching && isSuccess) {
-      refreshStateTransition({ type: 'REFRESHED' })
+      refreshStateTransition({type: 'REFRESHED'})
     }
   }, [error, isFetching, isSuccess, refreshStateTransition])
 
   useDeepCompareEffect(() => {
     if (!refreshState.matches('refreshing')) {
-      refreshStateTransition({ type: 'REFRESH' })
+      refreshStateTransition({type: 'REFRESH'})
     }
   }, [deploymentTarget])
 
@@ -93,9 +90,9 @@ const Deployments = (props: Props) => {
   const hasFetched = typeof deployments !== 'undefined'
   const hasDeployments = deployments && deployments.length > 0
 
-  const { border } = useCardColor()
+  const {border} = useCardColor()
   return (
-    <Box marginTop={3} style={{ position: 'relative' }}>
+    <Box marginTop={3} style={{position: 'relative'}}>
       {/* xstate debug */}
       <StateDebug name="Refresh" state={refreshState} />
 
@@ -111,7 +108,7 @@ const Deployments = (props: Props) => {
               width: '100%',
             }}
           >
-            <Box as="thead" style={{ display: 'table-header-group' }}>
+            <Box as="thead" style={{display: 'table-header-group'}}>
               <tr>
                 {/* Deployment */}
                 <TableCell header>Deployment</TableCell>
@@ -138,7 +135,7 @@ const Deployments = (props: Props) => {
               </tr>
             </Box>
 
-            <Box as="tbody" style={{ display: 'table-header-group' }}>
+            <Box as="tbody" style={{display: 'table-header-group'}}>
               {/* Placeholders */}
               {!deployments &&
                 new Array(deploymentTarget?.deployLimit)
@@ -146,7 +143,7 @@ const Deployments = (props: Props) => {
                   .map((_, index) => <DeploymentPlaceholder key={index} />)}
               {/* Deployments */}
               {hasDeployments &&
-                deployments?.map(deployment => (
+                deployments?.map((deployment) => (
                   <Deployment deployment={deployment} key={deployment.uid} />
                 ))}
             </Box>
@@ -154,10 +151,10 @@ const Deployments = (props: Props) => {
 
           {/* No results */}
           {hasFetched && !hasDeployments && (
-            <Box padding={3} style={{ width: '100%' }}>
+            <Box padding={3} style={{width: '100%'}}>
               <Text muted size={1}>
-                No deployments found. Don't forget to specify a valid team ID if
-                your project belongs to a team.
+                No deployments found. Don't forget to specify a valid team ID if your project
+                belongs to a team.
               </Text>
             </Box>
           )}
@@ -168,8 +165,7 @@ const Deployments = (props: Props) => {
       {refreshState.matches('error') && (
         <Box padding={3}>
           <Text muted size={1}>
-            Unable to fetch recent deployments. Please check your network and
-            deployment settings.
+            Unable to fetch recent deployments. Please check your network and deployment settings.
           </Text>
         </Box>
       )}

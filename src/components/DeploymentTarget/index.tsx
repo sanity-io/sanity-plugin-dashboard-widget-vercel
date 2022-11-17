@@ -1,9 +1,9 @@
-import { EditIcon } from '@sanity/icons'
-import { Box, Button, Flex, Text, Tooltip } from '@sanity/ui'
-import React, { FC } from 'react'
+import {EditIcon} from '@sanity/icons'
+import {Box, Button, Flex, Text, Tooltip} from '@sanity/ui'
+import React, {FC} from 'react'
 
 import Deployments from '../Deployments'
-import { Sanity } from '../../types'
+import {Sanity} from '../../types'
 
 type Props = {
   item: Sanity.DeploymentTarget
@@ -11,7 +11,7 @@ type Props = {
 }
 
 const DeploymentTarget: FC<Props> = (props: Props) => {
-  const { item, onDialogEdit } = props
+  const {item, onDialogEdit} = props
 
   const deploymentTarget = {
     deployHook: item.deployHook,
@@ -23,7 +23,7 @@ const DeploymentTarget: FC<Props> = (props: Props) => {
   } as Sanity.DeploymentTarget
 
   return (
-    <Box style={{ position: 'relative' }}>
+    <Box style={{position: 'relative'}}>
       {/* Header */}
       <Flex align="center" justify="space-between" marginTop={2} paddingX={3}>
         <Text size={2}>{item.name}</Text>
@@ -38,12 +38,7 @@ const DeploymentTarget: FC<Props> = (props: Props) => {
           }
           placement="left"
         >
-          <Button
-            fontSize={1}
-            icon={EditIcon}
-            mode="bleed"
-            onClick={() => onDialogEdit(item)}
-          />
+          <Button fontSize={1} icon={EditIcon} mode="bleed" onClick={() => onDialogEdit(item)} />
         </Tooltip>
       </Flex>
 

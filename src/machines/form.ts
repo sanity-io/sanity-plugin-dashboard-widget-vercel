@@ -1,4 +1,4 @@
-import { assign, Machine } from 'xstate'
+import {assign, Machine} from 'xstate'
 
 type Context = {
   formData?: Record<string, any>
@@ -6,12 +6,12 @@ type Context = {
 }
 
 type Event =
-  | { type: 'CREATE' }
-  | { type: 'DELETE' }
-  | { type: 'REJECT' }
-  | { type: 'RESOLVE' }
-  | { type: 'SUBMIT' }
-  | { type: 'UPDATE' }
+  | {type: 'CREATE'}
+  | {type: 'DELETE'}
+  | {type: 'REJECT'}
+  | {type: 'RESOLVE'}
+  | {type: 'SUBMIT'}
+  | {type: 'UPDATE'}
 
 type Schema = {
   states: {
@@ -51,8 +51,8 @@ const formMachine = Machine<Context, Schema, Event>(
       creating: {
         invoke: {
           src: 'createDocumentService',
-          onDone: { target: 'success' },
-          onError: { actions: ['setMessage'], target: 'error' },
+          onDone: {target: 'success'},
+          onError: {actions: ['setMessage'], target: 'error'},
         },
         on: {
           RESOLVE: 'success',
@@ -62,8 +62,8 @@ const formMachine = Machine<Context, Schema, Event>(
       updating: {
         invoke: {
           src: 'updateDocumentService',
-          onDone: { target: 'success' },
-          onError: { actions: ['setMessage'], target: 'error' },
+          onDone: {target: 'success'},
+          onError: {actions: ['setMessage'], target: 'error'},
         },
         on: {
           RESOLVE: 'success',
@@ -73,8 +73,8 @@ const formMachine = Machine<Context, Schema, Event>(
       deleting: {
         invoke: {
           src: 'deleteDocumentService',
-          onDone: { target: 'success' },
-          onError: { actions: ['setMessage'], target: 'error' },
+          onDone: {target: 'success'},
+          onError: {actions: ['setMessage'], target: 'error'},
         },
         on: {
           RESOLVE: 'success',

@@ -1,8 +1,8 @@
 import React from 'react'
-import { Stack } from '@sanity/ui'
+import {Stack} from '@sanity/ui'
 
 import DeploymentTarget from '../DeploymentTarget'
-import { Sanity } from '../../types'
+import {Sanity} from '../../types'
 
 type Props = {
   items: Sanity.DeploymentTarget[]
@@ -10,16 +10,12 @@ type Props = {
 }
 
 const DeploymentTargets = (props: Props) => {
-  const { items, onDialogEdit } = props
+  const {items, onDialogEdit} = props
 
   return (
     <Stack space={5}>
-      {items?.map(item => (
-        <DeploymentTarget
-          item={item}
-          key={item._id}
-          onDialogEdit={onDialogEdit}
-        />
+      {items?.map((item) => (
+        <DeploymentTarget item={item} key={item._id} onDialogEdit={onDialogEdit} />
       ))}
     </Stack>
   )

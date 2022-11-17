@@ -1,7 +1,7 @@
-import { Box, Label } from '@sanity/ui'
-import React, { ReactNode } from 'react'
-import { Sanity } from '../../types'
-import { useCardColor } from '../../utils/useCardColor'
+import {Box, Label} from '@sanity/ui'
+import React, {ReactNode} from 'react'
+import {Sanity} from '../../types'
+import {useCardColor} from '../../utils/useCardColor'
 
 type Props = {
   children: ReactNode
@@ -11,7 +11,7 @@ type Props = {
 }
 
 const TableCell = (props: Props) => {
-  const { children, colSpan, header, variant } = props
+  const {children, colSpan, header, variant} = props
 
   let display: Sanity.BoxDisplay | Sanity.BoxDisplay[] = 'table-cell'
   let cellWidth: string = 'auto'
@@ -35,7 +35,7 @@ const TableCell = (props: Props) => {
       break
   }
 
-  const { border } = useCardColor()
+  const {border} = useCardColor()
 
   if (header) {
     return (

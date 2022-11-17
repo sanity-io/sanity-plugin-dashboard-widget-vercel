@@ -1,6 +1,6 @@
 import fetch from 'unfetch'
-import { assign, Machine } from 'xstate'
-import { Vercel } from '../types'
+import {assign, Machine} from 'xstate'
+import {Vercel} from '../types'
 
 type Context = {
   disabled: boolean
@@ -9,7 +9,7 @@ type Context = {
   error?: string
 }
 
-type Event = { type: 'DEPLOY' }
+type Event = {type: 'DEPLOY'}
 
 type Schema = {
   states: {
@@ -67,7 +67,7 @@ const deployMachine = (deployHook: string) =>
           },
         },
         success: {
-          entry: [assign({ feedback: () => 'Succesfully started!' })],
+          entry: [assign({feedback: () => 'Succesfully started!'})],
           exit: assign({
             feedback: () => undefined,
           }),
@@ -92,23 +92,18 @@ const deployMachine = (deployHook: string) =>
                 return reject(new Error('No deployHook URL defined'))
               }
 
-              const res = await fetch(deployHook, { method: 'POST' })
+              const res = await fetch(deployHook, {method: 'POST'})
               const data = await res.json()
 
               if (!res.ok) {
-                const errorMessage =
-                  (data?.error as Vercel.Error).message || res.statusText
+                const errorMessage = (data?.error as Vercel.Error).message || res.statusText
                 return reject(errorMessage)
               }
 
               return resolve()
             } catch (err) {
               console.error('Unable to deploy with error:', err)
-              return reject(
-                new Error(
-                  'Please check the developer console for more information'
-                )
-              )
+              return reject(new Error('Please check the developer console for more information'))
             }
           })
         },

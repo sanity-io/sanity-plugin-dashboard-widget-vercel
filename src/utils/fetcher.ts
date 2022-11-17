@@ -1,5 +1,5 @@
 import fetch from 'unfetch'
-import { Sanity } from '../types'
+import {Sanity} from '../types'
 
 const fetcher =
   (deploymentTarget: Sanity.DeploymentTarget) =>

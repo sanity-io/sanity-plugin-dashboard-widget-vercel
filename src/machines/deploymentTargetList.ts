@@ -1,5 +1,5 @@
-import { assign, Machine } from 'xstate'
-import { Sanity } from '../types'
+import {assign, Machine} from 'xstate'
+import {Sanity} from '../types'
 
 type Context = {
   message: string
@@ -7,13 +7,13 @@ type Context = {
 }
 
 type Event =
-  | { type: 'CLOSE' }
-  | { type: 'CREATE'; deploymentTarget: Sanity.DeploymentTarget }
-  | { type: 'DELETE'; id: string }
-  | { type: 'FETCH' }
-  | { type: 'REJECT'; message: string }
-  | { type: 'RESOLVE'; results: any[] }
-  | { type: 'UPDATE' }
+  | {type: 'CLOSE'}
+  | {type: 'CREATE'; deploymentTarget: Sanity.DeploymentTarget}
+  | {type: 'DELETE'; id: string}
+  | {type: 'FETCH'}
+  | {type: 'REJECT'; message: string}
+  | {type: 'RESOLVE'; results: any[]}
+  | {type: 'UPDATE'}
 
 type Schema = {
   states: {
@@ -55,29 +55,29 @@ const deploymentTargetListMachine = () =>
         pending: {
           invoke: {
             src: 'fetchDataService',
-            onDone: { actions: ['setResults'], target: 'ready' },
-            onError: { actions: ['setMessage'], target: 'failed' },
+            onDone: {actions: ['setResults'], target: 'ready'},
+            onError: {actions: ['setMessage'], target: 'failed'},
           },
         },
         ready: {
           initial: 'unknown',
           on: {
-            CREATE: { actions: ['targetCreate'] },
-            DELETE: { actions: ['targetDelete'] },
-            UPDATE: { actions: ['targetUpdate'] },
+            CREATE: {actions: ['targetCreate']},
+            DELETE: {actions: ['targetDelete']},
+            UPDATE: {actions: ['targetUpdate']},
           },
           states: {
             unknown: {
               always: [
-                { cond: 'hasData', target: 'withData' },
-                { cond: 'hasNoData', target: 'withoutData' },
+                {cond: 'hasData', target: 'withData'},
+                {cond: 'hasNoData', target: 'withoutData'},
               ],
             },
             withData: {
-              always: [{ cond: 'hasNoData', target: 'withoutData' }],
+              always: [{cond: 'hasNoData', target: 'withoutData'}],
             },
             withoutData: {
-              always: [{ cond: 'hasData', target: 'withData' }],
+              always: [{cond: 'hasData', target: 'withData'}],
             },
           },
         },
@@ -95,19 +95,14 @@ const deploymentTargetListMachine = () =>
           results: event.data,
         })),
         targetCreate: assign((context, event: any) => ({
-          results: sortByTargetName([
-            ...context.results,
-            event.deploymentTarget,
-          ]),
+          results: sortByTargetName([...context.results, event.deploymentTarget]),
         })),
         targetDelete: assign((context, event: any) => ({
-          results: context.results.filter(target => target._id !== event.id),
+          results: context.results.filter((target) => target._id !== event.id),
         })),
         targetUpdate: assign((context, event: any) => {
-          const { deploymentTarget } = event
-          const index = context.results.findIndex(
-            target => target._id === deploymentTarget._id
-          )
+          const {deploymentTarget} = event
+          const index = context.results.findIndex((target) => target._id === deploymentTarget._id)
           const updatedResults = Object.assign([], context.results, {
             [index]: event.deploymentTarget,
           })
@@ -118,10 +113,10 @@ const deploymentTargetListMachine = () =>
         }),
       },
       guards: {
-        hasData: context => {
+        hasData: (context) => {
           return context?.results?.length > 0
         },
-        hasNoData: context => {
+        hasNoData: (context) => {
           return context?.results?.length === 0
         },
       },

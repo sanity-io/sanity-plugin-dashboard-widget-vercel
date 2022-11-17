@@ -1,45 +1,34 @@
-import { AddIcon } from '@sanity/icons'
-import {
-  Box,
-  Button,
-  Card,
-  Flex,
-  Text,
-  ToastProvider,
-  Tooltip,
-} from '@sanity/ui'
-import { useMachine } from '@xstate/react'
+import {AddIcon} from '@sanity/icons'
+import {Box, Button, Card, Flex, Text, ToastProvider, Tooltip} from '@sanity/ui'
+import {useMachine} from '@xstate/react'
 import groq from 'groq'
 import React from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import {QueryClient, QueryClientProvider} from 'react-query'
 
 import StateDebug from './components/StateDebug'
-import {
-  DEPLOYMENT_TARGET_DOCUMENT_TYPE,
-  Z_INDEX_TOAST_PROVIDER,
-} from './constants'
+import {DEPLOYMENT_TARGET_DOCUMENT_TYPE, Z_INDEX_TOAST_PROVIDER} from './constants'
 import deploymentTargetListMachine from './machines/deploymentTargetList'
 import DeploymentTargets from './components/DeploymentTargets'
 import DialogForm from './components/DialogForm'
 import dialogMachine from './machines/dialog'
-import { Sanity } from './types'
-import { useSanityClient } from './client'
+import {Sanity} from './types'
+import {useSanityClient} from './client'
 
 const Widget = () => {
   const client = useSanityClient()
   // xstate
-  const [deploymentTargetListState, deploymentTargetListStateTransition] =
-    useMachine(deploymentTargetListMachine, {
+  const [deploymentTargetListState, deploymentTargetListStateTransition] = useMachine(
+    deploymentTargetListMachine,
+    {
       services: {
         fetchDataService: () => {
           return client
-            .fetch(
-              groq`*[_type == "${DEPLOYMENT_TARGET_DOCUMENT_TYPE}"] | order(name asc)`
-            )
+            .fetch(groq`*[_type == "${DEPLOYMENT_TARGET_DOCUMENT_TYPE}"] | order(name asc)`)
             .then((result: any) => result)
         },
       },
-    })
+    }
+  )
   const [dialogState, dialogStateTransition] = useMachine(dialogMachine)
 
   const queryClient = new QueryClient({
@@ -59,32 +48,27 @@ const Widget = () => {
     dialogStateTransition('CREATE')
   }
   const handleDialogShowEdit = (deploymentTarget: Sanity.DeploymentTarget) => {
-    dialogStateTransition('EDIT', { deploymentTarget })
+    dialogStateTransition('EDIT', {deploymentTarget})
   }
   const handleTargetCreate = (deploymentTarget: Sanity.DeploymentTarget) => {
-    deploymentTargetListStateTransition('CREATE', { deploymentTarget })
+    deploymentTargetListStateTransition('CREATE', {deploymentTarget})
   }
   const handleTargetDelete = (id: string) => {
-    deploymentTargetListStateTransition('DELETE', { id })
+    deploymentTargetListStateTransition('DELETE', {id})
   }
   const handleTargetUpdate = (deploymentTarget: Sanity.DeploymentTarget) => {
-    deploymentTargetListStateTransition('UPDATE', { deploymentTarget })
+    deploymentTargetListStateTransition('UPDATE', {deploymentTarget})
   }
 
   return (
     <ToastProvider zOffset={Z_INDEX_TOAST_PROVIDER}>
       <QueryClientProvider client={queryClient}>
-        <Card radius={2} style={{ overflow: 'hidden ' }}>
+        <Card radius={2} style={{overflow: 'hidden '}}>
           {/* xstate debug */}
           <StateDebug name="List" state={deploymentTargetListState} />
 
           {/* Header */}
-          <Flex
-            align="center"
-            justify="space-between"
-            paddingX={3}
-            paddingY={2}
-          >
+          <Flex align="center" justify="space-between" paddingX={3} paddingY={2}>
             <Text size={5} weight="semibold">
               Vercel deployments
             </Text>
@@ -99,12 +83,7 @@ const Widget = () => {
               }
               placement="left"
             >
-              <Button
-                fontSize={1}
-                icon={AddIcon}
-                onClick={handleDialogShowCreate}
-                mode="bleed"
-              />
+              <Button fontSize={1} icon={AddIcon} onClick={handleDialogShowCreate} mode="bleed" />
             </Tooltip>
           </Flex>
 
@@ -119,10 +98,7 @@ const Widget = () => {
               <Box paddingX={3} paddingY={4}>
                 <Text>
                   No deployment targets found.{' '}
-                  <a
-                    onClick={handleDialogShowCreate}
-                    style={{ cursor: 'pointer' }}
-                  >
+                  <a onClick={handleDialogShowCreate} style={{cursor: 'pointer'}}>
                     Create a new target?
                   </a>
                 </Text>
@@ -139,8 +115,8 @@ const Widget = () => {
             {deploymentTargetListState.matches('failed') && (
               <Box paddingX={3} paddingY={4}>
                 <Text>
-                  Failed to retrieve deployment targets. Please check the
-                  developer console log for more information.
+                  Failed to retrieve deployment targets. Please check the developer console log for
+                  more information.
                 </Text>
               </Box>
             )}
@@ -149,10 +125,7 @@ const Widget = () => {
 
         {/* Dialogs */}
         {dialogState.matches('create') && (
-          <DialogForm
-            onClose={handleDialogClose}
-            onCreate={handleTargetCreate}
-          />
+          <DialogForm onClose={handleDialogClose} onCreate={handleTargetCreate} />
         )}
 
         {dialogState.matches('edit') && (

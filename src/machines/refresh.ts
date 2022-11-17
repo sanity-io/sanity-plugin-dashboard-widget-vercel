@@ -1,12 +1,8 @@
-import { Machine } from 'xstate'
+import {Machine} from 'xstate'
 
 type Context = {}
 
-type Event =
-  | { type: 'ERROR' }
-  | { type: 'REFRESH' }
-  | { type: 'REFRESHED' }
-  | { type: 'RETRY' }
+type Event = {type: 'ERROR'} | {type: 'REFRESH'} | {type: 'REFRESHED'} | {type: 'RETRY'}
 
 type Schema = {
   states: {

@@ -1,4 +1,4 @@
-import { Flex } from '@sanity/ui'
+import {Flex} from '@sanity/ui'
 import React from 'react'
 
 import PlaceholderAvatar from '../PlaceholderAvatar'

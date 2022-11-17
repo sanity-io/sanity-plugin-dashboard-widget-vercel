@@ -81,7 +81,7 @@
     "@commitlint/cli": "^17.2.0",
     "@commitlint/config-conventional": "^17.2.0",
     "@sanity/client": "^3.4.1",
-    "@sanity/dashboard": "3.0.0-v3-studio.8",
+    "@sanity/dashboard": "^3.0.0-v3-studio.7",
     "@sanity/pkg-utils": "^1.17.2",
     "@sanity/plugin-kit": "^2.1.5",
     "@sanity/semantic-release-preset": "^2.0.2",
@@ -104,14 +104,14 @@
     "react": "^18",
     "react-dom": "^18",
     "rimraf": "^3.0.2",
-    "sanity": "3.0.0-rc.0",
+    "sanity": "3.0.0-rc.2",
     "typescript": "^4.8.4"
   },
   "peerDependencies": {
-    "@sanity/dashboard": "studio-v3 || 3.0.0-v3-studio.7",
+    "@sanity/dashboard": "^3.0.0-v3-studio.7",
     "react": "^18",
     "react-dom": "^18",
-    "sanity": "dev-preview || 3.0.0-rc.0",
+    "sanity": "dev-preview || 3.0.0-rc.2",
     "styled-components": "^5.2"
   },
   "engines": {

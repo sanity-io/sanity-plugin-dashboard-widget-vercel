@@ -1,10 +1,8 @@
-> **NOTE**
->
-> This is the **Sanity Studio v3 version** of sanity-plugin-dashboard-widget-vercel.
->
-> For the v2 version, please refer to the [v2 version](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/tree/main).
-
 # Vercel Dashboard Widget (for Sanity)
+
+> This is a **Sanity Studio v3** plugin.
+> For the v2 version, please refer to the [v2-branch](https://github.com/sanity-io/anity-plugin-dashboard-widget-vercel/tree/studio-v2).
+
 
 View your recent [Vercel](https://vercel.com/) deployments and manually trigger builds directly from your [Sanity](https://www.sanity.io/) dashboard.
 
@@ -22,13 +20,13 @@ View your recent [Vercel](https://vercel.com/) deployments and manually trigger 
 ## Install
 
 ```
-npm install --save sanity-plugin-dashboard-widget-vercel@studio-v3
+npm install --save sanity-plugin-dashboard-widget-vercel
 ```
 
 or
 
 ```
-yarn add sanity-plugin-dashboard-widget-vercel@studio-v3
+yarn add sanity-plugin-dashboard-widget-vercel
 ```
 
 Ensure that you have followed install and usage instructions for [@sanity/dashboard](https://github.com/sanity-io/dashboard).

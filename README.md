@@ -1,5 +1,8 @@
 # Vercel Dashboard Widget (for Sanity)
 
+>This is a **Sanity Studio v2** plugin.
+> For the v3 version, please refer to the [v3-branch](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel).
+
 View your recent [Vercel](https://vercel.com/) deployments and manually trigger builds directly from your [Sanity](https://www.sanity.io/) dashboard.
 
 ![image](https://user-images.githubusercontent.com/209129/112195398-d0bf8380-8c01-11eb-8857-60c37ae50326.jpg)
@@ -18,7 +21,7 @@ View your recent [Vercel](https://vercel.com/) deployments and manually trigger 
 In your Sanity project folder:
 
 ```sh
-sanity install dashboard-widget-vercel
+sanity install dashboard-widget-vercel@studio-v2
 ```
 
 ### Configure your dashboard

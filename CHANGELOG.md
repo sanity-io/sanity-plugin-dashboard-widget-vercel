@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.4](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/compare/v1.1.3...v1.1.4) (2022-11-22)
+
+### Bug Fixes
+
+- **ci:** publish using semantic-release ([10fb910](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/commit/10fb910e90a168d463bba7097724970f2067ac38))
+
 ## [1.1.3](https://github.com/robinpyon/sanity-plugin-dashboard-widget-vercel/compare/v1.1.2...v1.1.3) (2022-09-02)
 
 ### Bug Fixes

@@ -21,7 +21,14 @@ View your recent [Vercel](https://vercel.com/) deployments and manually trigger 
 In your Sanity project folder:
 
 ```sh
-sanity install dashboard-widget-vercel@studio-v2
+yarn add sanity-plugin-dashboard-widget-vercel@studio-v2
+```
+
+Next, add `"dashboard-widget-vercel"` to `sanity.json` plugins array:
+```json
+"plugins": [
+  "dashboard-widget-vercel"
+]
 ```
 
 ### Configure your dashboard
@@ -29,7 +36,15 @@ sanity install dashboard-widget-vercel@studio-v2
 If you haven't configured a [dashboard](https://www.sanity.io/docs/dashboard) yet:
 
 ```sh
-sanity install @sanity/dashboard
+yarn add @sanity/dashboard@studio-v2
+```
+
+Next, add `"@sanity/dashboard"` to `sanity.json` plugins array:
+```json
+"plugins": [
+  "@sanity/dashboard",
+  "dashboard-widget-vercel"
+]
 ```
 
 In your studio's `sanity.json` append the following to `plugins` and `parts`:

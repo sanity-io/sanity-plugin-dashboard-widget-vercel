@@ -61,9 +61,9 @@
   },
   "dependencies": {
     "@hookform/resolvers": "2.0.0-beta.3",
-    "@sanity/icons": "^2.0.0",
+    "@sanity/icons": "2.0.0",
     "@sanity/incompatible-plugin": "^1.0.4",
-    "@sanity/ui": "^1.0.0",
+    "@sanity/ui": "1.0.0",
     "@sanity/uuid": "^3.0.1",
     "@xstate/react": "^3.0.1",
     "groq": "^2.29.3",

@@ -75,7 +75,7 @@
     "unfetch": "^4.2.0",
     "use-deep-compare-effect": "^1.8.1",
     "xstate": "^4.33.4",
-    "yup": "^0.32.11"
+    "yup": "^1.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",

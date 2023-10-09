@@ -82,7 +82,7 @@
     "@commitlint/config-conventional": "^17.2.0",
     "@sanity/client": "^3.4.1",
     "@sanity/dashboard": "^3.0.0",
-    "@sanity/pkg-utils": "^1.17.2",
+    "@sanity/pkg-utils": "^2.4.10",
     "@sanity/plugin-kit": "^2.1.5",
     "@sanity/semantic-release-preset": "^2.0.2",
     "@types/node-fetch": "^2.6.2",

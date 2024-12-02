@@ -1,6 +1,6 @@
 {
-  "name": "sanity-plugin-dashboard-widget-vercel",
-  "version": "2.0.1",
+  "name": "cc-sanity-plugin-dashboard-widget-vercel",
+  "version": "1.0.0",
   "description": "View your recent Vercel deployments and manually trigger builds directly from your Sanity dashboard.",
   "keywords": [
     "sanity",
@@ -112,7 +112,7 @@
     "react": "^18",
     "react-dom": "^18",
     "sanity": "^3.0.0",
-    "styled-components": "^5.2"
+    "styled-components": "^5.2 || ^6.0.0"
   },
   "engines": {
     "node": ">=14"

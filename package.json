@@ -80,7 +80,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",
     "@commitlint/config-conventional": "^17.2.0",
-    "@sanity/client": "^3.4.1",
+    "@sanity/client": "^6.24.1",
     "@sanity/dashboard": "^3.0.0",
     "@sanity/pkg-utils": "^1.17.2",
     "@sanity/plugin-kit": "^2.1.5",

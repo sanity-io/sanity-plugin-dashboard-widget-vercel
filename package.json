@@ -62,10 +62,10 @@
   },
   "dependencies": {
     "@hookform/resolvers": "2.0.0-beta.3",
-    "@sanity/icons": "^2.0.0",
+    "@sanity/icons": "^3.7.0",
     "@sanity/incompatible-plugin": "^1.0.5",
     "@sanity/ui": "^2.15.2",
-    "@sanity/uuid": "^3.0.1",
+    "@sanity/uuid": "^3.0.2",
     "@xstate/react": "^3.0.1",
     "javascript-time-ago": "^2.5.7",
     "object-hash": "3.0.0",
@@ -80,7 +80,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",
     "@commitlint/config-conventional": "^17.2.0",
-    "@sanity/client": "^3.4.1",
+    "@sanity/client": "^6.28.3",
     "@sanity/dashboard": "^3.0.0",
     "@sanity/pkg-utils": "^1.17.2",
     "@sanity/plugin-kit": "^2.1.5",

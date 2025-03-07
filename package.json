@@ -67,7 +67,6 @@
     "@sanity/ui": "^2.15.2",
     "@sanity/uuid": "^3.0.1",
     "@xstate/react": "^3.0.1",
-    "groq": "^2.29.3",
     "javascript-time-ago": "^2.5.7",
     "object-hash": "3.0.0",
     "react-hook-form": "^6.15.8",

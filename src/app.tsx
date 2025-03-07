@@ -1,7 +1,6 @@
 import {AddIcon} from '@sanity/icons'
 import {Box, Button, Card, Flex, Text, ToastProvider, Tooltip} from '@sanity/ui'
 import {useMachine} from '@xstate/react'
-import groq from 'groq'
 import React from 'react'
 import {QueryClient, QueryClientProvider} from 'react-query'
 
@@ -23,7 +22,7 @@ const Widget = () => {
       services: {
         fetchDataService: () => {
           return client
-            .fetch(groq`*[_type == "${DEPLOYMENT_TARGET_DOCUMENT_TYPE}"] | order(name asc)`)
+            .fetch(`*[_type == "${DEPLOYMENT_TARGET_DOCUMENT_TYPE}"] | order(name asc)`)
             .then((result: any) => result)
         },
       },

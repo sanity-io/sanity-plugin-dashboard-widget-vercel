@@ -85,6 +85,7 @@
     "@sanity/pkg-utils": "^1.17.2",
     "@sanity/plugin-kit": "^2.1.5",
     "@sanity/semantic-release-preset": "^2.0.2",
+    "@sanity/vision": "^3.78.1",
     "@types/node-fetch": "^2.6.2",
     "@types/object-hash": "^2.2.1",
     "@types/pluralize": "^0.0.29",

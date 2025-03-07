@@ -1,10 +1,8 @@
-// @ts-expect-error - fix typings later
 import {yupResolver} from '@hookform/resolvers/yup'
 import {Box, Button, Dialog, Flex, Stack} from '@sanity/ui'
 import {uuid} from '@sanity/uuid'
 import {useMachine} from '@xstate/react'
 import React, {FC} from 'react'
-// @ts-expect-error - fix typings later
 import {useForm} from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -105,20 +103,20 @@ const DialogForm: FC<Props> = (props: Props) => {
   const formUpdating =
     formState.matches('creating') || formState.matches('deleting') || formState.matches('updating')
 
-  // react-hook-form
+  // react-hook-form v7
   const {
-    // Read the formState before render to subscribe the form state through Proxy
     formState: {errors, isDirty, isValid},
     handleSubmit,
     register,
-  } = useForm({
+  } = useForm<FormData>({
+    // @ts-expect-error - fix typings later
     defaultValues: {
       deployHook: deploymentTarget?.deployHook || '',
       deployLimit: deploymentTarget?.deployLimit || 5,
-      name: deploymentTarget?.name,
-      projectId: deploymentTarget?.projectId,
+      name: deploymentTarget?.name || '',
+      projectId: deploymentTarget?.projectId || '',
       teamId: deploymentTarget?.teamId || '',
-      token: deploymentTarget?.token,
+      token: deploymentTarget?.token || '',
     },
     mode: 'onChange',
     resolver: yupResolver(formSchema),
@@ -186,24 +184,24 @@ const DialogForm: FC<Props> = (props: Props) => {
             description="Name displayed in this plugin (e.g. production, staging)"
             error={errors?.name}
             label="Name"
-            name="name"
-            ref={register}
+            // @ts-expect-error - fix typings later
+            {...register('name')}
           />
 
           <FormFieldInputText
             disabled={formUpdating}
             error={errors?.token}
             label="Vercel Account Token"
-            name="token"
-            ref={register}
+            // @ts-expect-error - fix typings later
+            {...register('token')}
           />
 
           <FormFieldInputText
             disabled={formUpdating}
             error={errors?.projectId}
             label="Vercel Project ID"
-            name="projectId"
-            ref={register}
+            // @ts-expect-error - fix typings later
+            {...register('projectId')}
           />
 
           <FormFieldInputText
@@ -211,8 +209,8 @@ const DialogForm: FC<Props> = (props: Props) => {
             disabled={formUpdating}
             error={errors?.teamId}
             label="Vercel Team ID (optional)"
-            name="teamId"
-            ref={register}
+            // @ts-expect-error - fix typings later
+            {...register('teamId')}
           />
 
           <FormFieldInputText
@@ -220,16 +218,16 @@ const DialogForm: FC<Props> = (props: Props) => {
             disabled={formUpdating}
             error={errors?.deployHook}
             label="Vercel Deploy Hook (optional)"
-            name="deployHook"
-            ref={register}
+            // @ts-expect-error - fix typings later
+            {...register('deployHook')}
           />
 
           <FormFieldInputText
             disabled={formUpdating}
             error={errors?.deployLimit}
             label="Number of deploys to display"
-            name="deployLimit"
-            ref={register({valueAsNumber: true})}
+            // @ts-expect-error - fix typings later
+            {...register('deployLimit', {valueAsNumber: true})}
           />
         </Stack>
       </Box>

@@ -58,7 +58,7 @@
     }
   },
   "dependencies": {
-    "@hookform/resolvers": "2.0.0-beta.3",
+    "@hookform/resolvers": "^3.3.2",
     "@sanity/icons": "^3.7.0",
     "@sanity/incompatible-plugin": "^1.0.5",
     "@sanity/ui": "^2.15.2",
@@ -67,7 +67,7 @@
     "@tanstack/react-query": "^5.67.2",
     "javascript-time-ago": "^2.5.7",
     "object-hash": "3.0.0",
-    "react-hook-form": "^6.15.8",
+    "react-hook-form": "^7.48.2",
     "react-time-ago": "^7.2.1",
     "unfetch": "^4.2.0",
     "use-deep-compare-effect": "^1.8.1",

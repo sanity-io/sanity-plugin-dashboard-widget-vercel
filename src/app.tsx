@@ -5,58 +5,50 @@ import React from 'react'
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 
 import StateDebug from './components/StateDebug'
-import {DEPLOYMENT_TARGET_DOCUMENT_TYPE, Z_INDEX_TOAST_PROVIDER} from './constants'
-import deploymentTargetListMachine from './machines/deploymentTargetList'
+import {Z_INDEX_TOAST_PROVIDER} from './constants'
+import {deploymentTargetListMachine} from './machines/deploymentTargetList'
 import DeploymentTargets from './components/DeploymentTargets'
 import DialogForm from './components/DialogForm'
-import dialogMachine from './machines/dialog'
+import {dialogMachine} from './machines/dialog'
 import {Sanity} from './types'
 import {useSanityClient} from './client'
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      gcTime: 0,
+      staleTime: 0,
+    },
+  },
+})
+
 const Widget = () => {
   const client = useSanityClient()
-  // xstate
+
   const [deploymentTargetListState, deploymentTargetListStateTransition] = useMachine(
     deploymentTargetListMachine,
-    {
-      services: {
-        fetchDataService: () => {
-          return client
-            .fetch(`*[_type == "${DEPLOYMENT_TARGET_DOCUMENT_TYPE}"] | order(name asc)`)
-            .then((result: any) => result)
-        },
-      },
-    }
+    {input: {client}}
   )
   const [dialogState, dialogStateTransition] = useMachine(dialogMachine)
 
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        gcTime: 0,
-        staleTime: 0,
-      },
-    },
-  })
-
   // Callbacks
   const handleDialogClose = () => {
-    dialogStateTransition('CLOSE')
+    dialogStateTransition({type: 'CLOSE'})
   }
   const handleDialogShowCreate = () => {
-    dialogStateTransition('CREATE')
+    dialogStateTransition({type: 'CREATE'})
   }
   const handleDialogShowEdit = (deploymentTarget: Sanity.DeploymentTarget) => {
-    dialogStateTransition('EDIT', {deploymentTarget})
+    dialogStateTransition({type: 'EDIT', deploymentTarget})
   }
   const handleTargetCreate = (deploymentTarget: Sanity.DeploymentTarget) => {
-    deploymentTargetListStateTransition('CREATE', {deploymentTarget})
+    deploymentTargetListStateTransition({type: 'CREATE', deploymentTarget})
   }
   const handleTargetDelete = (id: string) => {
-    deploymentTargetListStateTransition('DELETE', {id})
+    deploymentTargetListStateTransition({type: 'DELETE', id})
   }
   const handleTargetUpdate = (deploymentTarget: Sanity.DeploymentTarget) => {
-    deploymentTargetListStateTransition('UPDATE', {deploymentTarget})
+    deploymentTargetListStateTransition({type: 'UPDATE', deploymentTarget})
   }
 
   return (
@@ -93,7 +85,7 @@ const Widget = () => {
               </Box>
             )}
 
-            {deploymentTargetListState.matches('ready.withoutData') && (
+            {deploymentTargetListState.matches({ready: 'withoutData'}) && (
               <Box paddingX={3} paddingY={4}>
                 <Text>
                   No deployment targets found.{' '}
@@ -104,7 +96,7 @@ const Widget = () => {
               </Box>
             )}
 
-            {deploymentTargetListState.matches('ready.withData') && (
+            {deploymentTargetListState.matches({ready: 'withData'}) && (
               <DeploymentTargets
                 items={deploymentTargetListState.context.results}
                 onDialogEdit={handleDialogShowEdit}

@@ -1,4 +1,3 @@
-import fetch from 'unfetch'
 import {Sanity} from '../types'
 
 const fetcher =

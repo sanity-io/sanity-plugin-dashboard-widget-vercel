@@ -1,4 +1,4 @@
-import {assign, Machine} from 'xstate'
+import {assertEvent, assign, setup} from 'xstate'
 import {Sanity} from '../types'
 
 type Context = {
@@ -10,53 +10,53 @@ type Event =
   | {type: 'CLOSE'}
   | {type: 'EDIT'; deploymentTarget: Sanity.DeploymentTarget}
 
-type Schema = {
-  states: {
-    idle: {}
-    edit: {}
-    create: {}
-  }
-}
-
-const dialogMachine = () =>
-  Machine<Context, Schema, Event>(
-    {
-      context: {
-        editDeploymentTarget: undefined,
+export const dialogMachine = setup({
+  types: {
+    context: {} as Context,
+    events: {} as Event,
+  },
+  actions: {
+    setEditDeploymentTarget: assign({
+      editDeploymentTarget: ({event}) => {
+        assertEvent(event, 'EDIT')
+        return event.deploymentTarget
       },
-      initial: 'idle',
-      states: {
-        idle: {
-          entry: assign({
-            editDeploymentTarget: () => undefined,
-          }),
-          on: {
-            CREATE: 'create',
-            EDIT: {
-              actions: ['setEditDeploymentTarget'],
-              target: 'edit',
-            },
-          },
+    }),
+  },
+}).createMachine({
+  /** @xstate-layout N4IgpgJg5mDOIC5QAoC2BDAxgCwJYDswBKAOlwgBswBiAYQCUBRAQQBVGBtABgF1FQADgHtYuAC64h+fiAAeiAEwKArCQCcANgAcAdmUbNOhVx0BGLQBoQAT0SmAzApJcXXexoAsW5fbWaFAL4BVmhYeISk5FTUjAAiAJKs3HxIIMKiElIy8ghKqpq6+obGZpY2ivb2zq4e5moeXKZc3kEhGDgExCSQ4nQAMgDyAMqcvDLp4pLSqTn2DSQefn7uyq5aWvZWtgjmTqsuvnU6XMoK9q0goR0RJJgATmDoYjS0gyPJ4yKTWTOIc1wLJZqFZrDZbRBaUwkfZuew6SFcepuILBED4IQQOAyK7hYifDJTbKIAC0GnBCFJFxxnUilDA+O+01AOQ8CnJGxIGn29lMpjUxhcCh0VPauNIPTEDMyTLkiA8PhIxh5Cg8DS8pgM5L5UOalSMah0cP05hFYRptweT3pqQm0qJCHlVSVphVashmvKCDUAN17j0XNMqrUyhRASAA */
+  context: {
+    editDeploymentTarget: undefined,
+  },
+  initial: 'idle',
+  states: {
+    idle: {
+      entry: assign({
+        editDeploymentTarget: () => undefined,
+      }),
+      on: {
+        CREATE: {
+          target: 'create',
         },
-        edit: {
-          on: {
-            CLOSE: 'idle',
-          },
-        },
-        create: {
-          on: {
-            CLOSE: 'idle',
-          },
+        EDIT: {
+          actions: 'setEditDeploymentTarget',
+          target: 'edit',
         },
       },
     },
-    {
-      actions: {
-        setEditDeploymentTarget: assign((_context, event: any) => ({
-          editDeploymentTarget: event.deploymentTarget,
-        })),
+    edit: {
+      on: {
+        CLOSE: {
+          target: 'idle',
+        },
       },
-    }
-  )
-
-export default dialogMachine
+    },
+    create: {
+      on: {
+        CLOSE: {
+          target: 'idle',
+        },
+      },
+    },
+  },
+})

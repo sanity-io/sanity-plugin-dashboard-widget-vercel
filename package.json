@@ -63,15 +63,14 @@
     "@sanity/incompatible-plugin": "^1.0.5",
     "@sanity/ui": "^2.15.2",
     "@sanity/uuid": "^3.0.2",
-    "@xstate/react": "^3.0.1",
     "@tanstack/react-query": "^5.67.2",
+    "@xstate/react": "^5.0.2",
     "javascript-time-ago": "^2.5.7",
     "object-hash": "3.0.0",
     "react-hook-form": "^7.48.2",
     "react-time-ago": "^7.2.1",
-    "unfetch": "^4.2.0",
     "use-deep-compare-effect": "^1.8.1",
-    "xstate": "^4.33.4",
+    "xstate": "^5.19.2",
     "yup": "^0.32.11"
   },
   "devDependencies": {

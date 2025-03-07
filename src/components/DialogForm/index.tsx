@@ -1,17 +1,17 @@
 import {yupResolver} from '@hookform/resolvers/yup'
-import {Box, Button, Dialog, Flex, Stack} from '@sanity/ui'
-import {uuid} from '@sanity/uuid'
-import {useMachine} from '@xstate/react'
-import React, {FC} from 'react'
+import {Box, Button, Dialog, Flex, Stack, useToast} from '@sanity/ui'
+import {useActor} from '@xstate/react'
+import React, {FC, useEffect} from 'react'
 import {useForm} from 'react-hook-form'
 import * as yup from 'yup'
 
-import {DEPLOYMENT_TARGET_DOCUMENT_TYPE, Z_INDEX_DIALOG} from '../../constants'
-import formMachine from '../../machines/form'
+import {Z_INDEX_DIALOG} from '../../constants'
+import {formMachine} from '../../machines/form'
 import sanitizeFormData from '../../utils/sanitizeFormData'
 import FormFieldInputText from '../FormFieldInputText'
 import {Sanity} from '../../types'
 import {useSanityClient} from '../../client'
+import {toPromise} from 'xstate'
 
 type Props = {
   deploymentTarget?: Sanity.DeploymentTarget
@@ -42,66 +42,13 @@ const formSchema = yup.object().shape({
 const DialogForm: FC<Props> = (props: Props) => {
   const {deploymentTarget, onClose, onCreate, onDelete, onUpdate} = props
   const client = useSanityClient()
+  const toast = useToast()
 
-  // xstate
-  const [formState, formStateTransition] = useMachine(formMachine, {
-    services: {
-      formSubmittedService: async () => {
-        onClose()
-      },
-      // TODO: refactor
-      createDocumentService: async (_context, event: any) => {
-        let document
-        try {
-          document = await client.create({
-            _id: `vercel.${uuid()}`,
-            _type: DEPLOYMENT_TARGET_DOCUMENT_TYPE,
-            ...event.formData,
-          })
-          if (onCreate) {
-            onCreate(document as Sanity.DeploymentTarget)
-          }
-          return Promise.resolve()
-        } catch (e) {
-          return Promise.reject(e)
-        }
-      },
-      // TODO: refactor
-      deleteDocumentService: async () => {
-        if (deploymentTarget) {
-          try {
-            await client.delete(deploymentTarget._id)
-            if (onDelete) {
-              onDelete(deploymentTarget._id)
-            }
-            return Promise.resolve()
-          } catch (e) {
-            return Promise.reject(e)
-          }
-        }
-        return Promise.resolve()
-      },
-      // TODO: refactor
-      updateDocumentService: async (_context, event: any) => {
-        let document
-        if (deploymentTarget) {
-          try {
-            document = await client.patch(deploymentTarget._id).set(event.formData).commit()
-            if (onUpdate) {
-              onUpdate(document as Sanity.DeploymentTarget)
-            }
-            return Promise.resolve()
-          } catch (e) {
-            return Promise.reject(e)
-          }
-        }
-        return Promise.resolve()
-      },
-    },
+  const [formState, formStateTransition, formStateActorRef] = useActor(formMachine, {
+    input: {client},
   })
 
-  const formUpdating =
-    formState.matches('creating') || formState.matches('deleting') || formState.matches('updating')
+  const formUpdating = formState.hasTag('busy')
 
   // react-hook-form v7
   const {
@@ -122,49 +69,84 @@ const DialogForm: FC<Props> = (props: Props) => {
     resolver: yupResolver(formSchema),
   })
 
+  /**
+   * Handle errors and reaching the done state
+   */
+  useEffect(() => {
+    if (formState.matches('error')) {
+      toast.push({
+        status: 'error',
+        title: formState.context.message || 'An error occurred',
+      })
+    }
+    /**
+     * If the machine is done it means it reached updated, created, deleted or error state.
+     * We don't care which one, we just want to close the dialog
+     */
+    if (formState.status === 'done') {
+      onClose()
+    }
+  }, [formState, onClose, toast])
+
   // Callbacks
   // - submit react-hook-form
   const onSubmit = async (formData: FormData) => {
     const sanitizedFormData = sanitizeFormData(formData)
-    await formStateTransition(deploymentTarget ? 'UPDATE' : 'CREATE', {
-      formData: sanitizedFormData,
-    })
+    if (deploymentTarget) {
+      formStateTransition({type: 'UPDATE', id: deploymentTarget._id, formData: sanitizedFormData})
+    } else {
+      formStateTransition({type: 'CREATE', formData: sanitizedFormData})
+    }
+    await toPromise(formStateActorRef)
+    const snapshot = formStateActorRef.getSnapshot()
+    const {document} = snapshot.context
+    if (!document) return
+    if (snapshot.matches('created')) {
+      onCreate?.(document)
+    } else if (snapshot.matches('updated')) {
+      onUpdate?.(document)
+    }
   }
 
-  const handleDelete = () => {
-    formStateTransition('DELETE', {id: deploymentTarget?._id})
+  const handleDelete = async () => {
+    const id = deploymentTarget!._id
+    formStateTransition({type: 'DELETE', id})
+    await toPromise(formStateActorRef)
+    if (formStateActorRef.getSnapshot().matches('deleted')) {
+      onDelete?.(id)
+    }
   }
-
-  const Footer = () => (
-    <Box padding={3}>
-      <Flex justify={deploymentTarget ? 'space-between' : 'flex-end'}>
-        {/* Delete button */}
-        {deploymentTarget && (
-          <Button
-            disabled={formUpdating}
-            fontSize={1}
-            mode="bleed"
-            onClick={handleDelete}
-            text="Delete"
-            tone="critical"
-          />
-        )}
-
-        {/* Submit button */}
-        <Button
-          disabled={formUpdating || !isDirty || !isValid}
-          fontSize={1}
-          onClick={handleSubmit(onSubmit)}
-          text={deploymentTarget ? 'Update and close' : 'Create'}
-          tone="primary"
-        />
-      </Flex>
-    </Box>
-  )
 
   return (
     <Dialog
-      footer={<Footer />}
+      footer={
+        <Box padding={3}>
+          <Flex justify={deploymentTarget ? 'space-between' : 'flex-end'}>
+            {/* Delete button */}
+            {deploymentTarget && (
+              <Button
+                loading={formState.matches('deleting')}
+                disabled={formUpdating}
+                fontSize={1}
+                mode="bleed"
+                onClick={handleDelete}
+                text="Delete"
+                tone="critical"
+              />
+            )}
+
+            {/* Submit button */}
+            <Button
+              loading={formState.matches('creating') || formState.matches('updating')}
+              disabled={!isDirty || !isValid}
+              fontSize={1}
+              onClick={handleSubmit(onSubmit)}
+              text={deploymentTarget ? 'Update and close' : 'Create'}
+              tone="primary"
+            />
+          </Flex>
+        </Box>
+      }
       header={`${deploymentTarget ? 'Edit' : 'Create'} deployment target`}
       id="create"
       onClose={onClose}

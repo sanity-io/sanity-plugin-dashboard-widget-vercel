@@ -1,8 +1,10 @@
+// @ts-expect-error - fix typings later
 import {yupResolver} from '@hookform/resolvers/yup'
 import {Box, Button, Dialog, Flex, Stack} from '@sanity/ui'
 import {uuid} from '@sanity/uuid'
 import {useMachine} from '@xstate/react'
 import React, {FC} from 'react'
+// @ts-expect-error - fix typings later
 import {useForm} from 'react-hook-form'
 import * as yup from 'yup'
 

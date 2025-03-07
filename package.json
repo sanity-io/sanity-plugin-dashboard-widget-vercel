@@ -9,6 +9,7 @@
     "widget",
     "vercel"
   ],
+  "type": "commonjs",
   "homepage": "https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel#readme",
   "bugs": {
     "url": "https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/issues"
@@ -21,18 +22,16 @@
   "author": "Sanity.io <hello@sanity.io>",
   "exports": {
     ".": {
-      "types": "./lib/src/index.d.ts",
       "source": "./src/index.ts",
-      "import": "./lib/index.esm.js",
+      "import": "./lib/index.mjs",
       "require": "./lib/index.js",
-      "default": "./lib/index.esm.js"
+      "default": "./lib/index.mjs"
     },
     "./package.json": "./package.json"
   },
   "main": "./lib/index.js",
-  "module": "./lib/index.esm.js",
-  "source": "./src/index.ts",
-  "types": "./lib/src/index.d.ts",
+  "module": "./lib/index.mjs",
+  "types": "./lib/index.d.ts",
   "files": [
     "src",
     "lib",
@@ -41,14 +40,12 @@
   ],
   "scripts": {
     "dev": "sanity dev",
-    "prebuild": "npm run clean && plugin-kit verify-package --silent && pkg-utils",
-    "build": "pkg-utils build --strict",
-    "clean": "rimraf lib",
+    "build": "plugin-kit verify-package --silent && pkg-utils build --strict --check --clean",
     "link-watch": "plugin-kit link-watch",
     "lint": "eslint .",
     "prepare": "husky install",
     "prepublishOnly": "npm run build",
-    "watch": "pkg-utils watch"
+    "watch": "pkg-utils watch --strict"
   },
   "husky": {
     "hooks": {
@@ -82,13 +79,14 @@
     "@commitlint/config-conventional": "^17.2.0",
     "@sanity/client": "^6.28.3",
     "@sanity/dashboard": "^4.1.2",
-    "@sanity/pkg-utils": "^1.17.2",
-    "@sanity/plugin-kit": "^2.1.5",
+    "@sanity/pkg-utils": "^7.0.4",
+    "@sanity/plugin-kit": "^4.0.19",
     "@sanity/semantic-release-preset": "^2.0.2",
     "@sanity/vision": "^3.78.1",
     "@types/node-fetch": "^2.6.2",
     "@types/object-hash": "^2.2.1",
     "@types/pluralize": "^0.0.29",
+    "@types/react": "^19.0.10",
     "@typescript-eslint/eslint-plugin": "^5.42.0",
     "@typescript-eslint/parser": "^5.42.0",
     "eslint": "^8.26.0",
@@ -116,6 +114,6 @@
     "styled-components": "^6.1"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   }
 }

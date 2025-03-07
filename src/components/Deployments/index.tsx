@@ -22,7 +22,7 @@ const Deployments = (props: Props) => {
   const {deploymentTarget} = props
 
   // Refs
-  const refTimeout = useRef<ReturnType<typeof setTimeout>>()
+  const refTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // XState
   const [refreshState, refreshStateTransition] = useMachine(refreshMachine)

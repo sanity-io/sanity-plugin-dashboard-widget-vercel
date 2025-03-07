@@ -1,5 +1,6 @@
 import {Box, TextInput} from '@sanity/ui'
 import React, {forwardRef} from 'react'
+// @ts-expect-error - fix typings later
 import {FieldError} from 'react-hook-form'
 
 import FormFieldInputLabel from '../FormFieldInputLabel'

@@ -5,6 +5,21 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/compare/v2.0.1...v3.0.0) (2025-03-07)
+
+### ⚠ BREAKING CHANGES
+
+- **deps:** require `@sanity/dashboard` v4
+- update styled components to v6
+
+### Bug Fixes
+
+- **deps:** bump `@sanity/icons` to v3 ([0bc67ae](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/commit/0bc67aebfac698d1b7d0c4a34792c94a9bf46a30))
+- **deps:** require `@sanity/dashboard` v4 ([f38332f](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/commit/f38332f14bd7e5e8aa3ad1824edabc9615cd439c))
+- **deps:** upgrade to @sanity/ui v2 ([61a0945](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/commit/61a09454e694dd235272fb818515d8276bc21cad))
+- remove unnecessary `groq` dep ([95652ac](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/commit/95652ac1bc4f62739e54f3310931ae28fbbe7d73))
+- update styled components to v6 ([425f40c](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/commit/425f40ce4ccef992ab4e8d11b0aacb4251940ab9))
+
 ## [2.0.1](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/compare/v2.0.0...v2.0.1) (2022-11-25)
 
 ### Bug Fixes

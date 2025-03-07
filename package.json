@@ -1,6 +1,6 @@
 {
   "name": "sanity-plugin-dashboard-widget-vercel",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "View your recent Vercel deployments and manually trigger builds directly from your Sanity dashboard.",
   "keywords": [
     "sanity",

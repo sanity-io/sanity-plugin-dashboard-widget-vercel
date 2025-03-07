@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/compare/v3.0.0...v3.1.0) (2025-03-07)
+
+### Features
+
+- add react 19 to peer deps ([bd1d4b3](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/commit/bd1d4b355c9b6fad1be63c04abbbd5a351a75c0e))
+
 ## [3.0.0](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/compare/v2.0.1...v3.0.0) (2025-03-07)
 
 ### ⚠ BREAKING CHANGES

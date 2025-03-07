@@ -1,5 +1,5 @@
 import hash from 'object-hash'
-import {useQuery} from 'react-query'
+import {useQuery} from '@tanstack/react-query'
 
 import fetcher from '../utils/fetcher'
 import {API_ENDPOINT_ALIASES, API_ENDPOINT_DEPLOYMENTS} from '../constants'
@@ -22,19 +22,17 @@ const useDeployments = (deploymentTarget: Sanity.DeploymentTarget, options?: Opt
     isSuccess: deploymentsIsSuccess,
     error: deploymentsError,
     refetch,
-  } = useQuery<{deployments: Vercel.Deployment[]}, Error>(
-    hash(deploymentTarget), // key
-    () => fetchUrl(API_ENDPOINT_DEPLOYMENTS, deployParams),
-    {
-      enabled: options?.enabled ?? true,
-      refetchInterval: 20000, // ms
-      refetchIntervalInBackground: false,
-      refetchOnMount: true,
-      refetchOnReconnect: 'always',
-      refetchOnWindowFocus: false,
-      retry: false,
-    }
-  )
+  } = useQuery<{deployments: Vercel.Deployment[]}, Error>({
+    queryKey: [hash(deploymentTarget)],
+    queryFn: () => fetchUrl(API_ENDPOINT_DEPLOYMENTS, deployParams),
+    enabled: options?.enabled ?? true,
+    refetchInterval: 20000, // ms
+    refetchIntervalInBackground: false,
+    refetchOnMount: true,
+    refetchOnReconnect: 'always',
+    refetchOnWindowFocus: false,
+    retry: false,
+  })
 
   // Fetch aliases (only if deployments have been retrieved)
   const aliasParams = new URLSearchParams()
@@ -55,17 +53,15 @@ const useDeployments = (deploymentTarget: Sanity.DeploymentTarget, options?: Opt
       }
     },
     Error
-  >(
-    `${hash(deploymentTarget)}-aliases`, // key
-    () => fetchUrl(API_ENDPOINT_ALIASES, aliasParams),
-    {
-      enabled: !!deploymentsData,
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-      retry: false,
-    }
-  )
+  >({
+    queryKey: [hash(deploymentTarget), 'aliases'],
+    queryFn: () => fetchUrl(API_ENDPOINT_ALIASES, aliasParams),
+    enabled: !!deploymentsData,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+    retry: false,
+  })
 
   const aliases = aliasesData?.aliases as Vercel.Alias[]
 

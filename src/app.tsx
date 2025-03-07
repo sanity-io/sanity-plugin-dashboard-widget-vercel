@@ -2,7 +2,7 @@ import {AddIcon} from '@sanity/icons'
 import {Box, Button, Card, Flex, Text, ToastProvider, Tooltip} from '@sanity/ui'
 import {useMachine} from '@xstate/react'
 import React from 'react'
-import {QueryClient, QueryClientProvider} from 'react-query'
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 
 import StateDebug from './components/StateDebug'
 import {DEPLOYMENT_TARGET_DOCUMENT_TYPE, Z_INDEX_TOAST_PROVIDER} from './constants'
@@ -33,7 +33,7 @@ const Widget = () => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        cacheTime: 0,
+        gcTime: 0,
         staleTime: 0,
       },
     },

@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.2](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/compare/v3.1.1...v3.1.2) (2025-03-07)
+
+### Bug Fixes
+
+- **deps:** bump react-hook-form ([2a6a102](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/commit/2a6a10264d66be9f6e440167f785a5639f241375))
+
 ## [3.1.1](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/compare/v3.1.0...v3.1.1) (2025-03-07)
 
 ### Bug Fixes

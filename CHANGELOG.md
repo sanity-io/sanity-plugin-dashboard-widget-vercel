@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.1](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/compare/v3.1.0...v3.1.1) (2025-03-07)
+
+### Bug Fixes
+
+- **deps:** move to `@tanstack/react-query` ([39da485](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/commit/39da48502235d918f6c00f4f66cc1a2ed04958dd))
+
 ## [3.1.0](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/compare/v3.0.0...v3.1.0) (2025-03-07)
 
 ### Features

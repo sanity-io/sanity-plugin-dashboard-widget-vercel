@@ -5,6 +5,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.3](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/compare/v3.1.2...v3.1.3) (2025-03-07)
+
+### Bug Fixes
+
+- **deps:** Update dependency @hookform/resolvers to v4 ([#79](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/issues/79)) ([12a250e](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/commit/12a250ef8eb7028a075fa4dd2fc531fc5925b49a))
+- **deps:** upgrade to xstate v5 ([e2b6dea](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/commit/e2b6dea0534dd3bf10a5624696bfa46161a5bb5b))
+
 ## [3.1.2](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/compare/v3.1.1...v3.1.2) (2025-03-07)
 
 ### Bug Fixes

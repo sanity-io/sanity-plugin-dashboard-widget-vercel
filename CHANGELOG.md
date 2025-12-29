@@ -5,6 +5,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.5](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/compare/v3.1.4...v3.1.5) (2025-12-29)
+
+### Bug Fixes
+
+- **deps:** allow studio v5 in peer deps ranges ([#86](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/issues/86)) ([f894b87](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/commit/f894b87d437369ee53c0a4cd1887b3dee318fe1f))
+
 ## [3.1.4](https://github.com/sanity-io/sanity-plugin-dashboard-widget-vercel/compare/v3.1.3...v3.1.4) (2025-07-10)
 
 ### Bug Fixes

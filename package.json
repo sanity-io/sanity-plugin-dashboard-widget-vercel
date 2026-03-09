@@ -58,7 +58,7 @@
     }
   },
   "dependencies": {
-    "@hookform/resolvers": "^4.0.0",
+    "@hookform/resolvers": "^5.2.2",
     "@sanity/icons": "^3.7.0",
     "@sanity/incompatible-plugin": "^1.0.5",
     "@sanity/ui": "^2.15.2",

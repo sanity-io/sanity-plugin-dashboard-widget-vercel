@@ -61,7 +61,7 @@
     "@hookform/resolvers": "^4.0.0",
     "@sanity/icons": "^3.7.0",
     "@sanity/incompatible-plugin": "^1.0.5",
-    "@sanity/ui": "^2.15.2",
+    "@sanity/ui": "^3.2.0",
     "@sanity/uuid": "^3.0.2",
     "@tanstack/react-query": "^5.67.2",
     "@xstate/react": "^5.0.2",
